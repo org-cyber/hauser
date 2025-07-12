@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Agent Login - Hauser NG</title>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#0f172a',
+            accent: '#f97316',
+            light: '#ffffff'
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Firebase UMD Scripts (only once!) -->
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore-compat.js"></script>
+
+  <style>
+    body {
+      background: linear-gradient(to bottom right, #0f172a, #1e293b);
+    }
+
+    .glass {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+  </style>
+</head>
+
+<body class="flex items-center justify-center min-h-screen text-white font-sans">
+  <div class="glass p-8 rounded-2xl w-full max-w-sm shadow-xl">
+    <h2 class="text-3xl font-bold text-center text-accent mb-6">Agent Login</h2>
+
+    <form id="loginForm" class="space-y-6">
+      <div>
+        <label for="email" class="block mb-2 text-sm font-medium">Email</label>
+        <input type="email" id="email" placeholder="Enter your email"
+          class="w-full p-3 rounded-lg glass text-white placeholder-gray-400" required />
+      </div>
+      <div>
+        <label for="pin" class="block mb-2 text-sm font-medium">Password</label>
+        <input type="password" id="pin" placeholder="Enter your password"
+          class="w-full p-3 rounded-lg glass text-white placeholder-gray-400" required />
+      </div>
+
+      <button type="submit"
+        class="bg-accent hover:bg-orange-600 transition p-3 rounded-lg font-bold text-white w-full">Login</button>
+
+      <p id="errorMsg" class="text-red-500 text-sm mt-2 hidden">Invalid email or password. Please try again.</p>
+
+      <!-- Forgot Password -->
+      <div class="text-center mt-4">
+        <button type="button" id="forgotPasswordBtn" class="text-sm text-accent hover:underline">
+          Forgot Password?
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Password Reset Modal -->
+  <div id="resetModal" class="fixed inset-0 bg-black bg-opacity-60 hidden items-center justify-center z-50">
+    <div class="glass p-6 rounded-xl w-full max-w-sm">
+      <h3 class="text-xl font-semibold mb-4 text-accent text-center">Reset Password</h3>
+      <input type="email" id="resetEmail" placeholder="Enter your email"
+        class="w-full p-3 rounded-lg glass text-white placeholder-gray-400 mb-4" />
+      <button id="sendResetLink"
+        class="w-full bg-accent hover:bg-orange-600 transition p-3 rounded-lg font-bold text-white">Send Reset Link</button>
+      <p id="resetStatus" class="text-sm mt-2 text-center hidden"></p>
+    </div>
+  </div>
+
+  <script>
+    // Firebase config
+    const firebaseConfig = {
+      apiKey: "AIzaSyAHqg_u1DwWUB9l1vuoYDLKjCJl5Xx7Pbo",
+      authDomain: "hauserng-77cc2.firebaseapp.com",
+      projectId: "hauserng-77cc2",
+      storageBucket: "hauserng-77cc2.appspot.com",
+      messagingSenderId: "613578175402",
+      appId: "1:613578175402:web:db7413f898987ac6a1f1d3",
+      measurementId: "G-P0TH3TWFPY"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+
+    // Login handler
+    document.getElementById('loginForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('pin').value;
+
+      auth.signInWithEmailAndPassword(email, password)
+        .then((userCredential) => {
+          const user = userCredential.user;
+          console.log("Logged in as:", user.email);
+
+          switch (user.email.toLowerCase()) {
+            case 'agent1@hauserng.com':
+              window.location.href = 'dashboard.html';
+              break;
+            case 'agent2@hauserng.com':
+              window.location.href = 'dashboard.html';
+              break;
+            case 'landlord1@hauserng.com':
+              window.location.href = 'dashboard.html';
+              break;
+            case 'pixelpro548@gmail.com':
+              window.location.href = 'dashboard.html';
+              break;
+            default:
+              window.location.href = 'dashboard.html';
+              break;
+          }
+        })
+        .catch((error) => {
+          console.error("Login failed:", error);
+          document.getElementById('errorMsg').classList.remove('hidden');
+        });
+    });
+
+    // Forgot Password Modal
+    const forgotBtn = document.getElementById('forgotPasswordBtn');
+    const resetModal = document.getElementById('resetModal');
+    const sendReset = document.getElementById('sendResetLink');
+    const resetStatus = document.getElementById('resetStatus');
+
+    forgotBtn.addEventListener('click', () => {
+      resetModal.classList.remove('hidden');
+      resetStatus.classList.add('hidden');
+    });
+
+    sendReset.addEventListener('click', () => {
+      const email = document.getElementById('resetEmail').value;
+      if (!email) return;
+
+      auth.sendPasswordResetEmail(email)
+        .then(() => {
+          resetStatus.textContent = "✅ Password reset email sent!";
+          resetStatus.className = "text-green-400 text-sm mt-2 text-center";
+          resetStatus.classList.remove('hidden');
+        })
+        .catch((error) => {
+          resetStatus.textContent = "❌ " + error.message;
+          resetStatus.className = "text-red-400 text-sm mt-2 text-center";
+          resetStatus.classList.remove('hidden');
+        });
+    });
+  </script>
+</body>
+</html>

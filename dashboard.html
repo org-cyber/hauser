@@ -1,0 +1,156 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Agent Dashboard - Hauser NG</title>
+
+<!-- TailwindCSS -->
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        accent: "#3b82f6"
+      }
+    }
+  }
+};
+</script>
+
+<!-- Firebase Scripts -->
+<script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore-compat.js"></script>
+
+<style>
+body {
+  background: radial-gradient(circle at top left, #0a0f1c, #1b1f2f, #0a0f1c);
+  min-height: 100vh;
+  color: #e0e0ff;
+}
+</style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+<!-- Navbar -->
+<header class="bg-gray-900 p-4 flex justify-between items-center">
+  <h1 class="text-3xl font-bold">🏡 Hauser NG</h1>
+  <nav class="space-x-8 text-lg font-medium">
+    <a href="#">Dashboard</a>
+    <a href="add-property.html" id="addPropertyLink" style="display: none;">Add Property</a>
+    <a href="#">My Listings</a>
+    <a href="#">Settings</a>
+  </nav>
+</header>
+
+<!-- Main Content -->
+<main class="flex-1 p-6 space-y-8 max-w-7xl mx-auto w-full">
+  <!-- Profile Info -->
+  <section class="bg-gray-800 p-6 rounded-2xl">
+    <h2 class="text-2xl font-semibold mb-4">👤 Agent Profile</h2>
+    <p><strong>Name:</strong> <span id="profileName">Loading...</span></p>
+    <p><strong>Email:</strong> <span id="profileEmail">Loading...</span></p>
+    <p><strong>Role:</strong> <span id="profileRole">Loading...</span></p>
+    <p><strong>Plan:</strong> <span id="profilePlan">Loading...</span></p>
+  </section>
+
+  <!-- Listings -->
+  <section class="bg-gray-800 p-6 rounded-2xl">
+    <h2 class="text-2xl font-semibold mb-4">🏠 My Property Listings</h2>
+    <div id="propertyList" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"></div>
+  </section>
+</main>
+
+<!-- Scripts -->
+<script>
+  // Initialize Firebase
+  const firebaseConfig = {
+    apiKey: "AIzaSyAHqg_u1DwWUB9l1vuoYDLKjCJl5Xx7Pbo",
+    authDomain: "hauserng-77cc2.firebaseapp.com",
+    projectId: "hauserng-77cc2",
+    storageBucket: "hauserng-77cc2.appspot.com",
+    messagingSenderId: "613578175402",
+    appId: "1:613578175402:web:db7413f898987ac6a1f1d3"
+  };
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+  const db = firebase.firestore();
+
+  let currentUserData = null;
+
+  auth.onAuthStateChanged(user => {
+    if (user) {
+      const uid = user.uid;
+      db.collection("users").doc(uid).get().then(doc => {
+        if (doc.exists) {
+          const data = doc.data();
+          currentUserData = data;
+
+          document.getElementById("profileName").textContent = data.name || "Unnamed";
+          document.getElementById("profileEmail").textContent = data.email || "Unknown";
+          document.getElementById("profileRole").textContent = data.role || "Not set";
+          document.getElementById("profilePlan").textContent = data.plan || "free";
+
+          checkAddPropertyPermission(data);
+        }
+      });
+      loadListings(uid);
+    } else {
+      window.location.href = "login.html";
+    }
+  });
+
+  function checkAddPropertyPermission(data) {
+    const addLink = document.getElementById("addPropertyLink");
+    const plan = data.plan || "free";
+    const listingsCount = data.listingsCount || 0;
+
+    if (!(plan === "free" && listingsCount >= 1)) {
+      addLink.style.display = "inline-block";
+    }
+  }
+
+  function loadListings(uid) {
+    const list = document.getElementById('propertyList');
+    list.innerHTML = '';
+    db.collection('properties')
+      .where('uid', '==', uid.trim())
+      .get()
+      .then(snapshot => {
+        if (snapshot.empty) {
+          list.innerHTML = '<p class="text-gray-400">No properties listed yet.</p>';
+        } else {
+          snapshot.forEach(doc => {
+            const p = doc.data();
+            const card = document.createElement('div');
+            card.className = 'bg-gray-700 p-4 rounded-xl';
+            card.innerHTML = `
+              <h3 class="text-xl font-bold">${p.title || "Untitled"}</h3>
+              <p><strong>₦${p.price || "N/A"}</strong> — ${p.location || "Unknown"}</p>
+              <p class="text-sm mt-2 text-gray-300">${p.description || "No description."}</p>
+              <button class="mt-4 bg-red-500 text-white rounded px-3 py-1 hover:bg-red-400" 
+                      data-id="${doc.id}">Delete</button>
+            `;
+
+            card.querySelector('button').addEventListener('click', async () => {
+              if (confirm('⚠️ Are you sure you want to delete this property?')) {
+                try {
+                  await db.collection('properties').doc(doc.id).delete();
+                  loadListings(uid);
+                } catch (error) {
+                  alert('❌ Failed to delete property.');
+                  console.error(error);
+                }
+              }
+            });
+            list.appendChild(card);
+          });
+        }
+      });
+  }
+</script>
+</body>
+</html>
+<!-- Compare this snippet from listing-info.html: -->

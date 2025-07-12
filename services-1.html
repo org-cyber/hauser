@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Hauser NG Subscription Plans</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+/* ===================================================
+   GENERAL STYLES
+================================================== */
+body {
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, rgba(37,99,235,0.15), rgba(255,102,0,0.15)), url('https://picsum.photos/1920/1080?blur=2') no-repeat center center fixed;
+  background-size: cover;
+  color: #1e293b;
+  margin: 0;
+  padding: 0;
+}
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 30px 20px;
+}
+.header {
+  text-align: center;
+  padding: 40px 0;
+}
+.header .logo {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #2563eb;
+}
+.header h1 {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #1e293b;
+}
+.header p {
+  font-size: 1.1rem;
+  color: #475569;
+  max-width: 600px;
+  margin: 0 auto;
+}
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 30px;
+  margin-bottom: 60px;
+}
+.pricing-card {
+  position: relative;
+  padding: 40px 30px;
+  border-radius: 20px;
+  backdrop-filter: blur(15px);
+  background: rgba(255, 255, 255, 0.75);
+  border: 1px solid rgba(255,255,255,0.3);
+  box-shadow: 0px 15px 40px rgba(0,0,0,0.15);
+  text-align: center;
+  transform: translateY(30px);
+  opacity: 0;
+  animation: fadeInUp 0.8s ease forwards;
+}
+.pricing-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 20px 60px rgba(37,99,235,0.25);
+}
+.pricing-card .plan-name {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1e293b;
+}
+.plan-price {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #2563eb;
+}
+.plan-price .currency {
+  font-size: 1.25rem;
+  vertical-align: top;
+}
+.plan-period, .usd-price {
+  font-size: 0.9rem;
+  color: #64748b;
+}
+.features {
+  list-style: none;
+  text-align: left;
+  margin: 25px 0;
+  padding: 0;
+}
+.features li {
+  font-size: 0.95rem;
+  color: #1e293b;
+  padding: 12px 0;
+  position: relative;
+  padding-left: 35px;
+}
+.features li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  top: 12px;
+  font-size: 12px;
+  font-weight: bold;
+  background: #10b981;
+  color: #fff;
+  border-radius: 50%;
+  padding: 4px 6px;
+}
+.cta-button {
+  display: inline-block;
+  padding: 15px 30px;
+  font-size: 1rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  text-decoration: none;
+  color: #fff;
+  border-radius: 12px;
+  background: linear-gradient(45deg, #2563eb, #3b82f6);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.cta-button:hover {
+  transform: scale(1.03);
+  box-shadow: 0px 8px 25px rgba(37,99,235,0.3);
+}
+.pro-card {
+  border: 2px solid #ff6600;
+}
+.pro-card::after {
+  content: 'MOST POPULAR';
+  position: absolute;
+  top: -1px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(45deg, #ff6600, #ff8533);
+  color: #fff;
+  padding: 8px 24px;
+  border-radius: 0 0 12px 12px;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+.additional-services {
+  backdrop-filter: blur(15px);
+  background: rgba(255, 255, 255, 0.75);
+  border-radius: 20px;
+  padding: 50px 40px;
+  box-shadow: 0px 15px 40px rgba(0, 0, 0, 0.1);
+}
+.additional-services h2 {
+  text-align: center;
+  font-size: 2rem;
+  color: #1e293b;
+  font-weight: 600;
+}
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px,1fr));
+  gap: 25px;
+  margin-top: 30px;
+}
+.service-item {
+  padding: 25px;
+  border-radius: 15px;
+  border-left: 4px solid #ff6600;
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(15px);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.service-item:hover {
+  transform: translateX(5px);
+  box-shadow: 0px 5px 20px rgba(0,0,0,0.1);
+}
+.service-name {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1e293b;
+}
+.service-price {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #ff6600;
+}
+.free-tag {
+  background: linear-gradient(45deg, #10b981, #34d399);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 20px;
+  margin-left: 10px;
+}
+@keyframes fadeInUp {
+  from {opacity: 0; transform: translateY(30px)}
+  to {opacity: 1; transform: translateY(0)}
+}
+@media (max-width: 768px) {
+  .pricing-grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <!-- Header Section -->
+  <div class="header">
+    <div class="logo">Hauser NG</div>
+    <h1>Choose Your Perfect Plan</h1>
+    <p>Unlock the power of premium real estate listings with our flexible subscription plans designed for agents and landlords</p>
+  </div>
+
+  <!-- Pricing Plans -->
+  <div class="pricing-grid">
+
+    <!-- Free Package -->
+    <div class="pricing-card">
+      <h3 class="plan-name">Free Package <span class="free-tag">FREE</span></h3>
+      <div class="plan-price"><span class="currency">₦</span>0</div>
+      <div class="plan-period">Perfect to get started</div>
+      <ul class="features">
+        <li>Up to 3 listings</li>
+        <li>Up to 5 images per listing</li>
+        <li>Standard listing visibility</li>
+        <li>Email support only</li>
+      </ul>
+      <a href="#" class="cta-button">Get Started Free</a>
+    </div>
+
+    <!-- Pro Package -->
+    <div class="pricing-card pro-card">
+      <h3 class="plan-name">Pro Package</h3>
+      <div class="plan-price"><span class="currency">₦</span>15,000</div>
+      <div class="plan-period">per month</div>
+      <div class="usd-price">~$10–15 USD</div>
+      <ul class="features">
+        <li>Up to 15 listings</li>
+        <li>Up to 15 images per listing</li>
+        <li>Priority placement in search results</li>
+        <li>Featured listing badge</li>
+        <li>Weekly analytics & performance stats</li>
+        <li>Chat & email support</li>
+      </ul>
+      <a href="#" class="cta-button">Choose Pro Plan</a>
+    </div>
+
+    <!-- Premium Package -->
+    <div class="pricing-card">
+      <h3 class="plan-name">Premium Package</h3>
+      <div class="plan-price"><span class="currency">₦</span>30,000–50,000</div>
+      <div class="plan-period">per month</div>
+      <div class="usd-price">~$25–40 USD</div>
+      <ul class="features">
+        <li>Unlimited listings</li>
+        <li>Up to 25 images per listing</li>
+        <li>Premium placement (top results & homepage spotlight)</li>
+        <li>Verified agent badge</li>
+        <li>Advanced analytics & lead management tools</li>
+        <li>Dedicated account manager</li>
+        <li>Chat, email, and phone support</li>
+      </ul>
+      <a href="#" class="cta-button">Go Premium</a>
+    </div>
+  </div>
+
+  <!-- Additional Services Section -->
+  <div class="additional-services">
+    <h2>Additional Services</h2>
+    <div class="services-grid">
+      <div class="service-item">
+        <div class="service-name">Listing Boost</div>
+        <div class="service-price">~₦3,000 per week</div>
+      </div>
+      <div class="service-item">
+        <div class="service-name">Featured Agent Badge</div>
+        <div class="service-price">~₦5,000 per month</div>
+      </div>
+      <div class="service-item">
+        <div class="service-name">Custom Advertising</div>
+        <div class="service-price">Contact for pricing</div>
+      </div>
+      <div class="service-item">
+        <div class="service-name">Photography Services</div>
+        <div class="service-price">Variable pricing</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

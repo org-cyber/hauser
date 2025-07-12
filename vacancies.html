@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Real Estate Filter</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<link rel="shortcut icon" href="img/favicon.png">
+
+<!-- Existing styles -->
+<link rel="stylesheet" href="css/fontawesome.min.css">
+<link rel="stylesheet" href="css/themify-icons.css">
+<link rel="stylesheet" href="css/elegant-line-icons.css">
+<link rel="stylesheet" href="css/elegant-font-icons.css">
+<link rel="stylesheet" href="css/flaticon.css">
+<link rel="stylesheet" href="css/animate.min.css">
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<link rel="stylesheet" href="css/slick.css">
+<link rel="stylesheet" href="css/slider.css">
+<link rel="stylesheet" href="css/odometer.min.css">
+<link rel="stylesheet" href="css/venobox/venobox.css">
+<link rel="stylesheet" href="css/owl.carousel.css">
+<link rel="stylesheet" href="css/main.css">
+<link rel="stylesheet" href="css/responsive.css">
+
+<style>
+  .blog-item {
+    border: 1px solid #eee;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+  }
+  .blogtog { color: black; }
+  .blog-item a:hover { color: #ff6600; text-decoration: underline; }
+  .search-form input, .search-form select {
+    margin-bottom: 10px;
+    width: 100%;
+    padding: 8px;
+  }
+  .search-btn {
+    width: 100%;
+    padding: 10px;
+    background-color: orange;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  .search-btn:hover {
+    background-color: #ff8c1a;
+  }
+  .login-btn {
+    background-color: rgb(255, 118, 7);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+  }
+  .login-btn:hover {
+    background-color: rgb(236, 228, 206);
+    color: black;
+  }
+</style>
+
+<script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore-compat.js"></script>
+</head>
+<body>
+
+<!-- header -->
+<header class="header">
+  <!-- your header code here -->
+</header>
+
+<div class="container">
+  <h2 class="my-4">Latest Vacancies</h2>
+  <div class="row">
+    <!-- Sidebar Filter -->
+    <div class="col-lg-4 padding-15">
+      <div class="sidebar-wrap">
+        <div class="widget-content">
+          <form class="search-form" onsubmit="return false;">
+            <input type="text" id="searchInput" class="form-control" placeholder="Search by Title or Keyword...">
+            <input type="number" id="priceInput" class="form-control" placeholder="Enter max price">
+            <h3>Filter by Location</h3>
+            <select id="locationInput" class="form-control">
+              <option value="" selected>All Locations</option>
+              <option value="port harcourt">Port Harcourt</option>
+              <option value="lagos">Lagos</option>
+              <option value="futo">Futo</option>
+            </select>
+            <button class="search-btn" type="button"><i class="fa fa-search"></i> Search</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!-- Blog Posts -->
+    <div class="col-lg-8">
+      <div class="row" id="blogList"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer>
+  <!-- your footer code here -->
+</footer>
+
+<script>
+  // Firebase config
+  const firebaseConfig = {
+    apiKey: "AIzaSyAHqg_u1DwWUB9l1vuoYDLKjCJl5Xx7Pbo",
+    authDomain: "hauserng-77cc2.firebaseapp.com",
+    projectId: "hauserng-77cc2",
+    storageBucket: "hauserng-77cc2.appspot.com",
+    messagingSenderId: "613578175402",
+    appId: "1:613578175402:web:db7413f898987ac6a1f1d3"
+  };
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
+
+  const blogList = document.getElementById('blogList');
+  const searchInput = document.getElementById('searchInput');
+  const priceInput = document.getElementById('priceInput');
+  const locationInput = document.getElementById('locationInput');
+
+  let allProperties = [];
+
+  function renderProperties(list) {
+    blogList.innerHTML = '';
+    list.forEach(p => {
+      blogList.innerHTML += `
+      <div class="col-sm-6 padding-15 blog-item" data-title="${p.title}" data-price="${p.price}">
+        <div class="box-shadow">
+          <div class="blog-thumb">
+            <img src="${p.imageUrl ? p.imageUrl : 'img/post-1.jpg'}" alt="${p.title}" class="img-fluid">
+            <span class="category"><a href="#">${p.location}</a></span>
+          </div>
+          <div class="blog-content">
+            <h3><a href="info.html" class="blogtog">${p.title}</a></h3>
+            <p><strong>Price:</strong> ₦${p.price}</p>
+            <p>${p.description}</p>
+            <a href="info.html" class="read-more">Read More</a>
+          </div>
+        </div>
+      </div>
+      `;
+    });
+  }
+
+  function applyFilters() {
+    const query = searchInput.value.trim().toLowerCase();
+    const maxPrice = parseFloat(priceInput.value);
+    const selectedLocation = locationInput.value.trim().toLowerCase();
+
+    const filtered = allProperties.filter(p => {
+      const title = p.title ? p.title.toLowerCase() : '';
+      const location = p.location ? p.location.toLowerCase() : '';
+      const price = Number(p.price) || 0;
+
+      // matches search query
+      const matchesTitleQuery = !query || title.includes(query);
+
+      // matches price
+      const matchesPrice = isNaN(maxPrice) || price <= maxPrice;
+
+      // matches location
+      const matchesLocation = !selectedLocation || location.includes(selectedLocation);
+
+      return matchesTitleQuery && matchesPrice && matchesLocation;
+    });
+
+    renderProperties(filtered);
+  }
+
+  // Firestore listener
+  db.collection('properties')
+    .orderBy('createdAt', 'asc')
+    .onSnapshot(snapshot => {
+      allProperties = snapshot.docs.map(doc => {
+        const data = doc.data();
+        data.priority = !!data.priority;
+        return data;
+      });
+
+      // sort by priority first, then createdAt
+      allProperties.sort((a, b) => {
+        if (a.priority !== b.priority) return b.priority - a.priority;
+        const aTime = a.createdAt ? a.createdAt.seconds : 0;
+        const bTime = b.createdAt ? b.createdAt.seconds : 0;
+        return aTime - bTime;
+      });
+
+      applyFilters();
+    });
+
+  // Attach filter events
+  searchInput.addEventListener('input', applyFilters);
+  priceInput.addEventListener('input', applyFilters);
+  locationInput.addEventListener('change', applyFilters);
+</script>
+
+</body>
+</html>

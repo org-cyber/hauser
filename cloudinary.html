@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign Up - Hauser NG</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            accent: '#3b82f6',
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore-compat.js"></script>
+
+  <style>
+    body {
+      background: radial-gradient(circle at top left, #0a0f1c, #1b1f2f, #0a0f1c);
+      min-height: 100vh;
+      color: #e0e0ff;
+      font-family: 'Segoe UI', sans-serif;
+      animation: fadeIn 0.8s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .glass {
+      background: rgba(20, 24, 38, 0.3);
+      backdrop-filter: blur(18px);
+      border: 1px solid rgba(100, 120, 180, 0.2);
+      box-shadow: 0 0 24px rgba(50, 100, 180, 0.15);
+      transition: all 0.3s ease;
+    }
+
+    .glass:hover {
+      background: rgba(20, 24, 38, 0.45);
+      box-shadow: 0 0 24px rgba(50, 100, 180, 0.35), 0 0 12px rgba(100,180,250,0.25);
+      transform: scale(1.02);
+    }
+
+    label {
+      color: #cbd5e1;
+    }
+  </style>
+</head>
+<body class="flex items-center justify-center p-6">
+
+  <div class="glass w-full max-w-md p-8 rounded-2xl animate-in">
+    <h2 class="text-3xl font-bold mb-6 text-center text-white">📝 Sign Up</h2>
+    <form id="signupForm" class="space-y-5">
+      <div>
+        <label class="block mb-1" for="displayName">Full Name</label>
+        <input type="text" id="displayName" class="w-full px-4 py-2 rounded bg-gray-900 text-white border border-gray-700 focus:outline-none focus:ring-2 focus:ring-accent" required placeholder="John Doe">
+      </div>
+      <div>
+        <label class="block mb-1" for="email">Email</label>
+        <input type="email" id="email" class="w-full px-4 py-2 rounded bg-gray-900 text-white border border-gray-700 focus:outline-none focus:ring-2 focus:ring-accent" required placeholder="you@example.com">
+      </div>
+      <div>
+        <label class="block mb-1" for="password">Password</label>
+        <input type="password" id="password" class="w-full px-4 py-2 rounded bg-gray-900 text-white border border-gray-700 focus:outline-none focus:ring-2 focus:ring-accent" required placeholder="••••••••">
+      </div>
+      <div>
+        <label class="block mb-1" for="role">Role</label>
+        <select id="role" class="w-full px-4 py-2 rounded bg-gray-900 text-white border border-gray-700 focus:outline-none focus:ring-2 focus:ring-accent" required>
+          <option value="" disabled selected>Select role</option>
+          <option value="agent">Agent</option>
+          <option value="landlord">Landlord</option>
+        </select>
+      </div>
+      <button type="submit" class="w-full py-2 mt-4 bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded transition">
+        Create Account
+      </button>
+      <p id="errorMessage" class="text-red-400 mt-3 text-sm text-center"></p>
+    </form>
+  </div>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyAHqg_u1DwWUB9l1vuoYDLKjCJl5Xx7Pbo",
+      authDomain: "hauserng-77cc2.firebaseapp.com",
+      projectId: "hauserng-77cc2",
+      storageBucket: "hauserng-77cc2.appspot.com",
+      messagingSenderId: "613578175402",
+      appId: "1:613578175402:web:db7413f898987ac6a1f1d3"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    document.getElementById('signupForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const displayName = document.getElementById('displayName').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value.trim();
+      const role = document.getElementById('role').value;
+
+      try {
+        const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+        const uid = userCredential.user.uid;
+
+        await db.collection('users').doc(uid).set({
+          name: displayName,
+          email: email,
+          role: role,
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+
+        window.location.href = 'dashboard.html';
+      } catch (error) {
+        document.getElementById('errorMessage').textContent = error.message;
+      }
+    });
+  </script>
+</body>
+</html>

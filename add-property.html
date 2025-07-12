@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Add Property - Hauser NG</title>
+
+  <!-- TailwindCSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: "#0f172a",
+            accent: "#f97316"
+          }
+        }
+      }
+    };
+  </script>
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore-compat.js"></script>
+
+  <style>
+    body {
+      background: linear-gradient(to bottom right, #0f172a, #1e293b);
+    }
+    .glass {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+  </style>
+</head>
+<body class="text-white min-h-screen flex items-center justify-center p-6">
+
+<div class="glass p-8 rounded-2xl shadow-xl w-full max-w-md space-y-6">
+  <h1 class="text-2xl font-bold text-accent text-center">➕ Add Priority Property</h1>
+
+  <form id="propertyForm" class="space-y-4">
+    <input type="text" id="title" placeholder="Title" class="w-full p-2 rounded bg-white text-black" required>
+    <input type="number" id="price" placeholder="Price (₦)" class="w-full p-2 rounded bg-white text-black" required>
+    <input type="text" id="location" placeholder="Location" class="w-full p-2 rounded bg-white text-black" required>
+    <textarea id="description" placeholder="Description" class="w-full p-2 rounded bg-white text-black"></textarea>
+    <input type="text" id="createdBy" placeholder="Full Name (Who is Posting?)" class="w-full p-2 rounded bg-white text-black" required>
+    <input type="tel" id="phoneNumber" placeholder="Phone Number" class="w-full p-2 rounded bg-white text-black" required>
+    <input type="file" id="imageInput" accept="image/*" class="w-full p-2 rounded bg-white text-black" multiple required>
+    <button type="submit" class="bg-accent w-full py-2 rounded text-white font-bold hover:bg-orange-500">Add Priority Property</button>
+  </form>
+
+  <div id="status" class="text-center mt-2"></div>
+  <div class="w-full bg-white h-2 rounded overflow-hidden mt-2">
+    <div id="progressBar" class="bg-accent h-2" style="width:0%"></div>
+  </div>
+
+  <p class="text-center mt-2"><a href="dashboard.html" class="text-accent underline">← Back to Dashboard</a></p>
+</div>
+
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyAHqg_u1DwWUB9l1vuoYDLKjCJl5Xx7Pbo",
+    authDomain: "hauserng-77cc2.firebaseapp.com",
+    projectId: "hauserng-77cc2",
+    storageBucket: "hauserng-77cc2.appspot.com",
+    messagingSenderId: "613578175402",
+    appId: "1:613578175402:web:db7413f898987ac6a1f1d3"
+  };
+  firebase.initializeApp(firebaseConfig);
+
+  const auth = firebase.auth();
+  const db = firebase.firestore();
+
+  const statusP = document.getElementById('status');
+  const progressBar = document.getElementById('progressBar');
+
+  let userData = null;
+
+  auth.onAuthStateChanged(async (user) => {
+    if (!user) {
+      return window.location.href = "login.html";
+    }
+
+    const doc = await db.collection("users").doc(user.uid).get();
+    if (!doc.exists) {
+      return statusP.textContent = "❌ User profile not found.";
+    }
+
+    userData = doc.data();
+
+    // If plan is free and they already posted once
+    if (userData.plan === "free" && userData.listingsCount >= 1) {
+      document.getElementById("propertyForm").style.display = "none";
+      statusP.innerHTML = "⚠️ You’ve reached your free listing limit. Upgrade to add more.";
+    }
+  });
+
+  document.getElementById('propertyForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const files = document.getElementById('imageInput').files;
+    if (files.length === 0) {
+      return statusP.textContent = "❌ Please select at least one image.";
+    }
+
+    const uid = auth.currentUser.uid;
+
+    // Prevent second listing for free users (double-check)
+    if (userData.plan === "free" && userData.listingsCount >= 1) {
+      return statusP.textContent = "❌ Free users can only post one listing.";
+    }
+
+    const cloudName = 'dfz7ghdbm';
+    const uploadPreset = 'upload_preset';
+    const imageUrl = [];
+
+    try {
+      for (let i = 0; i < files.length; i++) {
+        const formData = new FormData();
+        formData.append('file', files[i]);
+        formData.append('upload_preset', uploadPreset);
+
+        const res = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
+          method: 'POST',
+          body: formData
+        });
+
+        const data = await res.json();
+        if (res.ok) {
+          imageUrl.push(data.secure_url);
+          progressBar.style.width = ((i + 1) / files.length * 100) + "%";
+        } else {
+          throw new Error("Upload failed.");
+        }
+      }
+
+      const title = document.getElementById('title').value;
+      const price = document.getElementById('price').value;
+      const location = document.getElementById('location').value;
+      const description = document.getElementById('description').value;
+      const createdBy = document.getElementById('createdBy').value;
+      const phoneNumber = document.getElementById('phoneNumber').value;
+
+      await db.collection("properties").add({
+        uid,
+        title,
+        price,
+        location,
+        description,
+        createdBy,
+        phoneNumber,
+        imageUrl,
+        priority: true,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
+
+      // Update listingsCount only for free users
+      if (userData.plan === "free") {
+        await db.collection("users").doc(uid).update({
+          listingsCount: 1
+        });
+      }
+
+      statusP.textContent = "✅ Property added!";
+      progressBar.style.width = "100%";
+      document.getElementById("propertyForm").reset();
+
+      setTimeout(() => window.location.href = "dashboard.html", 1500);
+    } catch (err) {
+      console.error(err);
+      statusP.textContent = "❌ Error uploading or saving.";
+    }
+  });
+</script>
+
+</body>
+</html>
