@@ -65,6 +65,11 @@
 
 <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore-compat.js"></script>
+<!-- SwiperJS CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+<!-- SwiperJS JS -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
 </head>
 <body>
 
@@ -127,14 +132,33 @@
 
   let allProperties = [];
 
-  function renderProperties(list) {
-    blogList.innerHTML = '';
-    list.forEach(p => {
-      blogList.innerHTML += `
+ function renderProperties(list) {
+  blogList.innerHTML = '';
+
+  list.forEach((p, index) => {
+    // Ensure imageUrl is always treated as an array
+    const images = Array.isArray(p.imageUrl) ? p.imageUrl : [p.imageUrl || 'img/post-1.jpg'];
+
+    const swiperSlides = images.map(url => `
+      <div class="swiper-slide">
+        <img src="${url}" alt="${p.title}" class="img-fluid w-100 rounded" />
+      </div>
+    `).join('');
+
+    const swiperId = `swiper-${index}`;
+
+    blogList.innerHTML += `
       <div class="col-sm-6 padding-15 blog-item" data-title="${p.title}" data-price="${p.price}">
         <div class="box-shadow">
           <div class="blog-thumb">
-            <img src="${p.imageUrl ? p.imageUrl : 'img/post-1.jpg'}" alt="${p.title}" class="img-fluid">
+            <div class="swiper ${swiperId}">
+              <div class="swiper-wrapper">
+                ${swiperSlides}
+              </div>
+              <div class="swiper-pagination"></div>
+              <div class="swiper-button-prev"></div>
+              <div class="swiper-button-next"></div>
+            </div>
             <span class="category"><a href="#">${p.location}</a></span>
           </div>
           <div class="blog-content">
@@ -145,9 +169,21 @@
           </div>
         </div>
       </div>
-      `;
-    });
-  }
+    `;
+
+    // Initialize Swiper for this property after it's added to the DOM
+    setTimeout(() => {
+      new Swiper(`.${swiperId}`, {
+        loop: true,
+        pagination: { el: `.${swiperId} .swiper-pagination` },
+        navigation: {
+          nextEl: `.${swiperId} .swiper-button-next`,
+          prevEl: `.${swiperId} .swiper-button-prev`
+        },
+      });
+    }, 0);
+  });
+}
 
   function applyFilters() {
     const query = searchInput.value.trim().toLowerCase();
