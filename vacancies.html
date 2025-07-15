@@ -114,6 +114,11 @@
 
 <script>
   // Firebase config
+
+    function toggleDetails(id) {
+    const el = document.getElementById(id);
+    el.style.display = (el.style.display === "none") ? "block" : "none";
+  }
   const firebaseConfig = {
     apiKey: "AIzaSyAHqg_u1DwWUB9l1vuoYDLKjCJl5Xx7Pbo",
     authDomain: "hauserng-77cc2.firebaseapp.com",
@@ -132,13 +137,11 @@
 
   let allProperties = [];
 
- function renderProperties(list) {
+function renderProperties(list) {
   blogList.innerHTML = '';
 
   list.forEach((p, index) => {
-    // Ensure imageUrl is always treated as an array
     const images = Array.isArray(p.imageUrl) ? p.imageUrl : [p.imageUrl || 'img/post-1.jpg'];
-
     const swiperSlides = images.map(url => `
       <div class="swiper-slide">
         <img src="${url}" alt="${p.title}" class="img-fluid w-100 rounded" />
@@ -146,6 +149,7 @@
     `).join('');
 
     const swiperId = `swiper-${index}`;
+    const toggleId = `readmore-${index}`;
 
     blogList.innerHTML += `
       <div class="col-sm-6 padding-15 blog-item" data-title="${p.title}" data-price="${p.price}">
@@ -159,19 +163,22 @@
               <div class="swiper-button-prev"></div>
               <div class="swiper-button-next"></div>
             </div>
-            <span class="category"><a href="#">${p.location}</a></span>
           </div>
           <div class="blog-content">
-            <h3><a href="info.html" class="blogtog">${p.title}</a></h3>
+            <h3><span class="blogtog">${p.title}</span></h3>
             <p><strong>Price:</strong> ₦${p.price}</p>
+            <p><strong style="color: orange;">Location:</strong> ${p.location || 'N/A'}</p>
             <p>${p.description}</p>
-            <a href="info.html" class="read-more">Read More</a>
+            <a href="javascript:void(0);" class="read-more" onclick="toggleDetails('${toggleId}')">Read More</a>
+            <div id="${toggleId}" class="extra-details mt-2" style="display: none;">
+              <p><strong>Posted By:</strong> ${p.createdBy || 'N/A'}</p>
+              <p><strong>Phone:</strong> ${p.phoneNumber || 'N/A'}</p>
+            </div>
           </div>
         </div>
       </div>
     `;
 
-    // Initialize Swiper for this property after it's added to the DOM
     setTimeout(() => {
       new Swiper(`.${swiperId}`, {
         loop: true,
@@ -184,6 +191,7 @@
     }, 0);
   });
 }
+
 
   function applyFilters() {
     const query = searchInput.value.trim().toLowerCase();
