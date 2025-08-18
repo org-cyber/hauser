@@ -1,552 +1,1334 @@
-<!doctype html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
-
-<!-- index.html  29 Nov 2019 03:27:29 GMT -->
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Construction & Building HTML Template">
-<meta name="author" content="AlexaTheme">
-<title>HAUSER-NG</title>
-<link rel="shortcut icon" type="image/x-icon" href="img/favicon.png">
-<!-- Font Awesome Free (v6) -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hauser NG - Your Premier Property Listing Platform</title>
+    <link rel="manifest" href="manifest.json"> 
+    <meta name="theme-color" content="#080F73">
+    <link rel="apple-touch-icon" href="img/logo1.jpg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="js/main.js"></script>
+    <style>
+        :root {
+            --primary-dark: #0f172a;
+            --primary-blue: #1e40af;
+            --primary-light: #3b82f6;
+            --accent: #f59e0b;
+            --text-primary: #1f2937;
+            --text-secondary: #6b7280;
+            --text-light: #9ca3af;
+            --bg-light: #f8fafc;
+            --bg-white: #ffffff;
+            --border-light: #e5e7eb;
+            --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+            --gradient-primary: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
+            --gradient-accent: linear-gradient(135deg, #d97706 0%, #f59e0b 100%);
+            --gradient-bg: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            --transition-base: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
 
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-<link rel="stylesheet" href="css/fontawesome.min.css">
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            overflow-x: hidden;
+            background: var(--bg-white);
+            font-weight: 400;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
 
-<link rel="stylesheet" href="css/themify-icons.css">
+        /* Typography */
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 700;
+            line-height: 1.2;
+            letter-spacing: -0.025em;
+            margin-bottom: 1rem;
+        }
 
-<link rel="stylesheet" href="css/elegant-line-icons.css">
+        .text-xl { font-size: 1.25rem; line-height: 1.5; }
+        .text-2xl { font-size: 1.5rem; line-height: 1.5; }
+        .text-3xl { font-size: 1.875rem; line-height: 1.375; }
+        .text-4xl { font-size: 2.25rem; line-height: 1.25; }
+        .text-5xl { font-size: 3rem; line-height: 1.2; }
+        .text-6xl { font-size: 3.75rem; line-height: 1.2; }
 
-<link rel="stylesheet" href="css/elegant-font-icons.css">
+        p {
+            margin-bottom: 1.5rem;
+        }
 
-<link rel="stylesheet" href="css/flaticon.css">
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(229, 231, 235, 0.5);
+            z-index: 1000;
+            padding: 0;
+            transition: var(--transition-base);
+            box-shadow: var(--shadow-sm);
+        }
 
-<link rel="stylesheet" href="css/animate.min.css">
+        .navbar.scrolled {
+            box-shadow: var(--shadow-md);
+        }
 
-<link rel="stylesheet" href="css/bootstrap.min.css">
+        .nav-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            height: 72px;
+        }
 
-<link rel="stylesheet" href="css/slick.css">
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary-blue);
+            text-decoration: none;
+            letter-spacing: -0.025em;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: var(--transition-base);
+        }
 
-<link rel="stylesheet" href="css/slider.css">
+        .logo:hover {
+            opacity: 0.9;
+        }
 
-<link rel="stylesheet" href="css/odometer.min.css">
+        .logo::before {
+            content: '🏠';
+            font-size: 1.25rem;
+        }
 
-<link rel="stylesheet" href="css/venobox/venobox.css">
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+            align-items: center;
+        }
 
-<link rel="stylesheet" href="css/owl.carousel.css">
+        .nav-links li a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.875rem;
+            letter-spacing: -0.025em;
+            transition: var(--transition-base);
+            padding: 0.5rem 0;
+            position: relative;
+            white-space: nowrap;
+        }
 
-<link rel="stylesheet" href="css/main.css">
-<style>
-    .login-btn{
-        background-color: rgb(255, 118, 7);
-        color: white;
-        padding: 10px 20px;
-        border-radius: 5px;
-        cursor: pointer;
-        font-size: 16px;
-        transition: background-color 0.3s ease;
-    }
+        .nav-links li a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary-blue);
+            transition: var(--transition-base);
+        }
 
-    .login-btn:hover {
-        background-color: rgb(236, 228, 206);
-        color: black;
-    }
-    .link-btn {
-        background-color: rgb(255, 118, 7);
-        color: white;
-        padding: 10px 20px;
-        border-radius: 5px;
-        cursor: pointer;
-        font-size: 16px;
-    }
+        .nav-links li a:hover {
+            color: var(--primary-blue);
+        }
 
-    .link-btn:hover {
-        background-color: rgb(236, 228, 206);
-        color: black;
-    }
-</style>
+        .nav-links li a:hover::after {
+            width: 100%;
+        }
 
-<link rel="stylesheet" href="css/responsive.css">
-<script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
+        .nav-links li a.btn-nav {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 0.625rem 1.25rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .nav-links li a.btn-nav:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+            color: white;
+            opacity: 0.95;
+        }
+
+        .nav-links li a.btn-nav::after {
+            display: none;
+        }
+
+        .mobile-menu {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            transition: var(--transition-base);
+            background: transparent;
+            border: none;
+            z-index: 1001;
+        }
+
+        .mobile-menu:hover {
+            background: rgba(30, 64, 175, 0.1);
+        }
+
+        .mobile-menu span {
+            width: 24px;
+            height: 2px;
+            background: var(--primary-blue);
+            margin: 3px 0;
+            transition: var(--transition-base);
+            border-radius: 2px;
+            display: block;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            background: var(--gradient-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            padding: 6rem 0 4rem;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><radialGradient id="g1" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="%233b82f6" stop-opacity="0.1"/><stop offset="100%" stop-color="transparent"/></radialGradient><radialGradient id="g2" cx="80%" cy="20%" r="40%"><stop offset="0%" stop-color="%23f59e0b" stop-opacity="0.1"/><stop offset="100%" stop-color="transparent"/></radialGradient></defs><rect width="1000" height="1000" fill="url(%23g1)"/><rect width="1000" height="1000" fill="url(%23g2)"/></svg>');
+            animation: float 20s ease-in-out infinite;
+            opacity: 0.6;
+        }
+
+        .hero-content {
+            max-width: 1000px;
+            z-index: 2;
+            padding: 0 2rem;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(59, 130, 246, 0.15);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            padding: 0.5rem 1.25rem;
+            border-radius: 2rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+            color: #e2e8f0;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            margin-bottom: 1.5rem;
+            font-weight: 800;
+            line-height: 1.1;
+            letter-spacing: -0.025em;
+            background: linear-gradient(135deg, #fff 0%, #e2e8f0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .hero p {
+            font-size: clamp(1.125rem, 2vw, 1.375rem);
+            margin-bottom: 3rem;
+            opacity: 0.9;
+            color: #cbd5e1;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 2.25rem;
+            border: none;
+            border-radius: 0.75rem;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition-base);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            letter-spacing: -0.025em;
+        }
+
+        .btn-primary {
+            background: var(--gradient-accent);
+            color: white;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-xl);
+            opacity: 0.95;
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* Section Styles */
+        .section {
+            padding: 8rem 0;
+            position: relative;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .section-badge {
+            display: inline-block;
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--primary-blue);
+            padding: 0.5rem 1.25rem;
+            border-radius: 2rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+        }
+
+        .section-title {
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+            font-weight: 800;
+            letter-spacing: -0.025em;
+            line-height: 1.2;
+        }
+
+        .section-description {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* About Section */
+        .about {
+            background: var(--bg-light);
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .about-content {
+            animation: slideInLeft 1s ease-out;
+        }
+
+        .about-content h3 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+            font-weight: 700;
+            line-height: 1.3;
+        }
+
+        .about-content p {
+            font-size: 1.125rem;
+            line-height: 1.7;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        .about-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .stat-item {
+            text-align: left;
+        }
+
+        .stat-number {
+            font-size: 2.25rem;
+            font-weight: 800;
+            color: var(--primary-blue);
+            display: block;
+            line-height: 1.2;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+            letter-spacing: 0.025em;
+        }
+
+        .about-image {
+            position: relative;
+            animation: slideInRight 1s ease-out;
+        }
+
+        .about-image-container {
+            position: relative;
+            border-radius: 1.5rem;
+            overflow: hidden;
+            box-shadow: var(--shadow-xl);
+            background: var(--gradient-primary);
+            aspect-ratio: 4/3;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition-base);
+        }
+
+        .about-image-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+
+        .about-image-content {
+            text-align: center;
+            color: white;
+            padding: 3rem;
+        }
+
+        .about-image-content h4 {
+            font-size: 1.75rem;
+            margin-bottom: 0.75rem;
+            font-weight: 700;
+        }
+
+        .about-image-content p {
+            opacity: 0.9;
+            font-size: 1.125rem;
+            line-height: 1.6;
+        }
+
+        /* Features Section */
+        .features {
+            background: white;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 1.5rem;
+            border: 1px solid var(--border-light);
+            transition: var(--transition-base);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-primary);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .feature-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-xl);
+            border-color: rgba(59, 130, 246, 0.2);
+        }
+
+        .feature-icon {
+            width: 64px;
+            height: 64px;
+            background: var(--gradient-primary);
+            border-radius: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            color: white;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition-base);
+        }
+
+        .feature-card:hover .feature-icon {
+            transform: rotate(5deg) scale(1.05);
+        }
+
+        .feature-card h3 {
+            font-size: 1.375rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+            font-weight: 700;
+        }
+
+        .feature-card p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            font-size: 1.0625rem;
+        }
+
+        /* Education Section */
+        .education {
+            background: var(--gradient-bg);
+            color: white;
+        }
+
+        .education .section-title {
+            color: white;
+        }
+
+        .education .section-description {
+            color: #cbd5e1;
+        }
+
+        .education .section-badge {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--accent);
+            border-color: rgba(245, 158, 11, 0.3);
+        }
+
+        .education-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+            margin-top: 3rem;
+        }
+
+        .education-step {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            padding: 2.5rem;
+            border-radius: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: var(--transition-base);
+            position: relative;
+        }
+
+        .education-step:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-8px);
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .step-number {
+            width: 56px;
+            height: 56px;
+            background: var(--gradient-accent);
+            border-radius: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.25rem;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--shadow-md);
+            color: white;
+        }
+
+        .education-step h3 {
+            margin-bottom: 1.25rem;
+            font-size: 1.375rem;
+            font-weight: 700;
+        }
+
+        .education-step p {
+            opacity: 0.9;
+            line-height: 1.6;
+            color: #e2e8f0;
+            font-size: 1.0625rem;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: var(--bg-light);
+            text-align: center;
+        }
+
+        .cta-content {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--primary-dark);
+            color: white;
+            padding: 5rem 0 2rem;
+        }
+
+        .footer-content {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .footer-logo {
+            font-size: 1.75rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            color: white;
+        }
+
+        .footer-logo::before {
+            content: '🏠';
+        }
+
+        .footer p {
+            opacity: 0.8;
+            margin-bottom: 0.75rem;
+            color: #cbd5e1;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 2rem;
+            text-align: center;
+            opacity: 0.6;
+            font-size: 0.875rem;
+            color: #9ca3af;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(1deg); }
+        }
+
+        /* Scroll animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .nav-container {
+                padding: 1rem 1.5rem;
+            }
+            
+            .about-grid {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+            
+            .about-stats {
+                grid-template-columns: repeat(4, 1fr);
+            }
+
+            .features-grid {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            }
+
+            .section {
+                padding: 6rem 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu {
+                display: flex;
+            }
+
+            .nav-links {
+                display: none;
+                position: fixed;
+                top: 72px;
+                left: 0;
+                width: 100%;
+                background: rgba(255, 255, 255, 0.98);
+                backdrop-filter: blur(20px);
+                -webkit-backdrop-filter: blur(20px);
+                flex-direction: column;
+                padding: 2rem;
+                gap: 1.5rem;
+                border-top: 1px solid var(--border-light);
+                box-shadow: var(--shadow-lg);
+                height: calc(100vh - 72px);
+                overflow-y: auto;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .nav-links li a {
+                font-size: 1.125rem;
+                padding: 0.75rem 0;
+                color: var(--text-primary);
+            }
+
+            .nav-links li a.btn-nav {
+                width: 100%;
+                text-align: center;
+                justify-content: center;
+            }
+
+            .hero {
+                padding: 8rem 0 4rem;
+                min-height: 90vh;
+            }
+
+            .hero-content {
+                padding: 0 1.5rem;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+                width: 100%;
+                gap: 1rem;
+            }
+
+            .btn {
+                width: 100%;
+                max-width: 300px;
+                justify-content: center;
+            }
+
+            .container {
+                padding: 0 1.5rem;
+            }
+
+            .section {
+                padding: 5rem 0;
+            }
+
+            .section-header {
+                margin-bottom: 3rem;
+            }
+
+            .about-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .education-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .feature-card {
+                padding: 2rem;
+            }
+
+            .education-step {
+                padding: 2rem;
+            }
+
+            .about-image-content {
+                padding: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .nav-container {
+                padding: 1rem;
+            }
+
+            .hero {
+                padding: 7rem 0 3rem;
+            }
+
+            .hero-badge {
+                font-size: 0.75rem;
+                padding: 0.5rem 1rem;
+            }
+
+            .section {
+                padding: 4rem 0;
+            }
+
+            .feature-card {
+                padding: 1.75rem;
+            }
+
+            .education-step {
+                padding: 1.75rem;
+            }
+
+            .about-stats {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+                text-align: center;
+            }
+
+            .about-image-content {
+                padding: 1.5rem;
+            }
+
+            .about-image-content h4 {
+                font-size: 1.5rem;
+            }
+
+            .about-image-content p {
+                font-size: 1rem;
+            }
+        }
+
+        /* Loading states and micro-interactions */
+        .btn:active {
+            transform: translateY(1px);
+        }
+
+        .feature-card:active {
+            transform: translateY(-4px);
+        }
+
+        /* Focus states for accessibility */
+        .btn:focus,
+        .nav-links a:focus,
+        .mobile-menu:focus {
+            outline: 2px solid var(--primary-light);
+            outline-offset: 4px;
+        }
+
+        /* High contrast mode support */
+        @media (prefers-contrast: high) {
+            :root {
+                --text-secondary: #374151;
+                --border-light: #d1d5db;
+            }
+
+            .feature-card,
+            .education-step {
+                border: 2px solid var(--border-light);
+            }
+        }
+
+        /* Reduced motion support */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+        }
+    </style>
 </head>
 <body>
-<!--[if lt IE 8]>
-<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-<![endif]-->
-<div class="site-preloader-wrap">
-<div class="spinner"></div>
-</div>
-<header class="header">
-<div class="primary-header">
-<div class="container">
-<div class="primary-header-inner">
-<div class="header-logo">
-<a href="#"><img src="img/logo.jpg" alt="Indico"></a>
-</div>
-<div class="header-menu-wrap">
-<ul class="dl-menu">
-<li><a href="#">Home</a>
-<li><a href="about-us.html">About</a>
-</li>
-<li><a href="#">Find a Home </a>
-<ul>
-<li><a href="vacancies.html">Vacancies</a></li>
-<li><a href="blog-classic.html">Homes for Sale</a></li>
-</ul>
-</li>
-<li><a href="contact.html">Affiliates and Referrals</a>
-<ul>
-    <li><a href="blog-classic.html">Banner Ad Spaces</a></li>
-    <li><a href="blog-grid.html">Referrals</a></li>
-    <li><a href="blog-grid.html"> Sponsor Content / Boosted Ads</a></li>
-</ul>
-<li><button class="login-btn"><a href="login.html" class="link-btn">Login</a></button></li>
-</li>
-</div>
-
-<div class="header-right">
-    <li><button><a class="menu-btn" href="https://cust.fillout.com/sign">Sign Up</a></button></li>
-    <div class="mobile-menu-icon">
-        <div class="burger-menu">
-            <div class="line-menu line-half first-line"></div>
-            <div class="line-menu"></div>
-            <div class="line-menu line-half last-line"></div>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="#home" class="logo">Hauser NG</a>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="real_estate_subscription.html">Pricing</a></li>
+                <li><a href="vacancies.html">Vacancies</a></li>
+                <li><a href="login.html">Login</a></li>
+                <li><a href="signup.html" class="btn-nav">Get Started</a></li>
+                   <li><a href="app/app.html" class="btn-nav">Get our Mobile App</a></li>
+                <li><a href="https://cust.fillout.com/eu">Support</a></li>
+            </ul>
+            <button class="mobile-menu" id="mobile-menu" aria-label="Toggle navigation menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
         </div>
-    </div>
-</div>
-</div>
-</div>
-</div>
+    </nav>
 
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <div class="hero-badge">
+                <span>🚀</span>
+                Nigeria's #1 Property Platform
+            </div>
+            <h1>Transform Your Property Business</h1>
+            <p>Connect with quality tenants through Nigeria's premier property listing platform. List your properties, reach more customers, and grow your rental business effortlessly with our advanced tools and analytics.</p>
+            <div class="cta-buttons">
+                <a href="signup.html" class="btn btn-primary">
+                    Start Listing Today
+                    <span>→</span>
+                </a>
+                <a href="#about" class="btn btn-secondary">
+                    <span>▶</span>
+                    Watch Demo
+                </a>
+            </div>
+        </div>
+    </section>
 
-</header><div id="main-slider" class="dl-slider">
-<div class="single-slide">
-<div class="bg-img kenburns-top-right" style="background-image: url(img/multiracial-family-getting-home-consultation-choosig-colors-floor.jpg);"></div>
-<div class="overlay"></div>
-<div class="slider-content-wrap d-flex align-items-center text-left">
-<div class="container">
-<div class="slider-content">
-<div class="dl-caption medium"><div class="inner-layer"><div data-animation="fade-in-right" data-delay="1s">Residencial</div></div></div>
-<div class="dl-caption big"><div class="inner-layer"><div data-animation="fade-in-left" data-delay="2s">Your Trusted Partner for Affordable </div></div>
-</div>
-<div class="dl-caption big"><div class="inner-layer"><div data-animation="fade-in-left" data-delay="2.5s">& Luxury Homes in Nigeria</div></div></div>
-<div class="dl-caption small"><div class="inner-layer"><div data-animation="fade-in-left" data-delay="3s">Explore a curated selection of premium and budget-friendly properties across Nigeria.
-At Hauser-Ng, we connect buyers, renters, and investors with verified listings and trusted real estate professionals—ensuring a seamless, secure experience from start to finish.</div></div></div>
-<div class="dl-btn-group">
-<div class="inner-layer">
-<a href="vacancies.html" class="dl-btn" data-animation="fade-in-left" data-delay="3.5s">View Vacancies <i class="arrow_right"></i></a>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="single-slide">
-<div class="bg-img kenburns-top-right" style="background-image: url(img/young-couple-moving-new-home-together-african-american-couple-with-cardboard-boxes-woman-hold-keys.jpg);"></div>
-<div class="overlay"></div>
-<div class="slider-content-wrap d-flex align-items-center text-center">
-<div class="container">
-<div class="slider-content">
-<div class="dl-caption medium"><div class="inner-layer"><div data-animation="fade-in-top" data-delay="1s">Affordable or Luxurious</div></div></div>
-<div class="dl-caption big"><div class="inner-layer"><div data-animation="fade-in-bottom" data-delay="2s"></div></div>
-</div>
-<div class="dl-caption big"><div class="inner-layer"><div data-animation="fade-in-bottom" data-delay="2.5s">Smart Choices for Every Lifestyle & Budget</div></div></div>
-<div class="dl-caption small"><div class="inner-layer"><div data-animation="fade-in-bottom" data-delay="3s">From luxury estates to affordable family homes, Hauser-Ng offers reliable access <br>to Nigeria’s most desirable real estate. Our mission is to simplify your property search with trusted listings, expert guidance, and full transparency every step of the way.</div></div></div>
-<div class="dl-btn-group">
-<div class="inner-layer">
-    <a href="vacancies.html" class="dl-btn" data-animation="fade-in-left" data-delay="3.5s">View Vacancies <i class="arrow_right"></i></a>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="single-slide">
-<div class="bg-img kenburns-top-right" style="background-image: url(img/black-businessman-happy-expression.jpg);"></div>
-<div class="overlay"></div>
-<div class="slider-content-wrap d-flex align-items-center text-right">
-<div class="container">
-<div class="slider-content">
-<div class="dl-caption medium"><div class="inner-layer"><div data-animation="fade-in-left" data-delay="1s"></div></div></div>
-<div class="dl-caption big"><div class="inner-layer"><div data-animation="fade-in-right" data-delay="2s">Smart Choices for Every Lifestyle & Budget</div></div>
-</div>
-<div class="dl-caption big"><div class="inner-layer"><div data-animation="fade-in-right" data-delay="2.5s"></div></div></div>
-<div class="dl-caption small"><div class="inner-layer"><div data-animation="fade-in-right" data-delay="3s">From luxury estates to affordable family homes, Hauser-Ng offers reliable access to Nigeria’s most desirable real estate. Our mission is to simplify your property search with trusted listings, expert guidance, and full transparency every step of the way.</div></div></div>
-<div class="dl-btn-group">
-<div class="inner-layer">
-<a href="vacancies.html" class="dl-btn" data-animation="fade-in-left" data-delay="3.5s">View Vacancies <i class="arrow_right"></i></a>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<section class="about-section padding">
-<div class="container">
-<div class="row about-wrap">
-<div class="col-lg-6 sm-padding">
-<div class="about-content wow fadeInLeft">
-<h2>Affordable or Luxurious—Find the Perfect Home in Nigeria</h2>
-<p>Hauser-NG is a modern real estate platform that helps Nigerians buy, rent, and list properties with confidence. From affordable apartments to luxury homes, we offer a curated selection of verified listings from trusted landlords and agents nationwide.
+    <!-- About Section -->
+    <section class="section about" id="about">
+        <div class="container">
+            <div class="section-header fade-in">
+                <div class="section-badge">About Hauser NG</div>
+                <h2 class="section-title">Empowering Property Professionals</h2>
+                <p class="section-description">Revolutionizing the Nigerian property market with innovative digital solutions that actually work for local professionals.</p>
+            </div>
+            <div class="about-grid">
+                <div class="about-content fade-in">
+                    <h3>Built for Nigerian Property Professionals</h3>
+                    <p>Hauser NG is Nigeria's leading online property listing platform, designed specifically for agents and landlords who want to maximize their property visibility and connect with serious tenants.</p>
+                    <p>Our platform combines cutting-edge technology with deep understanding of the Nigerian real estate market, providing you with tools that actually work in our local context.</p>
+                    <p>Whether you're managing a single property or a large portfolio, Hauser NG gives you the digital presence and professional tools you need to succeed in today's competitive market.</p>
+                    <div class="about-stats">
+                        <div class="stat-item">
+                            <span class="stat-number">10K+</span>
+                            <span class="stat-label">Active Listings</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">2K+</span>
+                            <span class="stat-label">Verified Agents</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">50K+</span>
+                            <span class="stat-label">Monthly Visitors</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">95%</span>
+                            <span class="stat-label">Success Rate</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-image fade-in">
+                    <div class="about-image-container">
+                        <div class="about-image-content">
+                            <h4>Modern Property Management</h4>
+                            <p>Streamlined tools designed for the Nigerian market</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-Our mission is to make real estate in Nigeria more transparent, accessible, and efficient—empowering individuals and professionals to make smarter decisions, faster.</p>
-<a href="about-us.html" class="default-btn">More About Us</a>
-</div>
-</div>
-<div class="col-lg-6 sm-padding">
-<ul class="about-promo">
-<li class="about-promo-item wow fadeInUp">
-<i class="fas fa-house"></i>
-<div>
-<h3>Built for Agents & Landlords</h3>
-<p>Seamless tools to manage and promote your listings.</p>
-</div>
-</li>
-<li class="about-promo-item wow fadeInUp" data-wow-delay="300ms">
-<i class="fa-solid fa-people-arrows"></i>
- <div>
-<h3>Real Homes, Real People</h3>
-<p>We connect genuine buyers, renters, and property owners.</p>
-</div>
-</li>
-<li class="about-promo-item wow fadeInUp" data-wow-delay="500ms">
-<i class="fa-solid fa-envelopes-bulk"></i>
-<div>
-<h3> Instant Updates</h3>
-<p>Get notified when new listings match your needs.</p>
-</div>
-</li>
-</ul>
-</div>
-</div>
-</div>
-</section>
-<section class="service-section bg-grey padding">
-<div class="dark-bg"></div>
-<div class="section-heading dark-background text-center mb-40 wow fadeInUp" data-wow-delay="100ms">
-<span>Services</span>
-<h2>Take the world’s best <br> services for you</h2>
-</div>
-<div class="container">
-<div class="row">
-<div class="col-lg-10 offset-lg-1">
-<div id="service-carousel" class="service-carousel box-shadow owl-carousel">
-<div class="service-item">
-<div class="service-icon">
-<i class="flaticon-3d-printer"></i>
-</div>
-<h3>Property Listings (Buy & Rent)</h3>
-<p>Explore a wide range of verified homes across Nigeria—from affordable apartments to luxury estates. Whether you're buying your first house or searching for your next rental, Hauser-NG brings the right options to your screen.
+    <!-- Features Section -->
+    <section class="section features">
+        <div class="container">
+            <div class="section-header fade-in">
+                <div class="section-badge">Why Choose Us</div>
+                <h2 class="section-title">Powerful Features for Modern Agents</h2>
+                <p class="section-description">Discover the advantages that set us apart in the Nigerian property market with tools built for success.</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Maximum Visibility</h3>
+                    <p>Get your properties seen by thousands of potential tenants across Nigeria with our advanced listing optimization and targeted promotion tools.</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">📱</div>
+                    <h3>Mobile-First Design</h3>
+                    <p>Over 80% of Nigerian property searches happen on mobile. Our platform is optimized for the devices your customers actually use daily.</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">💰</div>
+                    <h3>Cost-Effective Marketing</h3>
+                    <p>Replace expensive traditional advertising with targeted digital marketing that reaches the right tenants at the right time, reducing costs by 60%.</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Quick Setup</h3>
+                    <p>List your first property in under 5 minutes. Our streamlined process gets you online and attracting qualified tenants immediately.</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">🔍</div>
+                    <h3>Quality Leads</h3>
+                    <p>Our advanced verification system ensures you connect with serious, qualified tenants who are ready to rent, not just browsing casually.</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">📊</div>
+                    <h3>Analytics Dashboard</h3>
+                    <p>Track your listing performance, understand market trends, and make data-driven decisions to optimize your rental business growth.</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-</p>
-<div class="overlay-icon">
-<i class="flaticon-3d-printer"></i>
-</div>
-</div>
-<div class="service-item">
-<div class="service-icon">
-<i class="fa-solid fa-people-group"></i>
-</div>
-<h3>Landlord & Agent Listings</h3>
-<p>Are you a landlord or real estate agent? List your property on Hauser-NG and reach serious buyers and tenants. Our platform helps you showcase your property with professional visibility and full transparency.</p>
+    <!-- Education Section -->
+    <section class="section education">
+        <div class="container">
+            <div class="section-header fade-in">
+                <div class="section-badge">Success Guide</div>
+                <h2 class="section-title">How to Succeed on Hauser NG</h2>
+                <p class="section-description">Master these proven strategies to maximize your property visibility and attract quality tenants consistently.</p>
+            </div>
+            <div class="education-grid">
+                <div class="education-step fade-in">
+                    <div class="step-number">1</div>
+                    <h3>Create Compelling Listings</h3>
+                    <p>Use high-quality photos, detailed descriptions, and highlight unique features. Properties with professional photos get 3x more inquiries and rent 40% faster.</p>
+                </div>
+                <div class="education-step fade-in">
+                    <div class="step-number">2</div>
+                    <h3>Price Competitively</h3>
+                    <p>Research similar properties in your area. Use our market insights and pricing tools to set rates that attract tenants while maximizing your returns.</p>
+                </div>
+                <div class="education-step fade-in">
+                    <div class="step-number">3</div>
+                    <h3>Respond Quickly</h3>
+                    <p>Fast response times build trust and increase conversion rates. Aim to respond to inquiries within 2 hours for 85% higher booking rates.</p>
+                </div>
+                <div class="education-step fade-in">
+                    <div class="step-number">4</div>
+                    <h3>Keep Information Updated</h3>
+                    <p>Regular updates signal active management to both tenants and our algorithm, improving your listing's visibility in search results by up to 200%.</p>
+                </div>
+                <div class="education-step fade-in">
+                    <div class="step-number">5</div>
+                    <h3>Build Your Profile</h3>
+                    <p>Complete your agent profile with credentials and testimonials. Verified profiles get 40% more tenant trust and generate higher-quality inquiries.</p>
+                </div>
+                <div class="education-step fade-in">
+                    <div class="step-number">6</div>
+                    <h3>Use Premium Features</h3>
+                    <p>Boost your listings with featured placement, virtual tours, and priority support to stand out in a competitive market and close deals faster.</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-<div class="overlay-icon">
-<i class="flaticon-industrial-robot"></i>
-</div>
-</div>
-<div class="service-item">
-<div class="service-icon">
-<i class="flaticon-assembly-line"></i>
-</div>
-<h3> Location-Based Search</h3>
-<p>Quickly find homes by state, city, or neighborhood. Our smart filters make it easy to discover properties that fit your lifestyle, budget, and preferred location.</p>
+    <!-- CTA Section -->
+    <section class="section cta-section">
+        <div class="container">
+            <div class="cta-content fade-in">
+                <div class="section-badge">Ready to Get Started?</div>
+                <h2 class="section-title">Join Thousands of Successful Agents</h2>
+                <p class="section-description">Start listing your properties today and connect with quality tenants across Nigeria. No setup fees, no long-term contracts.</p>
+                <div class="cta-buttons">
+                    <a href="signup.html" class="btn btn-primary">
+                        Start Free Trial
+                        <span>→</span>
+                    </a>
+                    <a href="real_estate_subscription.html" class="btn btn-secondary">
+                        View Pricing
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
 
-<div class="overlay-icon">
-<i class="flaticon-assembly-line"></i>
-</div>
-</div>
-<div class="service-item">
-<div class="service-icon">
-<i class="flaticon-conveyor"></i>
-</div>
-<h3> Verified Listings & Profiles</h3>
-<p>Every property and agent on Hauser-NG is screened for authenticity. We prioritize trust by displaying verified information—no scams, no guesswork.
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">Hauser NG</div>
+                <p>Nigeria's premier property listing platform</p>
+                <p>Email: pixelpro548@gmail.com</p>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Hauser NG. All rights reserved. Built for Nigerian property professionals.</p>
+            </div>
+        </div>
+    </footer>
 
-</p>
+    <script>
+        // Enhanced mobile menu toggle with animation
+        const mobileMenu = document.getElementById('mobile-menu');
+        const navLinks = document.getElementById('nav-links');
 
-<div class="overlay-icon">
- <i class="flaticon-conveyor"></i>
-</div>
-</div>
-<div class="service-item">
-<div class="service-icon">
-<i class="flaticon-control-system"></i>
-</div>
-<h3>Direct Contact & Support</h3>
-<p>Reach out directly to agents or landlords from any listing. Need help? Our customer support is here to guide you throughout your real estate journey.</p>
+        mobileMenu.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            mobileMenu.classList.toggle('active');
+            document.body.style.overflow = navLinks.classList.contains('active') ? 'hidden' : '';
+            
+            // Animate hamburger menu
+            const spans = mobileMenu.querySelectorAll('span');
+            if (mobileMenu.classList.contains('active')) {
+                spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
+                spans[1].style.opacity = '0';
+                spans[2].style.transform = 'rotate(-45deg) translate(7px, -6px)';
+            } else {
+                spans[0].style.transform = 'none';
+                spans[1].style.opacity = '1';
+                spans[2].style.transform = 'none';
+            }
+        });
 
-<div class="overlay-icon">
-<i class="flaticon-control-system"></i>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</section>
-<section class="work-pro-section padding">
-<div class="container">
-<div class="row">
-<div class="col-lg-3 col-sm-6 sm-padding">
-<div class="work-pro-item text-center">
-<span class="number">1</span>
-<div class="number-line"></div>
-<h3>Submit Your Property</h3>
-<p>Agents or landlords create a listing with accurate details and photos.</p>
-</div>
-</div>
-<div class="col-lg-3 col-sm-6 sm-padding">
-<div class="work-pro-item text-center">
-<span class="number">2</span>
-<div class="number-line"></div>
-<h3> Verification & Approval</h3>
-<p>We review and verify listings before they go live.</p>
-</div>
-</div>
-<div class="col-lg-3 col-sm-6 sm-padding">
-<div class="work-pro-item text-center">
-<span class="number">3</span>
-<div class="number-line"></div>
-<h3> Property Goes Live</h3>
-<p>Your listing appears on our platform—ready for buyers or renters to view.</p>
-</div>
-</div>
-<div class="col-lg-3 col-sm-6 sm-padding">
-<div class="work-pro-item text-center">
-<span class="number">4</span>
-<h3>Final Outputs</h3>
-<p>We are committed building a sustainable future fostering a collaborative spirit.</p>
-</div>
-</div>
-</div>
-</div>
-</section>
-<section class="projects-section padding">
-<div class="container">
-<div class="row d-flex align-items-center">
-<div class="col-lg-8 col-md-6">
-<div class="section-heading mb-40">
-<span>Projects</span>
-<h2>Discover the most fascinating <br>projects for our clients</h2>
-</div>
-</div>
-<div class="col-lg-4 col-md-6 text-right">
-<a href="blog-classic.html" class="default-btn">Properties for Sale</a>
-</div>
-</div>
-<div id="projects-carousel" class="projects-carousel box-shadow owl-carousel">
-<div class="project-item">
-<img src="img/Recent-3-Bedroom-with-pent-floor.jpg" alt="projects">
-<div class="overlay"></div>
-<a href="img/Recent-3-Bedroom-with-pent-floor.jpg" class="view-icon img-popup" data-gall="project"> <i class="fas fa-expand"></i></a>
-<div class="projects-content">
-<a href="#" class="category">Classic</a>
-<h3><a href="#" class="tittle">Modern House </a></h3>
-</div>
-</div>
-<div class="project-item">
-<img src="img/samson-vowles-f5QahUP8PJ0-unsplash.jpg" alt="projects">
-<div class="overlay"></div>
-<a href="img/samson-vowles-f5QahUP8PJ0-unsplash.jpg" class="view-icon img-popup" data-gall="project"> <i class="fas fa-expand"></i></a>
-<div class="projects-content">
-<a href="#" class="category">Modern Living, </a>
-<h3><a href="#" class="tittle">Timeless Style</a></h3>
-</div>
-</div>
-<div class="project-item">
-<img src="img/Nigerian-House-Plan-Designs.jpg" alt="projects">
-<div class="overlay"></div>
-<a href="img/Nigerian-House-Plan-Designs.jpg" class="view-icon img-popup" data-gall="project"> <i class="fas fa-expand"></i></a>
-<div class="projects-content">
-<a href="#" class="category">From First Look </a>
-<h3><a href="#" class="tittle">to Final Key</a></h3>
-</div>
-</div>
-<div class="project-item">
-<img src="img/alhidayah-kadar-regency-CKAmJSbQ7E4-unsplash.jpg" alt="projects">
-<div class="overlay"></div>
-<a href="img/alhidayah-kadar-regency-CKAmJSbQ7E4-unsplash.jpg" class="view-icon img-popup" data-gall="project"> <i class="fas fa-expand"></i></a>
-<div class="projects-content">
-<a href="#" class="category">Find Home </a>
-<h3><a href="#" class="tittle">in Every Detai</a></h3>
-</div>
-</div>
-<div class="project-item">
-<img src="img/typical-nigerian-home.jpg" alt="projects">
-<div class="overlay"></div>
-<a href="img/typical-nigerian-home.jpg" class="view-icon img-popup" data-gall="project"> <i class="fas fa-expand"></i></a>
-<div class="projects-content">
-<a href="#" class="category">Smart Spaces, </a>
-<h3><a href="#" class="tittle">Better Living</a></h3>
-</div>
-</div>
-</div>
-</div>
-</section>
-<div class="cta-section padding">
-<div class="container">
-<div class="cta-content text-center">
-<span class="wow fadeInUp">Explore The Features</span>
-<h2 class="wow fadeInUp" data-wow-delay="300ms">Your Dream Home <br> Starts Here</h2>
-</div>
-</div>
-</div>
-<section class="content-section padding">
-<div class="container">
-<div class="row content-wrap">
-<div class="col-lg-6 sm-padding wow fadeInLeft" data-wow-delay="100ms">
-<img class="box-shadow" class="box-shadow" src="img/istockphoto.jpg" alt="img">
-</div>
-<div class="col-lg-6 sm-padding">
-<div class="content-info wow fadeInRight" data-wow-delay="300ms">
-<span>Explore The Features</span>
-<h2>Empowering Property Owners & Agents</h2>
-<p>At Hauser-NG, we provide a streamlined platform where landlords and housing agents can effortlessly upload, manage, and promote their properties. Whether it’s a home for sale or a rental vacancy, our system is built to ensure your listings are visible, verified, and connected to the right audience.
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!navLinks.contains(e.target) && !mobileMenu.contains(e.target) && navLinks.classList.contains('active')) {
+                navLinks.classList.remove('active');
+                mobileMenu.classList.remove('active');
+                document.body.style.overflow = '';
+                
+                const spans = mobileMenu.querySelectorAll('span');
+                spans[0].style.transform = 'none';
+                spans[1].style.opacity = '1';
+                spans[2].style.transform = 'none';
+            }
+        });
 
-With easy-to-use tools and a responsive dashboard, agents and landlords can showcase their properties with detailed descriptions, high-quality images, and location-specific features — all in just a few clicks.</p>
-<a href="https://cust.fillout.com/sign" class="default-btn">Register</a>
-</div>
-</div>
-</div>
-</div>
-</section>
+        // Enhanced navbar scroll effect
+        const navbar = document.getElementById('navbar');
+        let lastScrollY = window.scrollY;
 
-<section class="blog-section padding">
-<div class="container">
-<div class="section-heading text-center mb-40 wow fadeInUp" data-wow-delay="100ms">
-<span>From Blog</span>
-<h2>Speciallized news</h2>
-</div>
-<div class="row blog-wrap">
-<div class="col-lg-4 col-sm-6 sm-padding">
-<div class="blog-item box-shadow">
-<div class="blog-thumb">
-<img src="img/post-1.jpg" alt="post">
-<span class="category"><a href="#">interior</a></span>
-</div>
-<div class="blog-content">
-<h3><a href="#">Comming Soon</a></h3>
-<p></p>
-<a href="#" class="read-more">Read More</a>
-</div>
-</div>
-</div>
-<div class="col-lg-4 col-sm-6 sm-padding">
-<div class="blog-item box-shadow">
-<div class="blog-thumb">
-<img src="img/post-2.jpg" alt="post">
-<span class="category"><a href="#">Architecture</a></span>
-</div>
-<div class="blog-content">
-<h3><a href="#">Coming Soon.</a></h3>
-<p></p>
-<a href="#" class="read-more">Read More</a>
-</div>
-</div>
-</div>
-<div class="col-lg-4 col-sm-6 sm-padding">
-<div class="blog-item box-shadow">
-<div class="blog-thumb">
-<img src="img/post-3.jpg" alt="post">
-<span class="category"><a href="#">Design</a></span>
-</div>
-<div class="blog-content">
-<h3><a href="#">Coming Soon</a></h3>
-<p></p>
-<a href="#" class="read-more">Read More</a>
-</div>
-</div>
-</div>
-</div>
-</div>
-</section>
+        window.addEventListener('scroll', () => {
+            const currentScrollY = window.scrollY;
+            
+            if (currentScrollY > 100) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+            
+            // Hide navbar on scroll down, show on scroll up
+            if (currentScrollY > lastScrollY && currentScrollY > 200 && !navLinks.classList.contains('active')) {
+                navbar.style.transform = 'translateY(-100%)';
+                navbar.style.transition = 'transform 0.3s ease';
+            } else {
+                navbar.style.transform = 'translateY(0)';
+            }
+            
+            lastScrollY = currentScrollY;
+        });
 
-<section class="widget-section padding">
-<div class="container">
-<div class="row">
-<div class="col-lg-3 col-sm-6 sm-padding">
-<div class="widget-content">
-<a href="#"><img src="img/logo-removebg-preview (4).png" alt="brand"></a>
-<p>Building your own home is about desire, fantasy. But it's achievable anyone can do it.</p>
-</div>
-</div>
-<div class="col-lg-2 col-sm-6 sm-padding">
-<div class="widget-content">
-<h4>Company</h4>
-<ul class="widget-links">
-<li><a href="#">Houses</a></li>
-<li><a href="#">Contact Us</a></li>
-</ul>
-</div>
-</div>
-<div class="col-lg-4 col-sm-6 sm-padding">
-<div class="widget-content">
-<div class="subscribe-box clearfix">
-<div class="subscribe-form-wrap">
-<form action="#" class="subscribe-form">
-<input type="email" name="email" id="subs-email" class="form-input" placeholder="Enter Your Email Address...">
-<button type="submit" class="submit-btn">Subscribe</button>
-<div id="subscribe-result">
-<p class="subscription-success"></p>
-<p class="subscription-error"></p>
-</div>
-</form>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</section>
-<footer class="footer-section align-center">
-<div class="container">
-<p><a href="templateshub.net">Templates Hub</a></p>
-</div>
-</footer>
-<a data-scroll href="#header" id="scroll-to-top"><i class="arrow_carrot-up"></i></a>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const headerOffset = 80;
+                    const elementPosition = target.getBoundingClientRect().top + window.pageYOffset;
+                    const offsetPosition = elementPosition - headerOffset;
 
-<script data-cfasync="false" src="../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="js/vendor/jquery-1.12.4.min.js"></script>
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+                // Close mobile menu if open
+                if (navLinks.classList.contains('active')) {
+                    navLinks.classList.remove('active');
+                    mobileMenu.classList.remove('active');
+                    document.body.style.overflow = '';
+                    
+                    // Reset hamburger menu
+                    const spans = mobileMenu.querySelectorAll('span');
+                    spans[0].style.transform = 'none';
+                    spans[1].style.opacity = '1';
+                    spans[2].style.transform = 'none';
+                }
+            });
+        });
 
-<script src="js/vendor/bootstrap.min.js"></script>
+        // Enhanced scroll animations with Intersection Observer
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
 
-<script src="js/vendor/tether.min.js"></script>
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
 
-<script src="js/vendor/headroom.min.js"></script>
+        // Observe all fade-in elements
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
 
-<script src="js/vendor/owl.carousel.min.js"></script>
+        // Enhanced card interactions
+        document.querySelectorAll('.feature-card, .education-step').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-8px)';
+                this.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
+        });
 
-<script src="js/vendor/smooth-scroll.min.js"></script>
+        // Add loading states for buttons
+        document.querySelectorAll('.btn-primary, .btn-secondary').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                if (this.href && !this.href.startsWith('#')) {
+                    this.style.opacity = '0.8';
+                    this.innerHTML = this.innerHTML.replace(/<span>.*<\/span>/, '') + ' <span>⏳</span>';
+                    this.style.pointerEvents = 'none';
+                }
+            });
+        });
 
-<script src="js/vendor/venobox.min.js"></script>
+        // Performance optimization: Lazy load background images
+        const lazyBackgrounds = document.querySelectorAll('[data-bg]');
+        if ('IntersectionObserver' in window) {
+            const imageObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.backgroundImage = `url(${entry.target.dataset.bg})`;
+                        entry.target.classList.add('loaded');
+                        imageObserver.unobserve(entry.target);
+                    }
+                });
+            });
 
-<script src="js/vendor/jquery.ajaxchimp.min.js"></script>
+            lazyBackgrounds.forEach(bg => imageObserver.observe(bg));
+        }
 
-<script src="js/vendor/slick.min.js"></script>
+        // Add focus management for accessibility
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && navLinks.classList.contains('active')) {
+                navLinks.classList.remove('active');
+                mobileMenu.classList.remove('active');
+                mobileMenu.focus();
+                document.body.style.overflow = '';
+            }
+        });
 
-<script src="js/vendor/waypoints.min.js"></script>
+        // Preload critical resources
+        if ('linkRelList' in document.createElement('link')) {
+            const preloadLink = document.createElement('link');
+            preloadLink.rel = 'preload';
+            preloadLink.href = 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap';
+            preloadLink.as = 'style';
+            document.head.appendChild(preloadLink);
+        }
 
-<script src="js/vendor/odometer.min.js"></script>
+        // Touch device detection for hover effects
+        let isTouchDevice = false;
+        try {
+            document.createEvent('TouchEvent');
+            isTouchDevice = true;
+        } catch (e) {
+            isTouchDevice = false;
+        }
 
-<script src="js/vendor/wow.min.js"></script>
-
-<script src="js/main.js"></script>
+        if (isTouchDevice) {
+            document.body.classList.add('touch-device');
+        }
+    </script>
 </body>
-
-<!-- index.html  29 Nov 2019 03:30:38 GMT -->
 </html>

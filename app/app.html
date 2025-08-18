@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Download Hauser NG App</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #0f172a;
+      --primary-dark: #0a1120;
+      --primary-light: #1e293b;
+      --accent: #f97316;
+      --accent-dark: #ea580c;
+      --accent-light: #fb923c;
+      --text-primary: #f1f5f9;
+      --text-secondary: #cbd5e1;
+      --text-muted: #94a3b8;
+      --success: #22c55e;
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.25);
+      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+      --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.35), 0 10px 10px -5px rgba(0, 0, 0, 0.15);
+      --radius: 0.5rem;
+      --radius-lg: 0.75rem;
+      --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      color: var(--text-primary);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="15" cy="15" r="1.5" fill="%23cbd5e1" opacity="0.1"><animate attributeName="opacity" values="0.1;0.3;0.1" dur="4s" repeatCount="indefinite"/></circle><circle cx="85" cy="35" r="1" fill="%23cbd5e1" opacity="0.1"><animate attributeName="opacity" values="0.1;0.4;0.1" dur="5s" repeatCount="indefinite"/></circle><circle cx="45" cy="85" r="2" fill="%23cbd5e1" opacity="0.1"><animate attributeName="opacity" values="0.1;0.2;0.1" dur="6s" repeatCount="indefinite"/></circle></svg>');
+      animation: float 20s ease-in-out infinite;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-20px); }
+    }
+
+    .download-container {
+      background: linear-gradient(135deg, rgba(30, 41, 59, 0.85) 0%, rgba(15, 23, 42, 0.9) 100%);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--primary-light);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-lg);
+      padding: 3rem;
+      max-width: 800px;
+      width: 100%;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .download-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .download-container:hover::before {
+      left: 100%;
+    }
+
+    .app-icon {
+      width: 120px;
+      height: 120px;
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+      border-radius: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.5rem;
+      box-shadow: 0 10px 30px rgba(249, 115, 22, 0.4);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); box-shadow: 0 10px 30px rgba(249, 115, 22, 0.4); }
+      50% { transform: scale(1.05); box-shadow: 0 15px 40px rgba(249, 115, 22, 0.6); }
+      100% { transform: scale(1); box-shadow: 0 10px 30px rgba(249, 115, 22, 0.4); }
+    }
+
+    .app-icon i {
+      font-size: 4rem;
+      color: white;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      background: linear-gradient(to right, var(--text-primary), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .subtitle {
+      font-size: 1.25rem;
+      color: var(--text-secondary);
+      max-width: 600px;
+      margin: 0 auto 2rem;
+      line-height: 1.6;
+    }
+
+    .download-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.8rem;
+      padding: 1.2rem 2.5rem;
+      background: var(--accent);
+      color: white;
+      border: none;
+      border-radius: var(--radius);
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      text-decoration: none;
+      margin: 1.5rem 0;
+      box-shadow: 0 5px 20px rgba(249, 115, 22, 0.4);
+    }
+
+    .download-btn:hover {
+      background: var(--accent-dark);
+      transform: translateY(-5px);
+      box-shadow: 0 8px 25px rgba(249, 115, 22, 0.6);
+    }
+
+    .download-btn i {
+      font-size: 1.5rem;
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin: 3rem 0;
+    }
+
+    .feature {
+      background: rgba(15, 23, 42, 0.5);
+      border: 1px solid var(--primary-light);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      transition: var(--transition);
+    }
+
+    .feature:hover {
+      transform: translateY(-5px);
+      border-color: var(--accent);
+    }
+
+    .feature i {
+      font-size: 2.5rem;
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+
+    .feature h3 {
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .feature p {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+    }
+
+    .instructions {
+      background: rgba(15, 23, 42, 0.5);
+      border-left: 4px solid var(--accent);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      margin: 2rem 0;
+      text-align: left;
+    }
+
+    .instructions h3 {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      margin-bottom: 1rem;
+      color: var(--accent);
+    }
+
+    .instructions ol {
+      padding-left: 1.5rem;
+    }
+
+    .instructions li {
+      margin-bottom: 0.8rem;
+      line-height: 1.6;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--text-secondary);
+      text-decoration: none;
+      margin-top: 2rem;
+      transition: var(--transition);
+    }
+
+    .back-link:hover {
+      color: var(--accent);
+    }
+
+    .footer-note {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      margin-top: 3rem;
+    }
+
+    @media (max-width: 768px) {
+      .download-container {
+        padding: 2rem;
+      }
+      
+      h1 {
+        font-size: 2rem;
+      }
+      
+      .subtitle {
+        font-size: 1.1rem;
+      }
+      
+      .app-icon {
+        width: 100px;
+        height: 100px;
+      }
+      
+      .app-icon i {
+        font-size: 3rem;
+      }
+      
+      .download-btn {
+        padding: 1rem 2rem;
+        font-size: 1rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .download-container {
+        padding: 1.5rem;
+      }
+      
+      h1 {
+        font-size: 1.7rem;
+      }
+      
+      .features {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="download-container">
+    <div class="app-icon">
+      <i class="fas fa-home"></i>
+    </div>
+    
+    <h1>Download Hauser NG Mobile App</h1>
+    
+    <p class="subtitle">
+      Experience seamless property management and real estate transactions on the go with our powerful mobile application.
+    </p>
+    
+    <a href="Hauser app.apk" download class="download-btn">
+      <i class="fas fa-download"></i>
+      Download for Android
+    </a>
+    
+    <div class="features">
+      <div class="feature">
+        <i class="fas fa-bolt"></i>
+        <h3>Fast & Efficient</h3>
+        <p>Quick access to properties and instant notifications</p>
+      </div>
+      
+      <div class="feature">
+        <i class="fas fa-shield-alt"></i>
+        <h3>Secure Platform</h3>
+        <p>Bank-level security for all your transactions</p>
+      </div>
+      
+      <div class="feature">
+        <i class="fas fa-sync-alt"></i>
+        <h3>Real-time Updates</h3>
+        <p>Instant property listing updates and messages</p>
+      </div>
+    </div>
+    
+    <div class="instructions">
+      <h3><i class="fas fa-info-circle"></i> Installation Instructions</h3>
+      <ol>
+        <li>Tap the download button above to get the APK file</li>
+        <li>Open the downloaded file from your device's notifications or Downloads folder</li>
+        <li>If prompted, allow installation from unknown sources in your device settings</li>
+        <li>Follow the on-screen instructions to complete installation</li>
+        <li>Open the app and sign in to your account</li>
+      </ol>
+    </div>
+    
+    <a href="index.html" class="back-link">
+      <i class="fas fa-arrow-left"></i>
+      Back to Home
+    </a>
+    
+    <p class="footer-note">
+      Version 2.1.5 | File Size: 28.4 MB | Requires Android 8.0 or later
+    </p>
+  </div>
+
+  <script>
+    // Simple animation on page load
+    document.addEventListener('DOMContentLoaded', () => {
+      const elements = ['.app-icon', 'h1', '.subtitle', '.download-btn', '.features', '.instructions'];
+      
+      elements.forEach((el, i) => {
+        const element = document.querySelector(el);
+        if (element) {
+          element.style.opacity = '0';
+          element.style.transform = 'translateY(20px)';
+          element.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+          
+          setTimeout(() => {
+            element.style.opacity = '1';
+            element.style.transform = 'translateY(0)';
+          }, 300 + (i * 200));
+        }
+      });
+    });
+  </script>
+</body>
+</html>

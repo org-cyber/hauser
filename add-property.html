@@ -2,178 +2,544 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Add Property - Hauser NG</title>
 
-  <!-- TailwindCSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            primary: "#0f172a",
-            accent: "#f97316"
-          }
-        }
-      }
-    };
-  </script>
-
-  <!-- Firebase -->
-  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore-compat.js"></script>
-
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
   <style>
+    :root {
+      --primary: #0f172a;
+      --primary-dark: #0a1120;
+      --primary-light: #1e293b;
+      --accent: #f97316;
+      --accent-dark: #ea580c;
+      --accent-light: #fb923c;
+      --text-primary: #f1f5f9;
+      --text-secondary: #cbd5e1;
+      --text-muted: #94a3b8;
+      --bg-primary: #0f172a;
+      --bg-secondary: #1e293b;
+      --border: #334155;
+      --error: #ef4444;
+      --success: #22c55e;
+      --warning: #f59e0b;
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.25);
+      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+      --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+      --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.35), 0 10px 10px -5px rgba(0, 0, 0, 0.15);
+      --radius-sm: 0.25rem;
+      --radius: 0.5rem;
+      --radius-lg: 0.75rem;
+      --radius-xl: 1rem;
+      --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
     body {
-      background: linear-gradient(to bottom right, #0f172a, #1e293b);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      color: var(--text-primary);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      line-height: 1.5;
+      padding: 2rem;
+      position: relative;
+      overflow-x: hidden;
     }
-    .glass {
-      background: rgba(255, 255, 255, 0.05);
-      backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+
+    body::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="15" cy="15" r="1.5" fill="%23cbd5e1" opacity="0.1"><animate attributeName="opacity" values="0.1;0.3;0.1" dur="4s" repeatCount="indefinite"/></circle><circle cx="85" cy="35" r="1" fill="%23cbd5e1" opacity="0.1"><animate attributeName="opacity" values="0.1;0.4;0.1" dur="5s" repeatCount="indefinite"/></circle><circle cx="45" cy="85" r="2" fill="%23cbd5e1" opacity="0.1"><animate attributeName="opacity" values="0.1;0.2;0.1" dur="6s" repeatCount="indefinite"/></circle></svg>');
+      animation: float 20s ease-in-out infinite;
+      pointer-events: none;
+      z-index: -1;
     }
+
+    @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-20px); } }
+
+    .container { display: flex; flex: 1; align-items: center; justify-content: center; }
+
+    .dashboard-link {
+      position: absolute; top: 1.5rem; left: 1.5rem;
+      color: var(--text-secondary); text-decoration: none; font-weight: 500;
+      transition: var(--transition); z-index: 10; display: flex; align-items: center; gap: 0.5rem;
+    }
+    .dashboard-link:hover { color: var(--accent); transform: translateX(-5px); }
+    .dashboard-link svg { width: 18px; height: 18px; }
+
+    .property-form-wrapper {
+      width: 100%; max-width: 1000px; display: grid; grid-template-columns: 1fr 1fr;
+      background-color: rgba(15, 23, 42, 0.85); border-radius: var(--radius-xl); box-shadow: var(--shadow-lg);
+      overflow: hidden; min-height: 700px; backdrop-filter: blur(12px); border: 1px solid var(--border);
+    }
+
+    .property-hero {
+      background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary) 100%);
+      padding: 3rem; display: flex; flex-direction: column; justify-content: center;
+      align-items: center; color: white; position: relative; overflow: hidden; border-right: 1px solid var(--border);
+    }
+
+    .property-hero::before {
+      content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%);
+      animation: rotate 30s linear infinite;
+    }
+    @keyframes rotate { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+    .hero-content { position: relative; z-index: 2; text-align: center; max-width: 400px; }
+    .hero-logo { font-size: 2rem; font-weight: 700; margin-bottom: 1.5rem; background: linear-gradient(to right, var(--text-primary), var(--accent-light)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .hero-title { font-size: 1.75rem; font-weight: 600; margin-bottom: 1rem; color: var(--text-primary); }
+    .hero-text { color: var(--text-secondary); margin-bottom: 2rem; line-height: 1.6; }
+    .hero-image { width: 100%; max-width: 300px; margin-top: 2rem; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3)); }
+
+    .property-form-container { padding: 3rem; display: flex; flex-direction: column; justify-content: center; background: rgba(15, 23, 42, 0.7); }
+
+    .form-header { margin-bottom: 2rem; }
+    .form-logo { font-size: 1.75rem; font-weight: 700; color: var(--accent); margin-bottom: 0.5rem; }
+    .form-title { font-size: 1.5rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--text-primary); }
+    .form-subtitle { color: var(--text-muted); font-size: 0.9375rem; margin-bottom: 1.5rem; }
+
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+    .form-group { margin-bottom: 1rem; }
+    .form-group.full-width { grid-column: span 2; }
+
+    .form-label { display: block; font-size: 0.875rem; font-weight: 500; margin-bottom: 0.5rem; color: var(--text-primary); }
+    .form-control {
+      width: 100%; padding: 0.75rem 1rem; font-size: 0.9375rem; border: 1px solid var(--border);
+      border-radius: var(--radius); background-color: rgba(30, 41, 59, 0.5); color: var(--text-primary); transition: var(--transition);
+    }
+    .form-control:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.1); }
+    .form-control::placeholder { color: var(--text-muted); opacity: 0.7; }
+    textarea.form-control { min-height: 100px; resize: vertical; }
+
+    .btn { display: inline-flex; align-items: center; justify-content: center; padding: 0.75rem 1.5rem; font-size: 0.9375rem; font-weight: 500; border-radius: var(--radius); cursor: pointer; transition: var(--transition); border: none; }
+    .btn-primary { background-color: var(--accent); color: white; }
+    .btn-primary:hover { background-color: var(--accent-dark); transform: translateY(-2px); box-shadow: 0 4px 6px -1px rgba(249, 115, 22, 0.3), 0 2px 4px -1px rgba(249, 115, 22, 0.2); }
+    .btn-block { width: 100%; display: block; }
+
+    .progress-container { width: 100%; background-color: rgba(30, 41, 59, 0.7); height: 8px; border-radius: 4px; overflow: hidden; margin-top: 1rem; }
+    .progress-bar { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent-light)); transition: width 0.3s ease; width: 0%; }
+
+    .status-message { text-align: center; font-size: 0.875rem; padding: 0.5rem; border-radius: var(--radius-sm); margin-top: 0.5rem; transition: var(--transition); }
+    .status-success { background-color: rgba(34, 197, 94, 0.15); color: var(--success); }
+    .status-error { background-color: rgba(239, 68, 68, 0.15); color: var(--error); }
+    .status-info { background-color: rgba(59, 130, 246, 0.15); color: #3b82f6; }
+
+    .form-footer { margin-top: 1.5rem; text-align: center; font-size: 0.875rem; color: var(--text-secondary); }
+    .form-footer a { color: var(--accent); font-weight: 500; text-decoration: none; transition: var(--transition); }
+    .form-footer a:hover { color: var(--accent-light); text-decoration: underline; }
+
+    .error-message { color: var(--error); font-size: 0.8125rem; margin-top: 0.25rem; display: none; }
+    .has-error .error-message { display: block; }
+    .has-error .form-control { border-color: var(--error); }
+
+    .file-input-wrapper { position: relative; overflow: hidden; display: inline-block; width: 100%; }
+    .file-input-wrapper input[type="file"] { position: absolute; left: 0; top: 0; opacity: 0; width: 100%; height: 100%; cursor: pointer; }
+
+    .file-input-label {
+      display: flex; align-items: center; justify-content: center; gap: 0.5rem; padding: 0.75rem 1rem;
+      background-color: rgba(30, 41, 59, 0.5); border: 1px dashed var(--border); border-radius: var(--radius);
+      color: var(--text-muted); transition: var(--transition); cursor: pointer; text-align: center; min-height: 44px;
+    }
+    .file-input-wrapper:hover .file-input-label { border-color: var(--accent); color: var(--accent); }
+    .file-input-icon { width: 20px; height: 20px; }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .property-form-wrapper { grid-template-columns: 1fr; max-width: 800px; }
+      .property-hero { display: none; }
+    }
+    @media (max-width: 768px) {
+      body { padding: 1rem; }
+      .property-form-container { padding: 2.5rem 2rem; }
+      .form-grid { grid-template-columns: 1fr; gap: 1rem; }
+      .form-group.full-width { grid-column: span 1; }
+    }
+    @media (max-width: 480px) {
+      .property-form-container { padding: 2rem 1.5rem; }
+      .form-header { margin-bottom: 1.5rem; }
+      .form-title { font-size: 1.25rem; }
+    }
+
+    .hidden { display: none !important; }
+    .mt-1 { margin-top: 0.25rem; } .mt-2 { margin-top: 0.5rem; } .mt-3 { margin-top: 0.75rem; }
+    .mt-4 { margin-top: 1rem; } .mt-5 { margin-top: 1.5rem; } .mt-6 { margin-top: 2rem; }
+    .mb-1 { margin-bottom: 0.25rem; } .mb-2 { margin-bottom: 0.5rem; } .mb-3 { margin-bottom: 0.75rem; }
+    .mb-4 { margin-bottom: 1rem; } .mb-5 { margin-bottom: 1.5rem; } .mb-6 { margin-bottom: 2rem; }
   </style>
 </head>
-<body class="text-white min-h-screen flex items-center justify-center p-6">
 
-<div class="glass p-8 rounded-2xl shadow-xl w-full max-w-md space-y-6">
-  <h1 class="text-2xl font-bold text-accent text-center">➕ Add Priority Property</h1>
+<body>
+  <!-- Dashboard Link -->
+  <a href="dashboard.html" class="dashboard-link">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+    </svg>
+    Back to Dashboard
+  </a>
 
-  <form id="propertyForm" class="space-y-4">
-    <input type="text" id="title" placeholder="Title" class="w-full p-2 rounded bg-white text-black" required>
-    <input type="number" id="price" placeholder="Price (₦)" class="w-full p-2 rounded bg-white text-black" required>
-    <input type="text" id="location" placeholder="Location" class="w-full p-2 rounded bg-white text-black" required>
-    <textarea id="description" placeholder="Description" class="w-full p-2 rounded bg-white text-black"></textarea>
-    <input type="text" id="createdBy" placeholder="Full Name (Who is Posting?)" class="w-full p-2 rounded bg-white text-black" required>
-    <input type="tel" id="phoneNumber" placeholder="Phone Number" class="w-full p-2 rounded bg-white text-black" required>
-    <input type="file" id="imageInput" accept="image/*" class="w-full p-2 rounded bg-white text-black" multiple required>
-    <button type="submit" class="bg-accent w-full py-2 rounded text-white font-bold hover:bg-orange-500">Add Priority Property</button>
-  </form>
+  <div class="container">
+    <div class="property-form-wrapper">
+      <div class="property-hero">
+        <div class="hero-content">
+          <div class="hero-logo">Hauser NG</div>
+          <h1 class="hero-title">Premium Property Listings</h1>
+          <p class="hero-text">
+            Priority listings get featured prominently across our platform, 
+            ensuring maximum visibility and faster transactions. 
+            Showcase your property to thousands of potential buyers and renters.
+          </p>
+          <svg class="hero-image" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+            <rect x="50" y="100" width="400" height="300" rx="10" fill="#1e293b" stroke="#f97316" stroke-width="3"/>
+            <rect x="70" y="130" width="360" height="40" rx="5" fill="#0f172a"/>
+            <rect x="70" y="190" width="150" height="190" rx="5" fill="#334155"/>
+            <rect x="240" y="190" width="190" height="90" rx="5" fill="#334155"/>
+            <rect x="240" y="300" width="190" height="80" rx="5" fill="#334155"/>
+            <circle cx="335" cy="340" r="15" fill="#f97316"/>
+            <rect x="290" cy="325" width="90" height="30" rx="5" fill="#0f172a"/>
+          </svg>
+        </div>
+      </div>
 
-  <div id="status" class="text-center mt-2"></div>
-  <div class="w-full bg-white h-2 rounded overflow-hidden mt-2">
-    <div id="progressBar" class="bg-accent h-2" style="width:0%"></div>
+      <div class="property-form-container">
+        <div class="form-header">
+          <div class="form-logo">Hauser NG</div>
+          <h2 class="form-title">Add Priority Property</h2>
+          <p class="form-subtitle">Premium listings get featured prominently across our platform</p>
+        </div>
+
+        <form id="listingForm" class="form-grid" novalidate>
+          <div class="form-group full-width">
+            <label for="title" class="form-label">Title</label>
+            <input type="text" id="title" class="form-control" placeholder="Duplex, self contain, apartment..." required>
+            <div class="error-message">Please enter a property title</div>
+          </div>
+
+          <div class="form-group">
+            <label for="price" class="form-label">Price (₦)</label>
+            <input type="number" id="price" class="form-control" placeholder="Enter price" min="1" required>
+            <div class="error-message">Please enter a valid price</div>
+          </div>
+
+          <div class="form-group">
+            <label for="location" class="form-label">Location</label>
+            <input type="text" id="location" class="form-control" placeholder="Umuchima, Eziobodo..." required>
+            <div class="error-message">Please enter a location</div>
+          </div>
+
+          <div class="form-group full-width">
+            <label for="description" class="form-label">Description</label>
+            <textarea id="description" class="form-control" placeholder="Detailed property description..."></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="createdBy" class="form-label">Your Full Name</label>
+            <input type="text" id="createdBy" class="form-control" placeholder="Who is posting?" required>
+            <div class="error-message">Please enter your name</div>
+          </div>
+
+          <div class="form-group">
+            <label for="phoneNumber" class="form-label">Phone Number</label>
+            <input type="tel" id="phoneNumber" class="form-control" placeholder="Your phone number" required>
+            <div class="error-message">Please enter a valid phone number</div>
+          </div>
+
+          <div class="form-group full-width">
+            <label for="media" class="form-label">Media (Images & Videos)</label>
+            <div class="file-input-wrapper">
+              <input type="file" id="media" accept="image/*,video/*" multiple required>
+              <div class="file-input-label">
+                <svg class="file-input-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" /></svg>
+                <span id="fileLabel">Select files or drag & drop here</span>
+              </div>
+            </div>
+            <div class="error-message">Please select at least one file</div>
+          </div>
+
+          <div class="form-group full-width mt-4">
+            <button type="submit" class="btn btn-primary btn-block" id="submitBtn">
+              <span id="submitText">Add Priority Property</span>
+            </button>
+          </div>
+
+          <div class="form-group full-width">
+            <div id="status" class="status-message" aria-live="polite"></div>
+            <div class="progress-container"><div id="progressBar" class="progress-bar"></div></div>
+          </div>
+        </form>
+
+        <div class="form-footer">Need help? <a href="#">Contact our support team</a></div>
+      </div>
+    </div>
   </div>
 
-  <p class="text-center mt-2"><a href="dashboard.html" class="text-accent underline">← Back to Dashboard</a></p>
-</div>
+  <!-- Firebase (MODULAR ONLY) -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+    import { getFirestore, collection, addDoc, serverTimestamp, doc, getDoc, setDoc, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
 
-<script>
-  const firebaseConfig = {
-    apiKey: "AIzaSyAHqg_u1DwWUB9l1vuoYDLKjCJl5Xx7Pbo",
-    authDomain: "hauserng-77cc2.firebaseapp.com",
-    projectId: "hauserng-77cc2",
-    storageBucket: "hauserng-77cc2.appspot.com",
-    messagingSenderId: "613578175402",
-    appId: "1:613578175402:web:db7413f898987ac6a1f1d3"
-  };
-  firebase.initializeApp(firebaseConfig);
+    // ✅ Firebase config
+    const firebaseConfig = {
+      apiKey: "AIzaSyAHqg_u1DwWUB9l1vuoYDLKjCJl5Xx7Pbo",
+      authDomain: "hauserng-77cc2.firebaseapp.com",
+      projectId: "hauserng-77cc2",
+      storageBucket: "hauserng-77cc2.appspot.com",
+      messagingSenderId: "613578175402",
+      appId: "1:613578175402:web:db7413f898987ac6a1f1d3"
+    };
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const auth = getAuth(app);
 
-  const auth = firebase.auth();
-  const db = firebase.firestore();
+    // ✅ ImageKit config (Upload API via XHR + Netlify function)
+    const IK_UPLOAD_URL = "https://upload.imagekit.io/api/v1/files/upload";
+    const IK_AUTH_URL = "/.netlify/functions/auth";
+    const IK_FOLDER = "/hauser"; // leading slash is fine
+    const IK_PUBLIC_KEY = "public_7QgGE7MPz7D7xJ/ouD0VpDiCl9M="; // <-- replace with your real public key if different
 
-  const statusP = document.getElementById('status');
-  const progressBar = document.getElementById('progressBar');
+    const form = document.getElementById("listingForm");
+    const statusEl = document.getElementById("status");
+    const progressEl = document.getElementById("progressBar");
+    const submitBtn = document.getElementById("submitBtn");
+    const submitText = document.getElementById("submitText");
+    const fileLabel = document.getElementById("fileLabel");
+    const mediaInput = document.getElementById("media");
 
-  let userData = null;
-
-  auth.onAuthStateChanged(async (user) => {
-    if (!user) {
-      return window.location.href = "login.html";
-    }
-
-    const doc = await db.collection("users").doc(user.uid).get();
-    if (!doc.exists) {
-      return statusP.textContent = "❌ User profile not found.";
-    }
-
-    userData = doc.data();
-
-    // If plan is free and they already posted once
-    if (userData.plan === "free" && userData.listingsCount >= 1) {
-      document.getElementById("propertyForm").style.display = "none";
-      statusP.innerHTML = "⚠️ You’ve reached your free listing limit. Upgrade to add more.";
-    }
-  });
-
-  document.getElementById('propertyForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
-
-    const files = document.getElementById('imageInput').files;
-    if (files.length === 0) {
-      return statusP.textContent = "❌ Please select at least one image.";
-    }
-
-    const uid = auth.currentUser.uid;
-
-    // Prevent second listing for free users (double-check)
-    if (userData.plan === "free" && userData.listingsCount >= 1) {
-      return statusP.textContent = "❌ Free users can only post one listing.";
-    }
-
-    const cloudName = 'dfz7ghdbm';
-    const uploadPreset = 'upload_preset';
-    const imageUrl = [];
-
-    try {
-      for (let i = 0; i < files.length; i++) {
-        const formData = new FormData();
-        formData.append('file', files[i]);
-        formData.append('upload_preset', uploadPreset);
-
-        const res = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
-          method: 'POST',
-          body: formData
-        });
-
-        const data = await res.json();
-        if (res.ok) {
-          imageUrl.push(data.secure_url);
-          progressBar.style.width = ((i + 1) / files.length * 100) + "%";
-        } else {
-          throw new Error("Upload failed.");
-        }
-      }
-
-      const title = document.getElementById('title').value;
-      const price = document.getElementById('price').value;
-      const location = document.getElementById('location').value;
-      const description = document.getElementById('description').value;
-      const createdBy = document.getElementById('createdBy').value;
-      const phoneNumber = document.getElementById('phoneNumber').value;
-
-      await db.collection("properties").add({
-        uid,
-        title,
-        price,
-        location,
-        description,
-        createdBy,
-        phoneNumber,
-        imageUrl,
-        priority: true,
-        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    function getCurrentUserOnce(auth) {
+      return new Promise((resolve) => {
+        const unsub = onAuthStateChanged(auth, (u) => { unsub(); resolve(u); });
       });
+    }
 
-      // Update listingsCount only for free users
-      if (userData.plan === "free") {
-        await db.collection("users").doc(uid).update({
-          listingsCount: 1
-        });
+    // Update file label when files are selected
+    mediaInput.addEventListener("change", function() {
+      if (this.files.length > 0) {
+        const count = this.files.length;
+        fileLabel.textContent = `${count} file${count > 1 ? 's' : ''} selected`;
+      } else {
+        fileLabel.textContent = "Select files or drag & drop here";
+      }
+    });
+
+    // 🔐 Get signed auth params from Netlify Function
+    async function getImageKitAuth() {
+      const res = await fetch(IK_AUTH_URL, { cache: "no-store" });
+      if (!res.ok) throw new Error("Failed to get upload authorization");
+      return res.json(); // { token, expire, signature }
+    }
+
+    // ⬆️ Upload to ImageKit with progress (XHR to preserve progress UI)
+    function uploadToImageKit(file, onProgress) {
+      return new Promise(async (resolve, reject) => {
+        try {
+          const authParams = await getImageKitAuth();
+
+          const xhr = new XMLHttpRequest();
+          xhr.open("POST", IK_UPLOAD_URL, true);
+
+          xhr.upload.onprogress = (evt) => {
+            if (evt.lengthComputable && typeof onProgress === "function") {
+              onProgress(evt.loaded, evt.total);
+            }
+          };
+
+          xhr.onload = () => {
+            try {
+              const res = JSON.parse(xhr.responseText || "{}");
+              if (xhr.status >= 200 && xhr.status < 300 && res?.url) {
+                resolve(res); // res.url is the CDN URL
+              } else {
+                reject(new Error(res?.message || "Upload failed"));
+              }
+            } catch {
+              reject(new Error("Invalid ImageKit response"));
+            }
+          };
+
+          xhr.onerror = () => reject(new Error("Network error during upload"));
+
+          const formData = new FormData();
+          formData.append("file", file);
+          formData.append("fileName", file.name);
+          // Required when uploading from the browser with signature auth
+          formData.append("publicKey", IK_PUBLIC_KEY);
+          formData.append("signature", authParams.signature);
+          formData.append("expire", authParams.expire);
+          formData.append("token", authParams.token);
+          formData.append("useUniqueFileName", "true");
+          formData.append("folder", IK_FOLDER);
+
+          xhr.send(formData);
+        } catch (e) {
+          reject(e);
+        }
+      });
+    }
+
+    function setLoading(isLoading) {
+      if (isLoading) {
+        submitBtn.classList.add("loading");
+        submitBtn.disabled = true;
+        submitText.textContent = "Uploading...";
+      } else {
+        submitBtn.classList.remove("loading");
+        submitBtn.disabled = false;
+        submitText.textContent = "Add Priority Property";
+      }
+    }
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      statusEl.textContent = "";
+      statusEl.className = "status-message";
+      progressEl.style.width = "0%";
+
+      const title = document.getElementById("title").value.trim();
+      const description = document.getElementById("description").value.trim();
+      const priceRaw = document.getElementById("price").value.trim();
+      const price = Number(priceRaw);
+      const location = document.getElementById("location").value.trim();
+      const createdBy = document.getElementById("createdBy").value.trim();
+      const phoneNumber = document.getElementById("phoneNumber").value.trim();
+      const files = Array.from(document.getElementById("media").files || []);
+
+      // Minimal guard to avoid accidental bad writes
+      if (!title || !location || !createdBy || !phoneNumber || !priceRaw || Number.isNaN(price) || price <= 0) {
+        statusEl.textContent = "⚠️ Please fill all required fields with valid values.";
+        statusEl.className = "status-message status-error";
+        return;
       }
 
-      statusP.textContent = "✅ Property added!";
-      progressBar.style.width = "100%";
-      document.getElementById("propertyForm").reset();
+      if (!files.length) {
+        statusEl.textContent = "⚠️ Please select at least one image or video.";
+        statusEl.className = "status-message status-error";
+        return;
+      }
 
-      setTimeout(() => window.location.href = "dashboard.html", 1500);
-    } catch (err) {
-      console.error(err);
-      statusP.textContent = "❌ Error uploading or saving.";
-    }
-  });
-</script>
+      const user = await getCurrentUserOnce(auth);
+      if (!user) {
+        statusEl.textContent = "⚠️ You must be logged in to submit a listing.";
+        statusEl.className = "status-message status-error";
+        return;
+      }
+
+      setLoading(true);
+
+      try {
+        // read user doc once
+        const userDocRef = doc(db, "users", user.uid);
+        let userPlanLocal = "free";
+        let userSnap = null;
+        try {
+          userSnap = await getDoc(userDocRef);
+          if (userSnap.exists()) {
+            userPlanLocal = userSnap.data().plan || "free";
+          }
+        } catch (planErr) {
+          console.warn("Could not read user plan, defaulting to free:", planErr);
+        }
+
+        const isPremium = userPlanLocal === "premium";
+
+        // Enforce one-listing-for-free rule (lifetime)
+        if (!isPremium) {
+          const freeUsedFlag = !!(userSnap && userSnap.exists() && userSnap.data().freeListingUsed);
+          if (freeUsedFlag) {
+            statusEl.textContent = "⚠️ Free accounts are allowed only one listing ever. Upgrade to premium for unlimited listings.";
+            statusEl.className = "status-message status-error";
+            setLoading(false);
+            return;
+          }
+
+          const q = query(collection(db, "properties"), where("uid", "==", user.uid));
+          const querySnapshot = await getDocs(q);
+          if (!querySnapshot.empty) {
+            try { await setDoc(userDocRef, { freeListingUsed: true }, { merge: true }); } catch(e) { console.warn('Could not set freeListingUsed:', e); }
+            statusEl.textContent = "⚠️ Free accounts are allowed only one listing ever. Upgrade to premium for unlimited listings.";
+            statusEl.className = "status-message status-error";
+            setLoading(false);
+            return;
+          }
+        }
+
+        // proceed with uploads
+        const media = [];
+        const totalFiles = files.length;
+
+        for (let i = 0; i < totalFiles; i++) {
+          const file = files[i];
+
+          // optional size guard
+          const maxBytes = 200 * 1024 * 1024; // 200MB
+          if (file.size > maxBytes) {
+            throw new Error(`${file.name} is larger than 200MB.`);
+          }
+
+          statusEl.textContent = `Uploading ${i + 1}/${totalFiles}: ${file.name}`;
+          statusEl.className = "status-message status-info";
+
+          const res = await uploadToImageKit(file, (loaded, total) => {
+            const perFile = 100 / totalFiles;
+            const doneBefore = i * perFile;
+            const currentPart = (loaded / total) * perFile;
+            const overall = Math.min(100, doneBefore + currentPart);
+            progressEl.style.width = overall.toFixed(2) + "%";
+          });
+
+          const isVideo = file.type.startsWith("video/");
+          media.push({ url: res.url, type: isVideo ? "video" : "image" });
+        }
+
+        // Save property to Firestore
+        await addDoc(collection(db, "properties"), {
+          title,
+          description,
+          price,
+          location,
+          createdBy,
+          phoneNumber,
+          media,
+          uid: user.uid,
+          createdAt: serverTimestamp(),
+          plan: userPlanLocal,
+          priority: isPremium
+        });
+
+        if (!isPremium) {
+          try { await setDoc(userDocRef, { freeListingUsed: true }, { merge: true }); } catch(e) { console.warn('Could not set freeListingUsed after post:', e); }
+        }
+
+        progressEl.style.width = "100%";
+        statusEl.textContent = "✅ Property listed successfully!";
+        statusEl.className = "status-message status-success";
+        form.reset();
+        fileLabel.textContent = "Select files or drag & drop here";
+
+        setTimeout(() => {
+          progressEl.style.width = "0%";
+          statusEl.textContent = "";
+        }, 2000);
+
+      } catch (err) {
+        console.error(err);
+        statusEl.textContent = "❌ " + (err?.message || "Something went wrong while uploading.");
+        statusEl.className = "status-message status-error";
+        progressEl.style.width = "0%";
+      } finally {
+        setLoading(false);
+      }
+    });
+  </script>
 
 </body>
 </html>

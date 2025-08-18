@@ -4,66 +4,485 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Agent Login - Hauser NG</title>
-
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            primary: '#0f172a',
-            accent: '#f97316',
-            light: '#ffffff'
-          }
-        }
-      }
-    }
-  </script>
-
   <!-- Firebase UMD Scripts (only once!) -->
   <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore-compat.js"></script>
-
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    body {
-      background: linear-gradient(to bottom right, #0f172a, #1e293b);
+    :root {
+      --primary-dark: #0f172a;
+      --primary-blue: #1e40af;
+      --primary-light: #3b82f6;
+      --accent: #f59e0b;
+      --text-primary: #1f2937;
+      --text-secondary: #6b7280;
+      --text-light: #9ca3af;
+      --bg-light: #f8fafc;
+      --bg-white: #ffffff;
+      --border-light: #e5e7eb;
+      --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+      --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+      --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+      --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+      --gradient-primary: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
+      --gradient-accent: linear-gradient(135deg, #d97706 0%, #f59e0b 100%);
+      --gradient-bg: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      --transition-base: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    .glass {
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      line-height: 1.6;
+      color: var(--text-primary);
+      background: var(--gradient-bg);
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* Animated background particles */
+    body::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><radialGradient id="g1" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="%233b82f6" stop-opacity="0.1"/><stop offset="100%" stop-color="transparent"/></radialGradient><radialGradient id="g2" cx="80%" cy="20%" r="40%"><stop offset="0%" stop-color="%23f59e0b" stop-opacity="0.1"/><stop offset="100%" stop-color="transparent"/></radialGradient></defs><rect width="1000" height="1000" fill="url(%23g1)"/><rect width="1000" height="1000" fill="url(%23g2)"/></svg>');
+      animation: float 20s ease-in-out infinite;
+      opacity: 0.6;
+      pointer-events: none;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-10px) rotate(1deg); }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.02); }
+    }
+
+    .login-container {
       background: rgba(255, 255, 255, 0.05);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
       border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 1.5rem;
+      box-shadow: var(--shadow-xl);
+      animation: fadeInUp 1s ease-out;
+      position: relative;
+      overflow: hidden;
+      max-width: 28rem;
+      width: 100%;
+      padding: 3rem;
+      margin: 2rem;
+    }
+
+    .login-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+      transition: left 0.7s ease;
+    }
+
+    .login-container:hover::before {
+      left: 100%;
+    }
+
+    .form-input {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 0.75rem;
+      color: white;
+      transition: var(--transition-base);
+      padding: 1rem 1.25rem;
+      width: 100%;
+      font-size: 1rem;
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: var(--primary-light);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .form-input::placeholder {
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    .btn-primary {
+      background: var(--gradient-accent);
+      border: none;
+      border-radius: 0.75rem;
+      color: white;
+      font-weight: 600;
+      transition: var(--transition-base);
+      padding: 1rem 1.5rem;
+      width: 100%;
+      font-size: 1rem;
+      box-shadow: var(--shadow-lg);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-xl);
+      opacity: 0.95;
+    }
+
+    .btn-primary:active {
+      transform: translateY(0);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 0.75rem;
+      color: white;
+      font-weight: 500;
+      transition: var(--transition-base);
+      padding: 0.75rem 1.5rem;
+      font-size: 0.875rem;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.3);
+      transform: translateY(-2px);
+    }
+
+    .logo {
+      font-size: 2rem;
+      font-weight: 800;
+      color: white;
+      text-align: center;
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .logo::before {
+      content: '🏠';
+      font-size: 1.5rem;
+    }
+
+    .form-label {
+      color: rgba(255, 255, 255, 0.9);
+      font-weight: 500;
+      margin-bottom: 0.75rem;
+      display: block;
+      font-size: 0.9375rem;
+    }
+
+    .error-message {
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.2);
+      border-radius: 0.75rem;
+      color: #ef4444;
+      padding: 1rem;
+      margin-top: 1rem;
+      font-size: 0.875rem;
+    }
+
+    .success-message {
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.2);
+      border-radius: 0.75rem;
+      color: #10b981;
+      padding: 1rem;
+      margin-top: 1rem;
+      font-size: 0.875rem;
+    }
+
+    .modal-overlay {
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 50;
+    }
+
+    .modal-content {
+      background: rgba(15, 23, 42, 0.95);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 1.5rem;
+      box-shadow: var(--shadow-xl);
+      padding: 2.5rem;
+      max-width: 28rem;
+      width: calc(100% - 2rem);
+      margin: 1rem;
+      animation: fadeInUp 0.5s ease-out;
+    }
+
+    .home-link {
+      position: absolute;
+      top: 2rem;
+      left: 2rem;
+      color: rgba(255, 255, 255, 0.8);
+      text-decoration: none;
+      font-weight: 500;
+      transition: var(--transition-base);
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .home-link:hover {
+      color: var(--accent);
+      transform: translateX(-4px);
+    }
+
+    .home-link::before {
+      content: '←';
+    }
+
+    /* Loading animation */
+    .loading {
+      opacity: 0.8;
+      pointer-events: none;
+    }
+
+    .loading::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 20px;
+      height: 20px;
+      margin: -10px 0 0 -10px;
+      border: 2px solid transparent;
+      border-top: 2px solid white;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Layout utilities */
+    .flex {
+      display: flex;
+    }
+
+    .items-center {
+      align-items: center;
+    }
+
+    .justify-center {
+      justify-content: center;
+    }
+
+    .min-h-screen {
+      min-height: 100vh;
+    }
+
+    .text-white {
+      color: white;
+    }
+
+    .w-full {
+      width: 100%;
+    }
+
+    .relative {
+      position: relative;
+    }
+
+    .text-center {
+      text-align: center;
+    }
+
+    .mb-8 {
+      margin-bottom: 2rem;
+    }
+
+    .space-y-6 > * + * {
+      margin-top: 1.5rem;
+    }
+
+    .space-y-4 > * + * {
+      margin-top: 1rem;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .mt-6 {
+      margin-top: 1.5rem;
+    }
+
+    .text-sm {
+      font-size: 0.875rem;
+    }
+
+    .text-xl {
+      font-size: 1.25rem;
+    }
+
+    .font-semibold {
+      font-weight: 600;
+    }
+
+    .mb-6 {
+      margin-bottom: 1.5rem;
+    }
+
+    .mt-4 {
+      margin-top: 1rem;
+    }
+
+    .font-medium {
+      font-weight: 500;
+    }
+
+    .text-2xl {
+      font-size: 1.5rem;
+    }
+
+    .font-bold {
+      font-weight: 700;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .login-container {
+        padding: 2rem 1.5rem;
+        margin: 1rem;
+      }
+
+      .home-link {
+        top: 1.5rem;
+        left: 1.5rem;
+        font-size: 0.9375rem;
+      }
+
+      .modal-content {
+        padding: 2rem 1.5rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .login-container {
+        padding: 1.75rem 1.25rem;
+      }
+
+      .home-link {
+        top: 1rem;
+        left: 1rem;
+      }
+
+      .logo {
+        font-size: 1.75rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .text-2xl {
+        font-size: 1.375rem;
+      }
+    }
+
+    /* High contrast mode support */
+    @media (prefers-contrast: high) {
+      :root {
+        --text-secondary: #374151;
+        --border-light: #d1d5db;
+      }
+
+      .form-input,
+      .login-container,
+      .modal-content {
+        border: 2px solid var(--border-light);
+      }
+    }
+
+    /* Reduced motion support */
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
     }
   </style>
 </head>
 
-<body class="flex items-center justify-center min-h-screen text-white font-sans">
-  <div class="glass p-8 rounded-2xl w-full max-w-sm shadow-xl">
-    <h2 class="text-3xl font-bold text-center text-accent mb-6">Agent Login</h2>
+<body class="flex items-center justify-center min-h-screen">
+  <!-- Home Link -->
+  <a href="index.html" class="home-link">Back to Home</a>
+
+  <div class="login-container">
+    <div class="logo">Hauser NG</div>
+    <h2 class="text-2xl font-bold text-white text-center mb-8">Agent Login</h2>
 
     <form id="loginForm" class="space-y-6">
       <div>
-        <label for="email" class="block mb-2 text-sm font-medium">Email</label>
+        <label for="email" class="form-label">Email Address</label>
         <input type="email" id="email" placeholder="Enter your email"
-          class="w-full p-3 rounded-lg glass text-white placeholder-gray-400" required />
+          class="form-input" required />
       </div>
       <div>
-        <label for="pin" class="block mb-2 text-sm font-medium">Password</label>
+        <label for="pin" class="form-label">Password</label>
         <input type="password" id="pin" placeholder="Enter your password"
-          class="w-full p-3 rounded-lg glass text-white placeholder-gray-400" required />
+          class="form-input" required />
       </div>
 
-      <button type="submit"
-        class="bg-accent hover:bg-orange-600 transition p-3 rounded-lg font-bold text-white w-full">Login</button>
+      <button type="submit" class="btn-primary relative">
+        <span id="loginText">Login to Dashboard</span>
+      </button>
 
-      <p id="errorMsg" class="text-red-500 text-sm mt-2 hidden">Invalid email or password. Please try again.</p>
+      <p id="errorMsg" class="error-message text-sm hidden">Invalid email or password. Please try again.</p>
 
       <!-- Forgot Password -->
-      <div class="text-center mt-4">
-        <button type="button" id="forgotPasswordBtn" class="text-sm text-accent hover:underline">
+      <div class="text-center mt-6">
+        <button type="button" id="forgotPasswordBtn" class="btn-secondary text-sm">
           Forgot Password?
         </button>
       </div>
@@ -71,14 +490,20 @@
   </div>
 
   <!-- Password Reset Modal -->
-  <div id="resetModal" class="fixed inset-0 bg-black bg-opacity-60 hidden items-center justify-center z-50">
-    <div class="glass p-6 rounded-xl w-full max-w-sm">
-      <h3 class="text-xl font-semibold mb-4 text-accent text-center">Reset Password</h3>
-      <input type="email" id="resetEmail" placeholder="Enter your email"
-        class="w-full p-3 rounded-lg glass text-white placeholder-gray-400 mb-4" />
-      <button id="sendResetLink"
-        class="w-full bg-accent hover:bg-orange-600 transition p-3 rounded-lg font-bold text-white">Send Reset Link</button>
-      <p id="resetStatus" class="text-sm mt-2 text-center hidden"></p>
+  <div id="resetModal" class="modal-overlay hidden">
+    <div class="modal-content">
+      <h3 class="text-xl font-semibold text-white text-center mb-6">Reset Password</h3>
+      <div class="space-y-4">
+        <input type="email" id="resetEmail" placeholder="Enter your email address"
+          class="form-input" />
+        <button id="sendResetLink" class="btn-primary">
+          Send Reset Link
+        </button>
+        <p id="resetStatus" class="text-sm text-center hidden"></p>
+      </div>
+      <button onclick="closeModal()" class="btn-secondary w-full mt-4 font-medium">
+        Cancel
+      </button>
     </div>
   </div>
 
@@ -97,17 +522,39 @@
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
 
+    // Loading state management
+    function setLoading(isLoading) {
+      const loginBtn = document.querySelector('button[type="submit"]');
+      const loginText = document.getElementById('loginText');
+      
+      if (isLoading) {
+        loginBtn.classList.add('loading');
+        loginText.textContent = 'Signing in...';
+      } else {
+        loginBtn.classList.remove('loading');
+        loginText.textContent = 'Login to Dashboard';
+      }
+    }
+
     // Login handler
     document.getElementById('loginForm').addEventListener('submit', function (e) {
       e.preventDefault();
       const email = document.getElementById('email').value;
       const password = document.getElementById('pin').value;
+      const errorMsg = document.getElementById('errorMsg');
+
+      // Hide previous error
+      errorMsg.classList.add('hidden');
+      
+      // Set loading state
+      setLoading(true);
 
       auth.signInWithEmailAndPassword(email, password)
         .then((userCredential) => {
           const user = userCredential.user;
           console.log("Logged in as:", user.email);
 
+          // Redirect based on user email (keeping original logic)
           switch (user.email.toLowerCase()) {
             case 'agent1@hauserng.com':
               window.location.href = 'dashboard.html';
@@ -128,9 +575,24 @@
         })
         .catch((error) => {
           console.error("Login failed:", error);
-          document.getElementById('errorMsg').classList.remove('hidden');
+          setLoading(false);
+          errorMsg.classList.remove('hidden');
+          
+          // Add shake animation to form
+          const container = document.querySelector('.login-container');
+          container.style.animation = 'none';
+          setTimeout(() => {
+            container.style.animation = 'fadeInUp 0.5s ease-out';
+          }, 10);
         });
     });
+
+    // Modal functions
+    function closeModal() {
+      document.getElementById('resetModal').classList.add('hidden');
+      document.getElementById('resetStatus').classList.add('hidden');
+      document.getElementById('resetEmail').value = '';
+    }
 
     // Forgot Password Modal
     const forgotBtn = document.getElementById('forgotPasswordBtn');
@@ -143,22 +605,80 @@
       resetStatus.classList.add('hidden');
     });
 
+    // Close modal when clicking outside
+    resetModal.addEventListener('click', (e) => {
+      if (e.target === resetModal) {
+        closeModal();
+      }
+    });
+
     sendReset.addEventListener('click', () => {
       const email = document.getElementById('resetEmail').value;
-      if (!email) return;
+      if (!email) {
+        resetStatus.textContent = "Please enter your email address";
+        resetStatus.className = "error-message text-sm text-center";
+        resetStatus.classList.remove('hidden');
+        return;
+      }
+
+      // Set loading state for reset button
+      const originalText = sendReset.textContent;
+      sendReset.textContent = 'Sending...';
+      sendReset.disabled = true;
 
       auth.sendPasswordResetEmail(email)
         .then(() => {
-          resetStatus.textContent = "✅ Password reset email sent!";
-          resetStatus.className = "text-green-400 text-sm mt-2 text-center";
+          resetStatus.textContent = "Password reset email sent! Check your inbox.";
+          resetStatus.className = "success-message text-sm text-center";
           resetStatus.classList.remove('hidden');
+          
+          // Reset button after success
+          setTimeout(() => {
+            sendReset.textContent = originalText;
+            sendReset.disabled = false;
+          }, 2000);
         })
         .catch((error) => {
-          resetStatus.textContent = "❌ " + error.message;
-          resetStatus.className = "text-red-400 text-sm mt-2 text-center";
+          resetStatus.textContent = error.message;
+          resetStatus.className = "error-message text-sm text-center";
           resetStatus.classList.remove('hidden');
+          
+          // Reset button after error
+          sendReset.textContent = originalText;
+          sendReset.disabled = false;
         });
     });
+
+    // Add some interactive effects
+    document.querySelectorAll('.form-input').forEach(input => {
+      input.addEventListener('focus', function() {
+        this.parentElement.style.transform = 'translateY(-2px)';
+      });
+      
+      input.addEventListener('blur', function() {
+        this.parentElement.style.transform = 'translateY(0)';
+      });
+    });
+
+    // Escape key to close modal
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeModal();
+      }
+    });
+
+    // Touch device detection for hover effects
+    let isTouchDevice = false;
+    try {
+      document.createEvent('TouchEvent');
+      isTouchDevice = true;
+    } catch (e) {
+      isTouchDevice = false;
+    }
+
+    if (isTouchDevice) {
+      document.body.classList.add('touch-device');
+    }
   </script>
 </body>
 </html>

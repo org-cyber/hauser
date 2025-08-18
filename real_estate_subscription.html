@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Subscriptions - PropertyHub</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 4rem;
+            color: white;
+        }
+        
+        .header h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            animation: fadeInUp 1s ease-out;
+        }
+        
+        .header p {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            animation: fadeInUp 1s ease-out 0.2s both;
+        }
+        
+        .pricing-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+        
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 3rem 2rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            animation: slideInUp 0.8s ease-out;
+        }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.25);
+        }
+        
+        .card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .card.popular {
+            border: 2px solid #667eea;
+            transform: scale(1.05);
+            z-index: 2;
+        }
+        
+        .popular-badge {
+            position: absolute;
+            top: -10px;
+            right: 20px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .plan-name {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: #2d3748;
+        }
+        
+        .plan-description {
+            color: #718096;
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+        
+        .price {
+            
+            align-items: baseline;
+            margin-bottom: 2rem;
+             margin-right: 15px;
+        }
+        
+        .price-amount {
+            font-size: 2.8rem;
+            font-weight: 800;
+            color: #2d3748;
+            margin-right: 0.5rem;
+        }
+        
+        .price-period {
+            color: #505b6d;
+            font-size: 1.6rem;
+        }
+        
+        .features {
+            list-style: none;
+            margin-bottom: 2.5rem;
+        }
+        
+        .features li {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            color: #4a5568;
+        }
+        
+        .check-icon {
+            width: 24px;
+            height: 24px;
+            background: linear-gradient(45deg, #48bb78, #38a169);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+        
+        .check-icon::after {
+            content: '✓';
+            color: white;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        
+        .cta-button {
+            width: 100%;
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
+        }
+        
+        .cta-button:hover::before {
+            left: 100%;
+        }
+        
+        .primary-button {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+        }
+        
+        .primary-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+        
+        .secondary-button {
+            background: transparent;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+        
+        .secondary-button:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .benefits {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 3rem;
+            color: white;
+            text-align: center;
+        }
+        
+        .benefits h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            font-weight: 700;
+        }
+        
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .benefit-item {
+            text-align: center;
+            padding: 1.5rem;
+        }
+        
+        .benefit-icon {
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 2rem;
+            transition: transform 0.3s ease;
+        }
+        
+        .benefit-item:hover .benefit-icon {
+            transform: scale(1.1);
+        }
+        
+        .benefit-item h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+        
+        .benefit-item p {
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+        
+        .faq {
+            background: white;
+            border-radius: 24px;
+            padding: 3rem;
+            margin-top: 4rem;
+        }
+        
+        .faq h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #2d3748;
+        }
+        
+        .faq-item {
+            border-bottom: 1px solid #e2e8f0;
+            padding: 1.5rem 0;
+        }
+        
+        .faq-question {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #2d3748;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .faq-answer {
+            color: #718096;
+            margin-top: 1rem;
+            line-height: 1.6;
+            display: none;
+        }
+        
+        .faq-answer.show {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .pricing-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .card.popular {
+                transform: none;
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+        }
+        .custom-alert {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.custom-alert-box {
+  background: #fff;
+  padding: 20px 30px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 0 20px rgba(0,0,0,0.3);
+  max-width: 400px;
+}
+
+.custom-alert.hidden {
+  display: none;
+}
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Premium Subscriptions</h1>
+            <p>Boost your real estate business with our premium features</p>
+        </div>
+        
+        <div class="pricing-cards">
+            <div class="card">
+                <div class="plan-name">Premium</div>
+                <div class="plan-description">Perfect for individual agents getting started</div>
+                <div class="price">
+                    <span class="price-amount">N6,000</span>
+                    <span class="price-period">/month</span>
+                </div>
+                <ul class="features">
+                    <li><span class="check-icon"></span>Unlimited listings</li>
+                    <li><span class="check-icon"></span>Verified badge on listings</li>
+                    <li><span class="check-icon"></span>Email support</li>
+                    <li><span class="check-icon"></span>Priority placement in search</li>
+                </ul>
+                <button class="cta-button secondary-button">Contact Sales</button>
+            </div>
+            
+            <div class="card popular">
+                <div class="popular-badge">Most Popular</div>
+                <div class="plan-name">Professional</div>
+                <div class="plan-description">Ideal for established agents and small teams</div>
+                <div class="price">
+                    <span class="price-amount">N32,000</span><br>
+                    <span class="price-period">/6 Months</span>
+                </div>
+                <ul class="features">
+                    <li><span class="check-icon"></span>Unlimited listings</li>
+                    <li><span class="check-icon"></span>Verified badge on listings</li>
+                    <li><span class="check-icon"></span>Chat & email support</li>
+                    <li><span class="check-icon"></span>Priority placement in search</li>
+                    <li><span class="check-icon"></span>Proffesional Profile Page</li>
+                </ul>
+                <button class="cta-button primary-button">Contact Sales</button>
+            </div>
+            
+            <div class="card">
+                <div class="plan-name">Enterprise</div>
+                <div class="plan-description">For large agencies and enterprise clients</div>
+                <div class="price">
+                    <span class="price-amount">N70,000</span>
+                    <span class="price-period">/Year</span>
+                </div>
+                <ul class="features">
+                    <li><span class="check-icon"></span>Unlimited listings</li>
+                    <li><span class="check-icon"></span>Verified badge on listings</li>
+                    <li><span class="check-icon"></span>Top priority placement</li>
+                    <li><span class="check-icon"></span>Chat & email support</li>
+                    <li><span class="check-icon"></span>Proffesional Profile Page</li>
+                </ul>
+                <button class="cta-button secondary-button">Contact Sales</button>
+            </div>
+        </div>
+        
+        <div class="benefits">
+            <h2>Why Choose Premium?</h2>
+            <div class="benefits-grid">
+                <div class="benefit-item">
+                    <div class="benefit-icon">🏆</div>
+                    <h3>Stand Out</h3>
+                    <p>Your verified listings build instant trust with potential buyers and sellers</p>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-icon">🚀</div>
+                    <h3>Get Noticed</h3>
+                    <p>Priority placement ensures your properties are seen first by interested buyers</p>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-icon">💬</div>
+                    <h3>Expert Support</h3>
+                    <p>Get help when you need it with our dedicated chat and email support team</p>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-icon">📈</div>
+                    <h3>Unlimited Growth</h3>
+                    <p>No limits on listings means no limits on your business potential</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="faq">
+            <h2>Frequently Asked Questions</h2>
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(0)">
+                    What's included in the verified badge? 
+                    <span id="arrow-0">▼</span>
+                </div>
+                <div class="faq-answer" id="faq-0">
+                    The verified badge appears on all your listings, showing potential clients that you're a trusted, premium agent. This increases click-through rates and inquiries by up to 40%.
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(1)">
+                    How does priority placement work?
+                    <span id="arrow-1">▼</span>
+                </div>
+                <div class="faq-answer" id="faq-1">
+                    Your listings appear at the top of search results and category pages, giving you maximum visibility. Priority placement increases your listing views by an average of 3x.
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(2)">
+                    Can I upgrade or downgrade anytime?
+                    <span id="arrow-2">▼</span>
+                </div>
+                <div class="faq-answer" id="faq-2">
+                    Yes! You can change your subscription plan at any time. Upgrades take effect immediately, and downgrades take effect at your next billing cycle.
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(3)">
+                    Is there a contract or can I cancel anytime?
+                    <span id="arrow-3">▼</span>
+                </div>
+                <div class="faq-answer" id="faq-3">
+                    No contracts required! You can cancel your subscription at any time. Your premium features will remain active until the end of your current billing period.
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function toggleFaq(index) {
+            const answer = document.getElementById(`faq-${index}`);
+            const arrow = document.getElementById(`arrow-${index}`);
+            
+            if (answer.classList.contains('show')) {
+                answer.classList.remove('show');
+                arrow.style.transform = 'rotate(0deg)';
+            } else {
+                // Close all other FAQs
+                document.querySelectorAll('.faq-answer').forEach(a => a.classList.remove('show'));
+                document.querySelectorAll('[id^="arrow-"]').forEach(a => a.style.transform = 'rotate(0deg)');
+                
+                // Open clicked FAQ
+                answer.classList.add('show');
+                arrow.style.transform = 'rotate(180deg)';
+            }
+        }
+        
+        // Add click handlers to buttons
+       document.querySelectorAll('.cta-button').forEach(button => {
+    button.addEventListener('click', function() {
+        const plan = this.closest('.card').querySelector('.plan-name').textContent;
+        window.location.href = "https://cust.fillout.com/premium";
+    });
+});
+        
+        // Add scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.card, .benefit-item').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+    </script>
+    <div id="custom-alert" class="custom-alert hidden">
+  <div class="custom-alert-box">
+    <p id="custom-alert-text"></p>
+    <button onclick="closeAlert()">OK</button>
+  </div>
+</div>
+
+</body>
+</html>

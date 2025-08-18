@@ -1,0 +1,9 @@
+[build]
+  publish = "."          # Root folder of your site (adjust if using /dist or /public)
+  functions = "functions"
+
+[dev]
+  functions = "functions"
+  publish = "."
+  port = 8888            # optional: change if you want a custom local port
+  autoLaunch = true      # automatically opens browser during `netlify dev`
