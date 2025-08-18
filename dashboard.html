@@ -732,7 +732,8 @@ body::before {
 
                     if (remainingListings.empty) {
                       await db.collection("users").doc(uid).update({
-                        listingsCount: 0
+                        listingsCount: 0,
+                        freeListingUsed: false   // 👈 reset the flag here
                       });
                       console.log("✅ listingsCount reset to 0 for free user.");
                     }
