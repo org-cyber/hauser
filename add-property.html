@@ -300,11 +300,11 @@
     const db = getFirestore(app);
     const auth = getAuth(app);
 
-    // ✅ ImageKit config (Upload API via XHR + Netlify function)
-    const IK_UPLOAD_URL = "https://upload.imagekit.io/api/v1/files/upload";
-    const IK_AUTH_URL = "/.netlify/functions/auth";
-    const IK_FOLDER = "/hauser"; // leading slash is fine
-    const IK_PUBLIC_KEY = "public_7QgGE7MPz7D7xJ/ouD0VpDiCl9M="; // <-- replace with your real public key if different
+    // ✅ Cloudinary config (Unsigned upload preset)
+    const CLOUDINARY_CLOUD_NAME = "dfsn59fwf";            // <-- change me
+    const CLOUDINARY_UPLOAD_PRESET = "hauser_preset";    // <-- change me (unsigned)
+    const CLOUDINARY_FOLDER = "hauser/listings";                // optional
+    const CLOUDINARY_UPLOAD_URL = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/auto/upload`;
 
     const form = document.getElementById("listingForm");
     const statusEl = document.getElementById("status");
@@ -330,58 +330,43 @@
       }
     });
 
-    // 🔐 Get signed auth params from Netlify Function
-    async function getImageKitAuth() {
-      const res = await fetch(IK_AUTH_URL, { cache: "no-store" });
-      if (!res.ok) throw new Error("Failed to get upload authorization");
-      return res.json(); // { token, expire, signature }
-    }
+    // ⬆️ Upload to Cloudinary with progress (XHR keeps the progress UI)
+    function uploadToCloudinary(file, onProgress) {
+      return new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", CLOUDINARY_UPLOAD_URL, true);
 
-    // ⬆️ Upload to ImageKit with progress (XHR to preserve progress UI)
-    function uploadToImageKit(file, onProgress) {
-      return new Promise(async (resolve, reject) => {
-        try {
-          const authParams = await getImageKitAuth();
+        // progress
+        xhr.upload.onprogress = (evt) => {
+          if (evt.lengthComputable && typeof onProgress === "function") {
+            onProgress(evt.loaded, evt.total);
+          }
+        };
 
-          const xhr = new XMLHttpRequest();
-          xhr.open("POST", IK_UPLOAD_URL, true);
-
-          xhr.upload.onprogress = (evt) => {
-            if (evt.lengthComputable && typeof onProgress === "function") {
-              onProgress(evt.loaded, evt.total);
+        xhr.onload = () => {
+          try {
+            const res = JSON.parse(xhr.responseText || "{}");
+            if (xhr.status >= 200 && xhr.status < 300 && res?.secure_url) {
+              resolve(res); // { secure_url, public_id, resource_type, ... }
+            } else {
+              reject(new Error(res?.error?.message || "Upload failed"));
             }
-          };
+          } catch {
+            reject(new Error("Invalid Cloudinary response"));
+          }
+        };
 
-          xhr.onload = () => {
-            try {
-              const res = JSON.parse(xhr.responseText || "{}");
-              if (xhr.status >= 200 && xhr.status < 300 && res?.url) {
-                resolve(res); // res.url is the CDN URL
-              } else {
-                reject(new Error(res?.message || "Upload failed"));
-              }
-            } catch {
-              reject(new Error("Invalid ImageKit response"));
-            }
-          };
+        xhr.onerror = () => reject(new Error("Network error during upload"));
 
-          xhr.onerror = () => reject(new Error("Network error during upload"));
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
+        if (CLOUDINARY_FOLDER) formData.append("folder", CLOUDINARY_FOLDER);
+        // Optional: add context/tags for easier management
+        formData.append("tags", "hauser,listing");
+        formData.append("context", `caption=${file.name}|alt=${file.name}`);
 
-          const formData = new FormData();
-          formData.append("file", file);
-          formData.append("fileName", file.name);
-          // Required when uploading from the browser with signature auth
-          formData.append("publicKey", IK_PUBLIC_KEY);
-          formData.append("signature", authParams.signature);
-          formData.append("expire", authParams.expire);
-          formData.append("token", authParams.token);
-          formData.append("useUniqueFileName", "true");
-          formData.append("folder", IK_FOLDER);
-
-          xhr.send(formData);
-        } catch (e) {
-          reject(e);
-        }
+        xhr.send(formData);
       });
     }
 
@@ -479,7 +464,7 @@
         for (let i = 0; i < totalFiles; i++) {
           const file = files[i];
 
-          // optional size guard
+          // optional size guard (adjust to your Cloudinary plan limits if needed)
           const maxBytes = 200 * 1024 * 1024; // 200MB
           if (file.size > maxBytes) {
             throw new Error(`${file.name} is larger than 200MB.`);
@@ -488,7 +473,7 @@
           statusEl.textContent = `Uploading ${i + 1}/${totalFiles}: ${file.name}`;
           statusEl.className = "status-message status-info";
 
-          const res = await uploadToImageKit(file, (loaded, total) => {
+          const res = await uploadToCloudinary(file, (loaded, total) => {
             const perFile = 100 / totalFiles;
             const doneBefore = i * perFile;
             const currentPart = (loaded / total) * perFile;
@@ -496,8 +481,13 @@
             progressEl.style.width = overall.toFixed(2) + "%";
           });
 
-          const isVideo = file.type.startsWith("video/");
-          media.push({ url: res.url, type: isVideo ? "video" : "image" });
+          // Use Cloudinary's response for type & url
+          const cType = res.resource_type === "video" ? "video" : "image";
+          media.push({
+            url: res.secure_url,
+            type: cType,
+            publicId: res.public_id
+          });
         }
 
         // Save property to Firestore
