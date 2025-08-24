@@ -281,10 +281,21 @@
     </div>
   </div>
 
-  <!-- Firebase (MODULAR ONLY) -->
+   <!-- Firebase (MODULAR ONLY) -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
-    import { getFirestore, collection, addDoc, serverTimestamp, doc, getDoc, setDoc, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+    import {
+      getFirestore,
+      collection,
+      serverTimestamp,
+      doc,
+      getDoc,
+      query,
+      where,
+      getDocs,
+      runTransaction,
+      increment
+    } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
     import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
 
     // ✅ Firebase config
@@ -300,10 +311,10 @@
     const db = getFirestore(app);
     const auth = getAuth(app);
 
-    // ✅ Cloudinary config (Unsigned upload preset)
-    const CLOUDINARY_CLOUD_NAME = "dfsn59fwf";            // <-- change me
-    const CLOUDINARY_UPLOAD_PRESET = "hauser_preset";    // <-- change me (unsigned)
-    const CLOUDINARY_FOLDER = "hauser/listings";                // optional
+    // Cloudinary config (unsigned)
+    const CLOUDINARY_CLOUD_NAME = "dfsn59fwf";
+    const CLOUDINARY_UPLOAD_PRESET = "hauser_preset";
+    const CLOUDINARY_FOLDER = "hauser/listings";
     const CLOUDINARY_UPLOAD_URL = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/auto/upload`;
 
     const form = document.getElementById("listingForm");
@@ -320,7 +331,6 @@
       });
     }
 
-    // Update file label when files are selected
     mediaInput.addEventListener("change", function() {
       if (this.files.length > 0) {
         const count = this.files.length;
@@ -330,13 +340,11 @@
       }
     });
 
-    // ⬆️ Upload to Cloudinary with progress (XHR keeps the progress UI)
     function uploadToCloudinary(file, onProgress) {
       return new Promise((resolve, reject) => {
         const xhr = new XMLHttpRequest();
         xhr.open("POST", CLOUDINARY_UPLOAD_URL, true);
 
-        // progress
         xhr.upload.onprogress = (evt) => {
           if (evt.lengthComputable && typeof onProgress === "function") {
             onProgress(evt.loaded, evt.total);
@@ -347,7 +355,7 @@
           try {
             const res = JSON.parse(xhr.responseText || "{}");
             if (xhr.status >= 200 && xhr.status < 300 && res?.secure_url) {
-              resolve(res); // { secure_url, public_id, resource_type, ... }
+              resolve(res);
             } else {
               reject(new Error(res?.error?.message || "Upload failed"));
             }
@@ -362,7 +370,6 @@
         formData.append("file", file);
         formData.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
         if (CLOUDINARY_FOLDER) formData.append("folder", CLOUDINARY_FOLDER);
-        // Optional: add context/tags for easier management
         formData.append("tags", "hauser,listing");
         formData.append("context", `caption=${file.name}|alt=${file.name}`);
 
@@ -398,7 +405,7 @@
       const phoneNumber = document.getElementById("phoneNumber").value.trim();
       const files = Array.from(document.getElementById("media").files || []);
 
-      // Minimal guard to avoid accidental bad writes
+      // Minimal guard
       if (!title || !location || !createdBy || !phoneNumber || !priceRaw || Number.isNaN(price) || price <= 0) {
         statusEl.textContent = "⚠️ Please fill all required fields with valid values.";
         statusEl.className = "status-message status-error";
@@ -421,7 +428,7 @@
       setLoading(true);
 
       try {
-        // read user doc once
+        // read user doc once (used for pre-check)
         const userDocRef = doc(db, "users", user.uid);
         let userPlanLocal = "free";
         let userSnap = null;
@@ -436,35 +443,25 @@
 
         const isPremium = userPlanLocal === "premium";
 
-        // Enforce one-listing-for-free rule (lifetime)
+        // ---------- PRE-CHECK (fast fail before uploads) ----------
         if (!isPremium) {
-          const freeUsedFlag = !!(userSnap && userSnap.exists() && userSnap.data().freeListingUsed);
-          if (freeUsedFlag) {
-            statusEl.textContent = "⚠️ Free accounts are allowed only one listing ever. Upgrade to premium for unlimited listings.";
-            statusEl.className = "status-message status-error";
-            setLoading(false);
-            return;
-          }
-
-          const q = query(collection(db, "properties"), where("uid", "==", user.uid));
-          const querySnapshot = await getDocs(q);
-          if (!querySnapshot.empty) {
-            try { await setDoc(userDocRef, { freeListingUsed: true }, { merge: true }); } catch(e) { console.warn('Could not set freeListingUsed:', e); }
-            statusEl.textContent = "⚠️ Free accounts are allowed only one listing ever. Upgrade to premium for unlimited listings.";
+          const currentCount = Number((userSnap && userSnap.exists() && userSnap.data().listingsCount) || 0);
+          if (currentCount >= 2) {
+            statusEl.textContent = "⚠️ Free accounts are limited to 2 listings. Upgrade to premium to add more.";
             statusEl.className = "status-message status-error";
             setLoading(false);
             return;
           }
         }
+        // ---------------------------------------------------------
 
-        // proceed with uploads
+        // proceed with uploads to Cloudinary
         const media = [];
         const totalFiles = files.length;
 
         for (let i = 0; i < totalFiles; i++) {
           const file = files[i];
 
-          // optional size guard (adjust to your Cloudinary plan limits if needed)
           const maxBytes = 200 * 1024 * 1024; // 200MB
           if (file.size > maxBytes) {
             throw new Error(`${file.name} is larger than 200MB.`);
@@ -481,7 +478,6 @@
             progressEl.style.width = overall.toFixed(2) + "%";
           });
 
-          // Use Cloudinary's response for type & url
           const cType = res.resource_type === "video" ? "video" : "image";
           media.push({
             url: res.secure_url,
@@ -490,25 +486,46 @@
           });
         }
 
-        // Save property to Firestore
-        await addDoc(collection(db, "properties"), {
-          title,
-          description,
-          price,
-          location,
-          createdBy,
-          phoneNumber,
-          media,
-          uid: user.uid,
-          createdAt: serverTimestamp(),
-          plan: userPlanLocal,
-          priority: isPremium
+        // ---------- TRANSACTION: create property + increment listingsCount ----------
+        await runTransaction(db, async (tx) => {
+          const userRefTx = doc(db, "users", user.uid);
+          const userSnapTx = await tx.get(userRefTx);
+
+          const planTx = userSnapTx.exists() ? (userSnapTx.data().plan || userPlanLocal) : userPlanLocal;
+          const isPremiumTx = planTx === "premium";
+          const currentCountTx = userSnapTx.exists() ? (userSnapTx.data().listingsCount || 0) : 0;
+
+          // final authoritative gate (prevents race conditions)
+          if (!isPremiumTx && currentCountTx >= 2) {
+            throw new Error("LIMIT_REACHED");
+          }
+
+          // create property doc inside transaction
+          const propertyRef = doc(collection(db, "properties"));
+          tx.set(propertyRef, {
+            title,
+            description,
+            price,
+            location,
+            createdBy,
+            phoneNumber,
+            media,
+            uid: user.uid,
+            createdAt: serverTimestamp(),
+            plan: planTx,
+            priority: isPremiumTx
+          });
+
+          // increment or initialize listingsCount
+          if (userSnapTx.exists()) {
+            tx.update(userRefTx, { listingsCount: increment(1) });
+          } else {
+            tx.set(userRefTx, { plan: planTx, listingsCount: 1 }, { merge: true });
+          }
         });
+        // ---------------------------------------------------------------------------
 
-        if (!isPremium) {
-          try { await setDoc(userDocRef, { freeListingUsed: true }, { merge: true }); } catch(e) { console.warn('Could not set freeListingUsed after post:', e); }
-        }
-
+        // success UI
         progressEl.style.width = "100%";
         statusEl.textContent = "✅ Property listed successfully!";
         statusEl.className = "status-message status-success";
@@ -522,8 +539,14 @@
 
       } catch (err) {
         console.error(err);
-        statusEl.textContent = "❌ " + (err?.message || "Something went wrong while uploading.");
-        statusEl.className = "status-message status-error";
+        // friendly handling for transaction limit error
+        if (err && err.message === "LIMIT_REACHED") {
+          statusEl.textContent = "⚠️ Free accounts are limited to 2 listings. Upgrade to premium to add more.";
+          statusEl.className = "status-message status-error";
+        } else {
+          statusEl.textContent = "❌ " + (err?.message || "Something went wrong while uploading.");
+          statusEl.className = "status-message status-error";
+        }
         progressEl.style.width = "0%";
       } finally {
         setLoading(false);
