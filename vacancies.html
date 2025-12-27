@@ -101,8 +101,7 @@
       }
     }
 
-    /* Header */
-    /* Header */
+    /* Header - Enhanced Responsive */
     .header {
       background: rgba(255, 255, 255, 0.95);
       backdrop-filter: blur(20px) saturate(180%);
@@ -122,58 +121,86 @@
     .header-container {
       max-width: 1200px;
       margin: 0 auto;
-      padding: 0 1.5rem;
+      padding: 0 1rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 1rem;
     }
 
     .logo-section {
       display: flex;
       align-items: center;
-      gap: 1rem;
+      gap: 0.75rem;
+      flex-shrink: 0;
     }
 
     .logo-img {
-      height: 50px;
+      height: 45px;
+      width: 45px;
       border-radius: var(--radius);
       box-shadow: 0 4px 20px rgba(249, 115, 22, .3);
+      background: var(--accent);
+      flex-shrink: 0;
     }
 
     .logo-text {
-      font-size: 1.8rem;
+      font-size: 1.5rem;
       font-weight: bold;
       background: linear-gradient(to right, var(--text-primary), var(--accent-light));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
+      white-space: nowrap;
+    }
+
+    /* Mobile Menu Toggle */
+    .menu-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 0.3rem;
+      cursor: pointer;
+      padding: 0.5rem;
+      background: transparent;
+      border: none;
+    }
+
+    .menu-toggle span {
+      width: 25px;
+      height: 3px;
+      background: var(--accent);
+      border-radius: 2px;
+      transition: var(--transition);
     }
 
     .nav-menu {
       display: flex;
       align-items: center;
-      gap: 1.5rem;
+      gap: 1rem;
+      flex-wrap: wrap;
     }
 
     .nav-link {
       color: var(--text-secondary);
       text-decoration: none;
       font-weight: 500;
-      padding: .5rem 1rem;
+      padding: 0.5rem 0.75rem;
       border-radius: var(--radius);
       transition: var(--transition);
       display: flex;
       align-items: center;
-      gap: .5rem;
+      gap: 0.4rem;
+      white-space: nowrap;
+      font-size: 0.9rem;
     }
 
     .nav-link:hover {
       color: var(--accent);
-      background: rgba(255, 255, 255, .1);
+      background: rgba(249, 115, 22, 0.1);
     }
 
     .nav-link i {
-      font-size: 1.1rem;
+      font-size: 1rem;
     }
 
     .login-btn {
@@ -181,14 +208,16 @@
       color: var(--accent);
       border: 1px solid var(--accent);
       border-radius: var(--radius);
-      padding: .6rem 1.2rem;
+      padding: 0.5rem 1rem;
       font-weight: 500;
       cursor: pointer;
       transition: var(--transition);
       display: inline-flex;
       align-items: center;
-      gap: .5rem;
+      gap: 0.4rem;
       text-decoration: none;
+      font-size: 0.9rem;
+      white-space: nowrap;
     }
 
     .login-btn:hover {
@@ -200,19 +229,19 @@
     .container {
       max-width: 1200px;
       margin: 2rem auto;
-      padding: 0 1.5rem;
+      padding: 0 1rem;
     }
 
     .page-header {
       text-align: center;
-      margin-bottom: 2.5rem;
+      margin-bottom: 2rem;
       padding: 1rem;
     }
 
     .page-title {
-      font-size: 2.5rem;
+      font-size: clamp(1.75rem, 5vw, 2.5rem);
       font-weight: bold;
-      margin-bottom: .5rem;
+      margin-bottom: 0.5rem;
       background: linear-gradient(to right, var(--text-primary), var(--accent));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -221,31 +250,26 @@
 
     .page-subtitle {
       color: var(--text-secondary);
-      font-size: 1.125rem;
+      font-size: clamp(0.95rem, 2vw, 1.125rem);
       max-width: 700px;
       margin: 0 auto;
+      padding: 0 1rem;
     }
 
     .content-grid {
       display: grid;
-      grid-template-columns: 1fr 2fr;
-      gap: 2rem;
+      grid-template-columns: 300px 1fr;
+      gap: 1.5rem;
+      align-items: start;
     }
 
-    @media (max-width:1024px) {
-      .content-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    /* Filter Sidebar */
-    /* Filter Sidebar */
+    /* Filter Sidebar - Enhanced Responsive */
     .filter-sidebar {
       background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(249, 249, 249, 0.9) 100%);
       backdrop-filter: blur(20px) saturate(180%);
       border: 1px solid var(--border);
       border-radius: var(--radius-xl);
-      padding: 1.5rem;
+      padding: 1.25rem;
       box-shadow: var(--shadow-md), 0 1px 0 rgba(0, 0, 0, 0.02) inset;
       height: fit-content;
       position: sticky;
@@ -259,41 +283,42 @@
     }
 
     .filter-header {
-      margin-bottom: 1.5rem;
+      margin-bottom: 1.25rem;
       display: flex;
       align-items: center;
-      gap: 1rem;
+      gap: 0.75rem;
     }
 
     .filter-header i {
       color: var(--accent);
-      font-size: 1.5rem;
+      font-size: 1.25rem;
     }
 
     .filter-title {
-      font-size: 1.5rem;
+      font-size: 1.25rem;
       font-weight: bold;
     }
 
     .filter-group {
-      margin-bottom: 1.5rem;
+      margin-bottom: 1.25rem;
     }
 
     .filter-label {
       display: block;
-      margin-bottom: .5rem;
+      margin-bottom: 0.5rem;
       font-weight: 500;
       color: var(--text-primary);
+      font-size: 0.9rem;
     }
 
     .filter-input {
       width: 100%;
-      padding: .75rem 1rem;
-      background: rgba(15, 23, 42, .5);
+      padding: 0.75rem 1rem;
+      background: rgba(255, 255, 255, 0.8);
       border: 1px solid var(--border);
       border-radius: var(--radius);
       color: var(--text-primary);
-      font-size: 1rem;
+      font-size: 0.95rem;
       transition: var(--transition);
     }
 
@@ -301,6 +326,7 @@
       outline: none;
       border-color: var(--accent);
       box-shadow: 0 0 0 3px rgba(249, 115, 22, .1);
+      background: white;
     }
 
     .filter-input::placeholder {
@@ -309,7 +335,7 @@
 
     .search-btn {
       width: 100%;
-      padding: .9rem;
+      padding: 0.85rem;
       background: var(--accent);
       color: #fff;
       border: none;
@@ -321,7 +347,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: .5rem;
+      gap: 0.5rem;
     }
 
     .search-btn:hover {
@@ -330,11 +356,11 @@
       box-shadow: 0 4px 15px rgba(249, 115, 22, .3);
     }
 
-    /* Property Grid */
+    /* Property Grid - Fully Responsive */
     .property-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 1.5rem;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.25rem;
     }
 
     .property-card {
@@ -360,12 +386,12 @@
 
     .property-card:hover {
       transform: translateY(-5px);
-      box-shadow: var(--shadow);
+      box-shadow: var(--shadow-lg);
       border-color: var(--accent);
     }
 
     .property-media {
-      height: 250px;
+      height: 220px;
       position: relative;
       overflow: hidden;
     }
@@ -389,48 +415,56 @@
     }
 
     .property-details {
-      padding: 1.5rem;
+      padding: 1.25rem;
     }
 
     .property-header {
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
-      margin-bottom: .5rem;
+      margin-bottom: 0.5rem;
+      gap: 0.5rem;
     }
 
     .property-title {
-      font-size: 1.25rem;
+      font-size: 1.15rem;
       font-weight: bold;
-      margin-right: .5rem;
+      line-height: 1.3;
+      flex: 1;
     }
 
     .verified-badge {
       background: var(--success);
       color: #fff;
-      font-size: .75rem;
-      padding: .25rem .5rem;
+      font-size: 0.7rem;
+      padding: 0.25rem 0.5rem;
       border-radius: var(--radius-sm);
       display: inline-block;
+      white-space: nowrap;
+      flex-shrink: 0;
     }
 
     .property-price {
-      font-size: 1.5rem;
+      font-size: 1.35rem;
       font-weight: bold;
       color: var(--accent);
-      margin-bottom: .5rem;
+      margin-bottom: 0.5rem;
     }
 
+    .property-state,
     .property-location {
       display: flex;
       align-items: center;
-      gap: .5rem;
-      margin-bottom: 1rem;
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
       color: var(--text-secondary);
+      font-size: 0.9rem;
     }
 
+    .property-state i,
     .property-location i {
       color: var(--accent);
+      flex-shrink: 0;
     }
 
     .property-description {
@@ -440,6 +474,8 @@
       -webkit-line-clamp: 3;
       -webkit-box-orient: vertical;
       overflow: hidden;
+      font-size: 0.9rem;
+      line-height: 1.5;
     }
 
     .read-more {
@@ -448,9 +484,10 @@
       text-decoration: none;
       display: inline-flex;
       align-items: center;
-      gap: .5rem;
+      gap: 0.5rem;
       cursor: pointer;
       transition: var(--transition);
+      font-size: 0.9rem;
     }
 
     .read-more:hover {
@@ -462,90 +499,46 @@
       background: rgba(249, 249, 249, 0.8);
       border-top: 1px solid var(--border);
       border-radius: 0 0 var(--radius-lg) var(--radius-lg);
-      margin-top: .5rem;
+      margin-top: 0.5rem;
       display: none;
     }
 
-    /* Responsive */
-    @media (max-width:768px) {
-      .header-container {
-        flex-direction: column;
-        gap: 1rem;
-        text-align: center;
-      }
-
-      .nav-menu {
-        flex-wrap: wrap;
-        justify-content: center;
-      }
-
-      .page-title {
-        font-size: 2rem;
-      }
-
-      .property-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .filter-sidebar {
-        position: relative;
-        top: 0;
-      }
+    .detail-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid var(--border);
+      gap: 1rem;
     }
 
-    @media (max-width:480px) {
-      .logo-text {
-        font-size: 1.5rem;
-      }
-
-      .page-title {
-        font-size: 1.8rem;
-      }
+    .detail-item:last-child {
+      border-bottom: none;
     }
 
-    /* Utils */
-    .mt-1 {
-      margin-top: .25rem;
+    .detail-label {
+      font-weight: 600;
+      color: var(--text-primary);
+      font-size: 0.85rem;
     }
 
-    .mt-2 {
-      margin-top: .5rem;
+    .detail-value {
+      color: var(--text-secondary);
+      text-align: right;
+      font-size: 0.85rem;
     }
 
-    .mt-3 {
-      margin-top: .75rem;
-    }
-
-    .mt-4 {
-      margin-top: 1rem;
-    }
-
-    .mb-1 {
-      margin-bottom: .25rem;
-    }
-
-    .mb-2 {
-      margin-bottom: .5rem;
-    }
-
-    .mb-3 {
-      margin-bottom: .75rem;
-    }
-
-    .mb-4 {
-      margin-bottom: 1rem;
-    }
-
-
-
+    /* Modal - Enhanced Responsive */
     .modal-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.55);
+      background: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(8px);
       display: none;
       align-items: center;
       justify-content: center;
-      z-index: 1000;
+      z-index: 2000;
+      padding: 1rem;
+      transition: var(--transition);
     }
 
     .modal-overlay.active {
@@ -553,97 +546,521 @@
     }
 
     .modal {
-      background: #fff;
+      background: white;
       width: 100%;
-      max-width: 480px;
-      border-radius: 14px;
-      padding: 20px;
+      max-width: 500px;
+      border-radius: var(--radius-xl);
+      padding: 2rem;
       position: relative;
+      box-shadow: var(--shadow-lg);
+      animation: modalSlide 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    @keyframes modalSlide {
+      from {
+        transform: translateY(20px) scale(0.95);
+        opacity: 0;
+      }
+
+      to {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+      }
     }
 
     .modal h2 {
-      margin: 0 0 6px;
-      font-size: 18px;
-      color: #333;
+      font-size: clamp(1.35rem, 4vw, 1.75rem);
+      color: var(--text-primary);
+      margin-bottom: 0.5rem;
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      padding-right: 2rem;
     }
 
     .listing-title {
-      font-size: 14px;
-      color: #555;
-      margin-bottom: 16px;
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border);
     }
 
-    form {
+    .listing-title strong {
+      color: var(--accent);
+    }
+
+    #bidForm {
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 1rem;
     }
 
-    input,
-    textarea {
-      padding: 10px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-      font-size: 14px;
+    #bidForm input[type="text"],
+    #bidForm input[type="tel"],
+    #bidForm input[type="number"],
+    #bidForm textarea {
+      width: 100%;
+      padding: 0.8rem 1rem;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      background: var(--primary);
+      color: var(--text-primary);
+      font-size: 0.95rem;
+      transition: var(--transition);
     }
 
-    textarea {
-      min-height: 80px;
+    #bidForm input:focus,
+    #bidForm textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+      background: white;
+      box-shadow: 0 0 0 4px var(--accent-glow);
     }
 
     .radio-group {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+      margin: 0.5rem 0;
+    }
+
+    .radio-option {
+      position: relative;
+    }
+
+    .radio-option input {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .radio-custom {
       display: flex;
-      gap: 15px;
-      font-size: 14px;
+      align-items: center;
+      justify-content: center;
+      padding: 0.8rem 0.5rem;
+      background: var(--primary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+      font-weight: 500;
+      transition: var(--transition);
+      cursor: pointer;
+      text-align: center;
+    }
+
+    .radio-option input:checked+.radio-custom {
+      background: var(--accent-glow);
+      border-color: var(--accent);
+      color: var(--accent);
+      box-shadow: 0 0 0 4px var(--accent-glow);
+    }
+
+    .radio-option:hover .radio-custom {
+      border-color: var(--accent-light);
     }
 
     .submit-btn {
-      background: #0f62fe;
-      color: #fff;
+      margin-top: 0.5rem;
+      padding: 0.95rem;
+      background: var(--accent);
+      color: white;
       border: none;
-      padding: 12px;
-      border-radius: 10px;
+      border-radius: var(--radius);
+      font-weight: 600;
+      font-size: 1rem;
       cursor: pointer;
+      transition: var(--transition);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .submit-btn:hover {
+      background: var(--accent-dark);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md), 0 0 20px var(--accent-glow);
     }
 
     .submit-btn:disabled {
-      background: #aaa;
-    }
-
-    .trust-note {
-      font-size: 12px;
-      color: #666;
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
     }
 
     .close-modal-btn {
       position: absolute;
-      top: 15px;
-      right: 15px;
-      background: transparent;
+      top: 1.25rem;
+      right: 1.25rem;
+      width: 2rem;
+      height: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--primary);
+      color: var(--text-muted);
       border: none;
-      font-size: 24px;
-      color: #999;
+      border-radius: 50%;
+      font-size: 1.25rem;
       cursor: pointer;
-      padding: 5px 10px;
-      line-height: 1;
+      transition: var(--transition);
+      z-index: 10;
     }
 
     .close-modal-btn:hover {
-      color: #333;
+      background: var(--primary-dark);
+      color: var(--text-primary);
+      transform: rotate(90deg);
     }
 
-    .modal {
-      position: relative;
-    }
-
-    .open-modal-btn {
-      margin: 40px;
-      padding: 12px 18px;
-      background: #0f62fe;
-      color: #fff;
+    /* Bid button in cards */
+    .bid-btn {
+      width: 100%;
+      margin: 1rem 0 0.5rem 0;
+      padding: 0.8rem 1.25rem;
+      background: var(--accent);
+      color: white;
       border: none;
-      border-radius: 10px;
+      border-radius: var(--radius);
+      font-weight: 600;
+      font-size: 0.9rem;
       cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .bid-btn:hover {
+      background: var(--accent-dark);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md), 0 0 15px var(--accent-glow);
+    }
+
+    .bid-btn::before {
+      content: '\f3d1';
+      font-family: 'Font Awesome 6 Free';
+      font-weight: 900;
+    }
+
+    /* No Results */
+    .no-results {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 3rem 1rem;
+    }
+
+    .no-results i {
+      font-size: 3rem;
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+
+    .no-results h3 {
+      color: var(--text-primary);
+      margin-bottom: 0.5rem;
+      font-size: 1.25rem;
+    }
+
+    .no-results p {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+    }
+
+    /* ==================== RESPONSIVE BREAKPOINTS ==================== */
+
+    /* Tablet - Large (1024px and below) */
+    @media (max-width: 1024px) {
+      .content-grid {
+        grid-template-columns: 280px 1fr;
+        gap: 1.25rem;
+      }
+
+      .filter-sidebar {
+        top: 85px;
+      }
+
+      .property-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      }
+
+      .nav-menu {
+        gap: 0.75rem;
+      }
+
+      .nav-link,
+      .login-btn {
+        font-size: 0.85rem;
+        padding: 0.45rem 0.7rem;
+      }
+    }
+
+    /* Tablet - Medium (900px and below) */
+    @media (max-width: 900px) {
+      .content-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .filter-sidebar {
+        position: relative;
+        top: 0;
+        max-width: 100%;
+      }
+
+      .property-grid {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      }
+    }
+
+    /* Tablet - Small / Mobile - Large (768px and below) */
+    @media (max-width: 768px) {
+      .header-container {
+        flex-wrap: wrap;
+      }
+
+      .menu-toggle {
+        display: flex;
+        order: 3;
+      }
+
+      .nav-menu {
+        width: 100%;
+        order: 4;
+        flex-direction: column;
+        align-items: stretch;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+      }
+
+      .nav-menu.active {
+        max-height: 500px;
+        margin-top: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid var(--border);
+      }
+
+      .nav-link,
+      .login-btn {
+        width: 100%;
+        justify-content: center;
+        padding: 0.75rem 1rem;
+      }
+
+      .container {
+        margin: 1.5rem auto;
+        padding: 0 0.75rem;
+      }
+
+      .page-header {
+        margin-bottom: 1.5rem;
+        padding: 0.5rem;
+      }
+
+      .property-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+
+      .property-media {
+        height: 200px;
+      }
+
+      .filter-sidebar {
+        padding: 1rem;
+      }
+
+      .filter-header {
+        margin-bottom: 1rem;
+      }
+
+      .filter-group {
+        margin-bottom: 1rem;
+      }
+
+      .modal {
+        padding: 1.5rem;
+        max-height: 85vh;
+      }
+
+      .radio-group {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Mobile - Medium (576px and below) */
+    @media (max-width: 576px) {
+      .logo-text {
+        font-size: 1.25rem;
+      }
+
+      .logo-img {
+        height: 40px;
+        width: 40px;
+      }
+
+      .header {
+        padding: 0.6rem 0;
+      }
+
+      .container {
+        margin: 1rem auto;
+        padding: 0 0.5rem;
+      }
+
+      .page-header {
+        margin-bottom: 1rem;
+      }
+
+      .property-card {
+        border-radius: var(--radius);
+      }
+
+      .property-details {
+        padding: 1rem;
+      }
+
+      .property-title {
+        font-size: 1.05rem;
+      }
+
+      .property-price {
+        font-size: 1.2rem;
+      }
+
+      .filter-sidebar {
+        border-radius: var(--radius);
+      }
+
+      .modal {
+        border-radius: var(--radius);
+        padding: 1.25rem;
+      }
+
+      #bidForm input[type="text"],
+      #bidForm input[type="tel"],
+      #bidForm input[type="number"],
+      #bidForm textarea {
+        font-size: 0.9rem;
+        padding: 0.7rem 0.85rem;
+      }
+
+      .submit-btn {
+        padding: 0.85rem;
+        font-size: 0.95rem;
+      }
+    }
+
+    /* Mobile - Small (400px and below) */
+    @media (max-width: 400px) {
+      .header-container {
+        padding: 0 0.75rem;
+      }
+
+      .logo-text {
+        font-size: 1.1rem;
+      }
+
+      .logo-img {
+        height: 35px;
+        width: 35px;
+      }
+
+      .page-title {
+        font-size: 1.5rem;
+      }
+
+      .page-subtitle {
+        font-size: 0.9rem;
+      }
+
+      .property-media {
+        height: 180px;
+      }
+
+      .property-details {
+        padding: 0.85rem;
+      }
+
+      .filter-sidebar {
+        padding: 0.85rem;
+      }
+
+      .filter-input {
+        padding: 0.65rem 0.85rem;
+        font-size: 0.9rem;
+      }
+
+      .search-btn {
+        padding: 0.75rem;
+        font-size: 0.95rem;
+      }
+
+      .modal {
+        padding: 1rem;
+      }
+
+      .modal h2 {
+        font-size: 1.25rem;
+      }
+    }
+
+    /* Landscape Mobile Adjustments */
+    @media (max-height: 600px) and (orientation: landscape) {
+      .property-media {
+        height: 160px;
+      }
+
+      .modal {
+        max-height: 95vh;
+        padding: 1rem;
+      }
+
+      #bidForm {
+        gap: 0.75rem;
+      }
+
+      #bidForm input,
+      #bidForm textarea {
+        padding: 0.6rem 0.85rem;
+      }
+    }
+
+    /* Utils */
+    .mt-1 {
+      margin-top: 0.25rem;
+    }
+
+    .mt-2 {
+      margin-top: 0.5rem;
+    }
+
+    .mt-3 {
+      margin-top: 0.75rem;
+    }
+
+    .mt-4 {
+      margin-top: 1rem;
+    }
+
+    .mb-1 {
+      margin-bottom: 0.25rem;
+    }
+
+    .mb-2 {
+      margin-bottom: 0.5rem;
+    }
+
+    .mb-3 {
+      margin-bottom: 0.75rem;
+    }
+
+    .mb-4 {
+      margin-bottom: 1rem;
     }
   </style>
 </head>
@@ -654,10 +1071,17 @@
   <header class="header">
     <div class="header-container">
       <div class="logo-section">
-        <div class="logo-img-placeholder" style="width:50px;height:50px;background:#f97316;border-radius:8px;"></div>
+        <div class="logo-img"></div>
         <h1 class="logo-text">Hauser NG</h1>
       </div>
-      <nav class="nav-menu">
+
+      <button class="menu-toggle" onclick="toggleMenu()">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <nav class="nav-menu" id="navMenu">
         <a href="index.html" class="nav-link"><i class="fas fa-home"></i> Home</a>
         <a href="about-us.html" class="nav-link"><i class="fas fa-info-circle"></i> About</a>
         <a href="vacancies.html" class="nav-link active"><i class="fas fa-search"></i> Find a Home</a>
@@ -739,7 +1163,7 @@
             </select>
 
             <!-- LGA Dropdown -->
-            <select id="locationInput" class="filter-input" disabled>
+            <select id="locationInput" class="filter-input" disabled style="margin-top: 0.5rem;">
               <option value="" selected>All LGAs</option>
             </select>
           </div>
@@ -755,6 +1179,39 @@
     </div>
   </main>
 
+  <!-- Bid Modal -->
+  <div class="modal-overlay" id="bidModal">
+    <div class="modal">
+      <button class="close-modal-btn" type="button">×</button>
+      <h2>Make an Offer</h2>
+      <div class="listing-title">
+        Bidding for: <strong id="modalListingTitle"></strong>
+      </div>
+
+      <form id="bidForm">
+        <input type="text" id="name" placeholder="Full Name" required />
+        <input type="tel" id="phone" placeholder="Phone Number" required />
+        <input type="number" id="amount" placeholder="Offer Amount (₦)" required />
+
+        <div class="radio-group">
+          <label class="radio-option">
+            <input type="radio" name="familyType" value="husband_and_wife" required />
+            <span class="radio-custom">Husband & Wife</span>
+          </label>
+          <label class="radio-option">
+            <input type="radio" name="familyType" value="single_parent" />
+            <span class="radio-custom">Single Parent</span>
+          </label>
+        </div>
+
+        <input type="number" id="children" min="0" placeholder="Number of Children" />
+        <textarea id="message" rows="3" placeholder="Additional comments"></textarea>
+
+        <button type="submit" class="submit-btn">Submit Offer</button>
+      </form>
+    </div>
+  </div>
+
   <!-- SwiperJS JS -->
   <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
   <!-- Firebase -->
@@ -762,6 +1219,12 @@
   <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore-compat.js"></script>
 
   <script>
+    // Mobile menu toggle
+    function toggleMenu() {
+      const navMenu = document.getElementById('navMenu');
+      navMenu.classList.toggle('active');
+    }
+
     // Firebase config
     const firebaseConfig = {
       apiKey: "AIzaSyAHqg_u1DwWUB9l1vuoYDLKjCJl5Xx7Pbo",
@@ -777,13 +1240,12 @@
     const blogList = document.getElementById('blogList');
     const searchInput = document.getElementById('searchInput');
     const priceInput = document.getElementById('priceInput');
-    const locationInput = document.getElementById('locationInput'); // LGA select
-    const stateInput = document.getElementById('stateInput');       // State select
+    const locationInput = document.getElementById('locationInput');
+    const stateInput = document.getElementById('stateInput');
     const searchBtn = document.querySelector('.search-btn');
 
     let allProperties = [];
 
-    // Safer details toggler (uses computed style)
     function toggleDetails(id) {
       const el = document.getElementById(id);
       const current = window.getComputedStyle(el).display;
@@ -795,10 +1257,10 @@
 
       if (list.length === 0) {
         blogList.innerHTML = `
-        <div class="no-results" style="grid-column: 1 / -1; text-align: center; padding: 3rem;">
-          <i class="fas fa-search" style="font-size: 3rem; color: var(--accent); margin-bottom: 1rem;"></i>
-          <h3 style="color: var(--text-primary);">No properties found</h3>
-          <p style="color: var(--text-secondary);">Try adjusting your search filters</p>
+        <div class="no-results">
+          <i class="fas fa-search"></i>
+          <h3>No properties found</h3>
+          <p>Try adjusting your search filters</p>
         </div>
       `;
         return;
@@ -810,7 +1272,7 @@
           if (item.type === 'video') {
             return `
             <div class="swiper-slide">
-              <video controls preload="metadata" class="w-100" style="height: 100%; object-fit: cover;">
+              <video controls preload="metadata" style="width: 100%; height: 100%; object-fit: cover;">
                 <source src="${item.url}" type="video/mp4">
                 Your browser does not support the video tag.
               </video>
@@ -868,23 +1330,14 @@
               <span class="detail-label">Contact:</span>
               <span class="detail-value">${p.phoneNumber || 'N/A'}</span>
             </div>
-            
-
-
-<button
-  class="open-modal-btn bid-btn"
-  data-listing-id="${p.id}"
-  data-owner-uid="${p.uid}"
-  data-title="${p.title}"
->
-  Bid / Negotiate
-</button>
-
-
-
-
-
-
+            <button
+              class="bid-btn"
+              data-listing-id="${p.id}"
+              data-owner-uid="${p.uid}"
+              data-title="${p.title}"
+            >
+              Bid / Negotiate
+            </button>
             <div class="detail-item">
               <span class="detail-label">Property ID:</span>
               <span class="detail-value">${p.id ? p.id.substring(0, 8) : 'N/A'}</span>
@@ -899,16 +1352,16 @@
           new Swiper(`.${swiperId}`, {
             loop: true,
             pagination: { el: `.${swiperId} .swiper-pagination`, clickable: true },
-            navigation: { nextEl: `.${swiperId} .swiper-button-next`, prevEl: `.${swiperId} .swiper-button-prev` },
+            navigation: {
+              nextEl: `.${swiperId} .swiper-button-next`,
+              prevEl: `.${swiperId} .swiper-button-prev`
+            },
           });
         }, 0);
       });
     }
 
-    // ==============================
     // Nigerian States and LGAs mapping
-    // (Extend freely; structure is correct)
-    // ==============================
     const nigeriaLGAs = {
       "abia": ["Aba North", "Aba South", "Arochukwu", "Bende", "Ikwuano", "Isiala Ngwa North", "Isiala Ngwa South", "Isuikwuato", "Obi Ngwa", "Ohafia", "Osisioma", "Ugwunagbo", "Ukwa East", "Ukwa West", "Umuahia North", "Umuahia South", "Umunneochi"],
       "adamawa": ["Demsa", "Fufore", "Ganye", "Girei", "Gombi", "Guyuk", "Hong", "Jada", "Lamurde", "Madagali", "Maiha", "Mayo-Belwa", "Michika", "Mubi North", "Mubi South", "Numan", "Shelleng", "Song", "Toungo", "Yola North", "Yola South"],
@@ -949,10 +1402,9 @@
       "zamfara": ["Anka", "Bakura", "Birnin Magaji/Kiyaw", "Bukkuyum", "Bungudu", "Gummi", "Gusau", "Kaura Namoda", "Maradun", "Maru", "Shinkafi", "Talata Mafara", "Tsafe", "Zurmi"]
     };
 
-    // Populate LGA dropdown when a state is chosen
     function populateLGAs() {
       const state = stateInput.value;
-      locationInput.innerHTML = '<option value="" selected>All LGAs</option>'; // reset
+      locationInput.innerHTML = '<option value="" selected>All LGAs</option>';
 
       const lgas = nigeriaLGAs[state];
       if (state && Array.isArray(lgas) && lgas.length) {
@@ -986,14 +1438,10 @@
           state.includes(query);
 
         const matchesPrice = isNaN(maxPrice) || price <= maxPrice;
-
-        // If an LGA is selected, we filter by LGA (keeps previous logic style)
         const matchesLGA = !selectedLGA || location.includes(selectedLGA);
 
-        // If only state is selected (and no LGA), try to match state text in location
         const stateOnly = selectedState && !selectedLGA;
         const stateToken = selectedState.replace(/-/g, ' ');
-        // Also check if p.state matches selectedState directly
         const matchesStateOnly = !stateOnly ||
           state === selectedState ||
           location.includes(selectedState) ||
@@ -1006,7 +1454,6 @@
       renderProperties(filtered);
     }
 
-    // Firestore: initialize with all properties
     db.collection('properties')
       .orderBy('createdAt', 'asc')
       .onSnapshot(snapshot => {
@@ -1018,13 +1465,10 @@
           return data;
         });
 
-        // Sort by premium first, then priority, then date (newest first)
         allProperties.sort((a, b) => {
           if (a.plan === 'premium' && b.plan !== 'premium') return -1;
           if (a.plan !== 'premium' && b.plan === 'premium') return 1;
-
           if (a.priority !== b.priority) return b.priority - a.priority;
-
           const aTime = a.createdAt ? a.createdAt.seconds : 0;
           const bTime = b.createdAt ? b.createdAt.seconds : 0;
           return bTime - aTime;
@@ -1033,20 +1477,15 @@
         applyFilters();
       });
 
-    // Event listeners
     searchInput.addEventListener('input', applyFilters);
     priceInput.addEventListener('input', applyFilters);
     locationInput.addEventListener('change', applyFilters);
-    stateInput.addEventListener('change', applyFilters);
     stateInput.addEventListener('change', () => { populateLGAs(); applyFilters(); });
     searchBtn.addEventListener('click', applyFilters);
 
-    // On load: ensure LGA select reflects current state (empty)
     populateLGAs();
 
-
-
-
+    // Bid modal functionality
     let activeListing = null;
 
     document.addEventListener("click", (e) => {
@@ -1063,94 +1502,49 @@
       document.getElementById("bidModal").classList.add("active");
     });
 
-    // Wait for DOM to be ready before attaching modal event listeners
-    document.addEventListener("DOMContentLoaded", () => {
-      const bidForm = document.getElementById("bidForm");
-      const bidModal = document.getElementById("bidModal");
+    const bidForm = document.getElementById("bidForm");
+    const bidModal = document.getElementById("bidModal");
 
-      if (bidForm) {
-        bidForm.addEventListener("submit", async (e) => {
-          e.preventDefault();
+    if (bidForm) {
+      bidForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
 
-          if (!activeListing) return;
+        if (!activeListing) return;
 
-          // Get form field values properly
-          const nameField = document.getElementById("name");
-          const phoneField = document.getElementById("phone");
-          const amountField = document.getElementById("amount");
-          const childrenField = document.getElementById("children");
-          const messageField = document.getElementById("message");
+        const nameField = document.getElementById("name");
+        const phoneField = document.getElementById("phone");
+        const amountField = document.getElementById("amount");
+        const childrenField = document.getElementById("children");
+        const messageField = document.getElementById("message");
 
-          await db.collection("bids").add({
-            listingId: activeListing.listingId,
-            listingOwnerUid: activeListing.ownerUid,
-            listingTitle: activeListing.title,
+        await db.collection("bids").add({
+          listingId: activeListing.listingId,
+          listingOwnerUid: activeListing.ownerUid,
+          listingTitle: activeListing.title,
+          bidderName: nameField.value.trim(),
+          bidderPhone: phoneField.value.trim(),
+          bidAmount: Number(amountField.value),
+          familyType: document.querySelector('input[name="familyType"]:checked').value,
+          childrenCount: Number(childrenField.value || 0),
+          message: messageField.value.trim(),
+          status: "unread",
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
 
-            bidderName: nameField.value.trim(),
-            bidderPhone: phoneField.value.trim(),
-            bidAmount: Number(amountField.value),
+        alert("Offer submitted successfully!");
+        e.target.reset();
+        bidModal.classList.remove("active");
+      });
+    }
 
-            familyType: document.querySelector('input[name="familyType"]:checked').value,
-            childrenCount: Number(childrenField.value || 0),
-            message: messageField.value.trim(),
-
-            status: "unread",
-            createdAt: firebase.firestore.FieldValue.serverTimestamp()
-          });
-
-          alert("Offer submitted");
-          e.target.reset();
+    if (bidModal) {
+      bidModal.addEventListener("click", (e) => {
+        if (e.target.id === "bidModal" || e.target.classList.contains("close-modal-btn")) {
           bidModal.classList.remove("active");
-        });
-      }
-
-      // Close modal when clicking outside or on close button
-      if (bidModal) {
-        bidModal.addEventListener("click", (e) => {
-          if (e.target.id === "bidModal" || e.target.classList.contains("close-modal-btn")) {
-            bidModal.classList.remove("active");
-          }
-        });
-      }
-    });
-
-
+        }
+      });
+    }
   </script>
-
-
-  <div class="modal-overlay" id="bidModal">
-    <div class="modal">
-      <button class="close-modal-btn" type="button">×</button>
-      <h2>Make an Offer</h2>
-      <div class="listing-title">
-        Bidding for: <strong id="modalListingTitle"></strong>
-      </div>
-
-      <form id="bidForm">
-        <input type="text" id="name" placeholder="Full Name" required />
-        <input type="tel" id="phone" placeholder="Phone Number" required />
-        <input type="number" id="amount" placeholder="Offer Amount (₦)" required />
-
-        <div class="radio-group">
-          <label>
-            <input type="radio" name="familyType" value="husband_and_wife" required />
-            Husband & Wife
-          </label>
-          <label>
-            <input type="radio" name="familyType" value="single_parent" />
-            Single Parent
-          </label>
-        </div>
-
-        <input type="number" id="children" min="0" placeholder="Number of Children" />
-        <textarea id="message" placeholder="Additional comments"></textarea>
-
-        <button type="submit" class="submit-btn">Submit Offer</button>
-      </form>
-    </div>
-  </div>
-
-
 
 </body>
 
