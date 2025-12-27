@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -11,24 +12,36 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --primary-dark: #0f172a;
-      --primary-blue: #1e40af;
-      --primary-light: #3b82f6;
-      --accent: #f59e0b;
-      --text-primary: #1f2937;
-      --text-secondary: #6b7280;
-      --text-light: #9ca3af;
-      --bg-light: #f8fafc;
-      --bg-white: #ffffff;
-      --border-light: #e5e7eb;
-      --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
-      --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-      --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-      --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
-      --gradient-primary: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
-      --gradient-accent: linear-gradient(135deg, #d97706 0%, #f59e0b 100%);
-      --gradient-bg: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-      --transition-base: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      --primary: #f8f9fa;
+      --primary-dark: #e9ecef;
+      --primary-light: #ffffff;
+      --accent: #f97316;
+      --accent-dark: #ea580c;
+      --accent-light: #fb923c;
+      --accent-glow: rgba(249, 115, 22, 0.2);
+      --text-primary: #1a1a1a;
+      --text-secondary: #4a4a4a;
+      --text-muted: #6b7280;
+      --bg-primary: #f8f9fa;
+      --bg-secondary: #ffffff;
+      --bg-card: rgba(255, 255, 255, 0.9);
+      --border: rgba(0, 0, 0, 0.08);
+      --border-highlight: rgba(249, 115, 22, 0.3);
+      --error: #ef4444;
+      --success: #22c55e;
+      --warning: #f59e0b;
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+      --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      --shadow-md: 0 8px 20px rgba(0, 0, 0, 0.12);
+      --shadow-lg: 0 12px 28px rgba(0, 0, 0, 0.15);
+      --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      --shadow-glow: 0 0 20px var(--accent-glow);
+      --radius-sm: 0.5rem;
+      --radius: 0.75rem;
+      --radius-lg: 1rem;
+      --radius-xl: 1.5rem;
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      --transition-fast: all 0.15s ease;
     }
 
     * {
@@ -38,15 +51,29 @@
     }
 
     body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
       line-height: 1.6;
       color: var(--text-primary);
-      background: var(--gradient-bg);
+      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 50%, #f8f9fa 100%);
+      background-size: 200% 200%;
       min-height: 100vh;
       position: relative;
       overflow-x: hidden;
+      animation: backgroundShift 20s ease infinite;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
+    }
+
+    @keyframes backgroundShift {
+
+      0%,
+      100% {
+        background-position: 0% 50%;
+      }
+
+      50% {
+        background-position: 100% 50%;
+      }
     }
 
     /* Animated background particles */
@@ -57,15 +84,25 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><radialGradient id="g1" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="%233b82f6" stop-opacity="0.1"/><stop offset="100%" stop-color="transparent"/></radialGradient><radialGradient id="g2" cx="80%" cy="20%" r="40%"><stop offset="0%" stop-color="%23f59e0b" stop-opacity="0.1"/><stop offset="100%" stop-color="transparent"/></radialGradient></defs><rect width="1000" height="1000" fill="url(%23g1)"/><rect width="1000" height="1000" fill="url(%23g2)"/></svg>');
-      animation: float 20s ease-in-out infinite;
+      background:
+        radial-gradient(circle at 20% 30%, rgba(249, 115, 22, 0.04) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(249, 115, 22, 0.03) 0%, transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0.02) 0%, transparent 50%);
+      animation: float 25s ease-in-out infinite;
       opacity: 0.6;
       pointer-events: none;
     }
 
     @keyframes float {
-      0%, 100% { transform: translateY(0px) rotate(0deg); }
-      50% { transform: translateY(-10px) rotate(1deg); }
+
+      0%,
+      100% {
+        transform: translateY(0px) rotate(0deg);
+      }
+
+      50% {
+        transform: translateY(-10px) rotate(1deg);
+      }
     }
 
     @keyframes fadeInUp {
@@ -73,6 +110,7 @@
         opacity: 0;
         transform: translateY(30px);
       }
+
       to {
         opacity: 1;
         transform: translateY(0);
@@ -80,17 +118,24 @@
     }
 
     @keyframes pulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.02); }
+
+      0%,
+      100% {
+        transform: scale(1);
+      }
+
+      50% {
+        transform: scale(1.02);
+      }
     }
 
     .login-container {
-      background: rgba(255, 255, 255, 0.05);
+      background: rgba(255, 255, 255, 0.95);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 1.5rem;
-      box-shadow: var(--shadow-xl);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-lg), 0 1px 0 rgba(0, 0, 0, 0.02) inset;
       animation: fadeInUp 1s ease-out;
       position: relative;
       overflow: hidden;
@@ -107,7 +152,7 @@
       left: -100%;
       width: 100%;
       height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+      background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.02), transparent);
       transition: left 0.7s ease;
     }
 
@@ -116,13 +161,13 @@
     }
 
     .form-input {
-      background: rgba(255, 255, 255, 0.05);
+      background: rgba(255, 255, 255, 0.8);
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 0.75rem;
-      color: white;
-      transition: var(--transition-base);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text-primary);
+      transition: var(--transition);
       padding: 1rem 1.25rem;
       width: 100%;
       font-size: 1rem;
@@ -130,34 +175,35 @@
 
     .form-input:focus {
       outline: none;
-      border-color: var(--primary-light);
-      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
-      background: rgba(255, 255, 255, 0.1);
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-glow);
+      background: #fff;
     }
 
     .form-input::placeholder {
-      color: rgba(255, 255, 255, 0.5);
+      color: var(--text-muted);
     }
 
     .btn-primary {
-      background: var(--gradient-accent);
+      background: var(--accent);
       border: none;
-      border-radius: 0.75rem;
+      border-radius: var(--radius);
       color: white;
       font-weight: 600;
       transition: var(--transition-base);
       padding: 1rem 1.5rem;
       width: 100%;
       font-size: 1rem;
-      box-shadow: var(--shadow-lg);
+      box-shadow: var(--shadow-sm);
       position: relative;
       overflow: hidden;
     }
 
     .btn-primary:hover {
       transform: translateY(-2px);
-      box-shadow: var(--shadow-xl);
-      opacity: 0.95;
+      box-shadow: var(--shadow-md);
+      background: var(--accent-dark);
+      opacity: 1;
     }
 
     .btn-primary:active {
@@ -166,31 +212,36 @@
 
     .btn-secondary {
       background: transparent;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: 0.75rem;
-      color: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text-secondary);
       font-weight: 500;
-      transition: var(--transition-base);
+      transition: var(--transition);
       padding: 0.75rem 1.5rem;
       font-size: 0.875rem;
     }
 
     .btn-secondary:hover {
-      background: rgba(255, 255, 255, 0.1);
-      border-color: rgba(255, 255, 255, 0.3);
+      background: rgba(0, 0, 0, 0.05);
+      border-color: var(--text-secondary);
+      color: var(--text-primary);
       transform: translateY(-2px);
     }
 
     .logo {
       font-size: 2rem;
       font-weight: 800;
-      color: white;
+      background: linear-gradient(to right, var(--text-primary), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
       text-align: center;
       margin-bottom: 2rem;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 0.5rem;
+      text-shadow: none;
     }
 
     .logo::before {
@@ -199,8 +250,8 @@
     }
 
     .form-label {
-      color: rgba(255, 255, 255, 0.9);
-      font-weight: 500;
+      color: var(--text-secondary);
+      font-weight: 600;
       margin-bottom: 0.75rem;
       display: block;
       font-size: 0.9375rem;
@@ -242,11 +293,11 @@
     }
 
     .modal-content {
-      background: rgba(15, 23, 42, 0.95);
+      background: rgba(255, 255, 255, 0.95);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 1.5rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
       box-shadow: var(--shadow-xl);
       padding: 2.5rem;
       max-width: 28rem;
@@ -259,10 +310,10 @@
       position: absolute;
       top: 2rem;
       left: 2rem;
-      color: rgba(255, 255, 255, 0.8);
+      color: var(--text-secondary);
       text-decoration: none;
       font-weight: 500;
-      transition: var(--transition-base);
+      transition: var(--transition);
       z-index: 10;
       display: flex;
       align-items: center;
@@ -299,8 +350,13 @@
     }
 
     @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
     }
 
     /* Layout utilities */
@@ -340,11 +396,11 @@
       margin-bottom: 2rem;
     }
 
-    .space-y-6 > * + * {
+    .space-y-6>*+* {
       margin-top: 1.5rem;
     }
 
-    .space-y-4 > * + * {
+    .space-y-4>*+* {
       margin-top: 1rem;
     }
 
@@ -442,6 +498,7 @@
 
     /* Reduced motion support */
     @media (prefers-reduced-motion: reduce) {
+
       *,
       *::before,
       *::after {
@@ -460,18 +517,16 @@
 
   <div class="login-container">
     <div class="logo">Hauser NG</div>
-    <h2 class="text-2xl font-bold text-white text-center mb-8">Agent Login</h2>
+    <h2 class="text-2xl font-bold text-center mb-8" style="color: var(--text-primary);">Agent Login</h2>
 
     <form id="loginForm" class="space-y-6">
       <div>
         <label for="email" class="form-label">Email Address</label>
-        <input type="email" id="email" placeholder="Enter your email"
-          class="form-input" required />
+        <input type="email" id="email" placeholder="Enter your email" class="form-input" required />
       </div>
       <div>
         <label for="pin" class="form-label">Password</label>
-        <input type="password" id="pin" placeholder="Enter your password"
-          class="form-input" required />
+        <input type="password" id="pin" placeholder="Enter your password" class="form-input" required />
       </div>
 
       <button type="submit" class="btn-primary relative">
@@ -492,10 +547,9 @@
   <!-- Password Reset Modal -->
   <div id="resetModal" class="modal-overlay hidden">
     <div class="modal-content">
-      <h3 class="text-xl font-semibold text-white text-center mb-6">Reset Password</h3>
+      <h3 class="text-xl font-semibold text-center mb-6" style="color: var(--text-primary);">Reset Password</h3>
       <div class="space-y-4">
-        <input type="email" id="resetEmail" placeholder="Enter your email address"
-          class="form-input" />
+        <input type="email" id="resetEmail" placeholder="Enter your email address" class="form-input" />
         <button id="sendResetLink" class="btn-primary">
           Send Reset Link
         </button>
@@ -526,7 +580,7 @@
     function setLoading(isLoading) {
       const loginBtn = document.querySelector('button[type="submit"]');
       const loginText = document.getElementById('loginText');
-      
+
       if (isLoading) {
         loginBtn.classList.add('loading');
         loginText.textContent = 'Signing in...';
@@ -545,7 +599,7 @@
 
       // Hide previous error
       errorMsg.classList.add('hidden');
-      
+
       // Set loading state
       setLoading(true);
 
@@ -577,7 +631,7 @@
           console.error("Login failed:", error);
           setLoading(false);
           errorMsg.classList.remove('hidden');
-          
+
           // Add shake animation to form
           const container = document.querySelector('.login-container');
           container.style.animation = 'none';
@@ -631,7 +685,7 @@
           resetStatus.textContent = "Password reset email sent! Check your inbox.";
           resetStatus.className = "success-message text-sm text-center";
           resetStatus.classList.remove('hidden');
-          
+
           // Reset button after success
           setTimeout(() => {
             sendReset.textContent = originalText;
@@ -642,7 +696,7 @@
           resetStatus.textContent = error.message;
           resetStatus.className = "error-message text-sm text-center";
           resetStatus.classList.remove('hidden');
-          
+
           // Reset button after error
           sendReset.textContent = originalText;
           sendReset.disabled = false;
@@ -651,11 +705,11 @@
 
     // Add some interactive effects
     document.querySelectorAll('.form-input').forEach(input => {
-      input.addEventListener('focus', function() {
+      input.addEventListener('focus', function () {
         this.parentElement.style.transform = 'translateY(-2px)';
       });
-      
-      input.addEventListener('blur', function() {
+
+      input.addEventListener('blur', function () {
         this.parentElement.style.transform = 'translateY(0)';
       });
     });
@@ -681,4 +735,5 @@
     }
   </script>
 </body>
+
 </html>

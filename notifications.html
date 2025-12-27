@@ -1,0 +1,566 @@
+<!-- notifications.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bid Notifications</title>
+    <style>
+        :root {
+            --primary: #f8f9fa;
+            --primary-dark: #e9ecef;
+            --primary-light: #ffffff;
+            --accent: #f97316;
+            --accent-dark: #ea580c;
+            --accent-light: #fb923c;
+            --accent-glow: rgba(249, 115, 22, 0.2);
+            --text-primary: #1a1a1a;
+            --text-secondary: #4a4a4a;
+            --text-muted: #6b7280;
+            --bg-primary: #f8f9fa;
+            --bg-secondary: #ffffff;
+            --bg-card: rgba(255, 255, 255, 0.9);
+            --border: rgba(0, 0, 0, 0.08);
+            --border-highlight: rgba(249, 115, 22, 0.3);
+            --error: #ef4444;
+            --success: #22c55e;
+            --warning: #f59e0b;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 8px 20px rgba(0, 0, 0, 0.12);
+            --shadow-lg: 0 12px 28px rgba(0, 0, 0, 0.15);
+            --shadow-glow: 0 0 20px var(--accent-glow);
+            --radius-sm: 0.5rem;
+            --radius: 0.75rem;
+            --radius-lg: 1rem;
+            --radius-xl: 1.5rem;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-fast: all 0.15s ease;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f4f4f4;
+            color: var(--text-primary);
+        }
+
+        /* From Uiverse.io by vinodjangid07 */
+        .button {
+            width: 200px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 10px;
+            padding: 0px 15px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+            position: relative;
+            cursor: pointer;
+            transition-duration: .2s;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .bell {
+            width: 13px;
+        }
+
+        .bell path {
+            fill: rgb(0, 206, 62);
+        }
+
+        .arrow {
+            position: absolute;
+            right: 0;
+            width: 30px;
+            height: 100%;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+        }
+
+        .button:hover {
+            background-color: rgba(249, 249, 249, 1);
+            border-color: var(--border-highlight);
+            box-shadow: var(--shadow);
+            transition-duration: .2s;
+        }
+
+        .button:hover .arrow {
+            animation: slide-right .6s ease-out both;
+        }
+
+        /* arrow animation */
+        @keyframes slide-right {
+            0% {
+                transform: translateX(-10px);
+                opacity: 0;
+            }
+
+            100% {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .button:active {
+            transform: translate(1px, 1px);
+            transition-duration: .2s;
+        }
+
+
+
+        .loader {
+            --dim: 3rem;
+            width: var(--dim);
+            height: var(--dim);
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            margin-top: calc(var(--dim) / -2);
+            margin-left: calc(var(--dim) / -2);
+            animation: spin988 2s linear infinite;
+        }
+
+        .loader .circle {
+            --color: #333;
+            --dim: 1.2rem;
+            width: var(--dim);
+            height: var(--dim);
+            background-color: var(--color);
+            border-radius: 50%;
+            position: absolute;
+        }
+
+        .loader .circle:nth-child(1) {
+            top: 0;
+            left: 0;
+        }
+
+        .loader .circle:nth-child(2) {
+            top: 0;
+            right: 0;
+        }
+
+        .loader .circle:nth-child(3) {
+            bottom: 0;
+            left: 0;
+        }
+
+        .loader .circle:nth-child(4) {
+            bottom: 0;
+            right: 0;
+        }
+
+        @keyframes spin988 {
+            0% {
+                transform: scale(1) rotate(0);
+            }
+
+            20%,
+            25% {
+                transform: scale(1.3) rotate(90deg);
+            }
+
+            45%,
+            50% {
+                transform: scale(1) rotate(180deg);
+            }
+
+            70%,
+            75% {
+                transform: scale(1.3) rotate(270deg);
+            }
+
+            95%,
+            100% {
+                transform: scale(1) rotate(360deg);
+            }
+        }
+
+
+
+
+        /* arrow animation */
+        @keyframes slide-right {
+            0% {
+                transform: translateX(-10px);
+                opacity: 0;
+            }
+
+            100% {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .button:active {
+            transform: translate(1px, 1px);
+            transition-duration: .2s;
+        }
+
+
+
+        /* Navbar Styles */
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px) saturate(180%);
+            border-bottom: 1px solid var(--border);
+            box-shadow: var(--shadow-md), 0 1px 0 rgba(0, 0, 0, 0.02) inset;
+            padding: 0.8rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            transition: var(--transition);
+            border-radius: 20px;
+        }
+
+        .navbar:hover {
+            box-shadow: var(--shadow-lg), 0 1px 0 rgba(0, 0, 0, 0.03) inset;
+        }
+
+        .navbar-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .logo-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-glow), var(--shadow);
+            font-size: 1.5rem;
+            transition: var(--transition);
+            animation: pulse-glow 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse-glow {
+
+            0%,
+            100% {
+                box-shadow: var(--shadow-glow), var(--shadow);
+            }
+
+            50% {
+                box-shadow: 0 0 30px var(--accent-glow), var(--shadow-md);
+            }
+        }
+
+        .logo-icon:hover {
+            transform: scale(1.05) rotate(5deg);
+        }
+
+        .logo-text {
+            font-size: 1.8rem;
+            font-weight: bold;
+            background: linear-gradient(to right, var(--text-primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius);
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-link:hover {
+            color: var(--accent);
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        .nav-link svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        /* From Uiverse.io by Yaya12085 */
+        .card {
+            background-color: rgba(243, 244, 246, 1);
+            padding: 2rem;
+            max-width: 100%;
+            /* Adjusted for responsiveness, was 320px */
+            border-radius: 10px;
+            box-shadow: 0 20px 30px -20px rgba(5, 5, 5, 0.24);
+            margin-bottom: 20px;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            grid-gap: 1rem;
+            gap: 1rem;
+        }
+
+        .header .image {
+            height: 4rem;
+            width: 4rem;
+            border-radius: 9999px;
+            object-fit: cover;
+            background-color: royalblue;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .stars {
+            display: flex;
+            justify-content: center;
+            grid-gap: 0.125rem;
+            gap: 0.125rem;
+            color: rgba(34, 197, 94, 1);
+        }
+
+        .stars svg {
+            height: 1rem;
+            width: 1rem;
+        }
+
+        .name {
+            margin-top: 0.25rem;
+            font-size: 1.125rem;
+            line-height: 1.75rem;
+            font-weight: 600;
+            --tw-text-opacity: 1;
+            color: rgba(55, 65, 81, 1);
+        }
+
+        .message {
+            margin-top: 1rem;
+            color: rgba(107, 114, 128, 1);
+        }
+
+        .bid-details {
+            margin-top: 0.5rem;
+            padding-top: 0.5rem;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <header class="navbar">
+        <div class="navbar-container">
+            <div class="logo-section">
+                <div class="logo-icon">🏠</div>
+            </div>
+            <nav class="nav-links">
+
+                <button class="button">
+                    <a href="dashboard.html" class="nav-link">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                        </svg>
+                        Back
+                    </a>
+                    <div class="arrow">›</div>
+                </button>
+                <button class="button">
+                    <a href="add-property.html" id="addPropertyLink" class="nav-link"
+                        style="color: black; text-decoration: none;">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                        </svg>
+                        Add Property
+                    </a>
+                    <div class="arrow">›</div>
+                </button>
+                <button class="button">
+                    <a href="notifications.html" style=" color:black; text-decoration: none;">
+                        <svg class="bell" viewBox="0 0 448 512">
+                            <path
+                                d="M224 0c-17.7 0-32 14.3-32 32V49.9C119.5 61.4 64 124.2 64 200v33.4c0 45.4-15.5 89.5-43.8 124.9L5.3 377c-5.8 7.2-6.9 17.1-2.9 25.4S14.8 416 24 416H424c9.2 0 17.6-5.3 21.6-13.6s2.9-18.2-2.9-25.4l-14.9-18.6C399.5 322.9 384 278.8 384 233.4V200c0-75.8-55.5-138.6-128-150.1V32c0-17.7-14.3-32-32-32zm0 96h8c57.4 0 104 46.6 104 104v33.4c0 47.9 13.9 94.6 39.7 134.6H72.3C98.1 328 112 281.3 112 233.4V200c0-57.4 46.6-104 104-104h8zm64 352H224 160c0 17 6.7 33.3 18.7 45.3s28.3 18.7 45.3 18.7s33.3-6.7 45.3-18.7s18.7-28.3 18.7-45.3z">
+                            </path>
+                        </svg>
+                        Notifications </a>
+
+                    <div class="arrow">›</div>
+
+                </button>
+                <button class="button">
+                    <a href="real_estate_subscription.html" class="nav-link">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        </svg>
+                        Upgrade Plan
+                    </a>
+                    <div class="arrow">›
+                    </div>
+                </button>
+                <button class="button">
+                    <a href="vacancies.html" class="nav-link">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                        </svg>
+                        Vacancies
+                    </a>
+                    <div class="arrow"></div>
+                </button>
+                <button class="button">
+                    <a href="https://cust.fillout.com/eu" class="nav-link">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+                        </svg>
+                        Feedback
+                    </a>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <h1>Bid Notifications</h1>
+    <div id="notificationsContainer">
+
+        <div class="loader">
+            <div class="circle"></div>
+            <div class="circle"></div>
+            <div class="circle"></div>
+            <div class="circle"></div>
+        </div>
+
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
+        import { getFirestore, collection, query, where, onSnapshot } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-auth.js";
+
+        // TODO: Replace with your Firebase config
+        const firebaseConfig = {
+            apiKey: "AIzaSyAHqg_u1DwWUB9l1vuoYDLKjCJl5Xx7Pbo",
+            authDomain: "hauserng-77cc2.firebaseapp.com",
+            projectId: "hauserng-77cc2",
+            storageBucket: "hauserng-77cc2.appspot.com",
+            messagingSenderId: "613578175402",
+            appId: "1:613578175402:web:db7413f898987ac6a1f1d3"
+        };
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+        const notificationsContainer = document.getElementById("notificationsContainer");
+
+        onAuthStateChanged(auth, (user) => {
+            if (!user) {
+                notificationsContainer.innerHTML = "<p>Please log in to view your bids.</p>";
+                return;
+            }
+
+            // Query bids where the listingOwnerUid matches the logged-in user
+            const bidsQuery = query(collection(db, "bids"), where("listingOwnerUid", "==", user.uid));
+
+            onSnapshot(bidsQuery, (snapshot) => {
+                notificationsContainer.innerHTML = ""; // clear previous
+                if (snapshot.empty) {
+                    notificationsContainer.innerHTML = "<p>No bids yet.</p>";
+                    return;
+                }
+
+                // Sort bids by createdAt timestamp (newest first)
+                const sortedDocs = snapshot.docs.sort((a, b) => {
+                    const aTime = a.data().createdAt?.seconds || 0;
+                    const bTime = b.data().createdAt?.seconds || 0;
+                    return bTime - aTime; // descending order (newest first)
+                });
+
+                sortedDocs.forEach((doc) => {
+                    const bid = doc.data();
+                    const bidTime = bid.createdAt?.seconds ? new Date(bid.createdAt.seconds * 1000).toLocaleString() : "N/A";
+                    const card = document.createElement("div");
+                    card.className = "card";
+
+                    const initial = bid.bidderName ? bid.bidderName.charAt(0) : '?';
+
+                    card.innerHTML = `
+        <div class="header">
+          <div class="image">${initial}</div>
+          <div>
+            <div class="stars">
+              <svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+              </svg>
+              <svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+              </svg>
+              <svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+              </svg>
+              <svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+              </svg>
+              <svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+              </svg>
+            </div>
+            <p class="name">${bid.bidderName}</p>
+          </div>
+        </div>
+
+        <div class="message">
+          <p><strong>Offer:</strong> N${bid.bidAmount} for <em>${bid.listingTitle}</em></p>
+          <p>${bid.message}</p>
+          <div class="bid-details">
+             <p>${bid.familyType} • ${bid.childrenCount} Children</p>
+             <p>📞 ${bid.bidderPhone}</p>
+             <p style="font-size: 0.8em; color: #888; margin-top:5px;">${bidTime}</p>
+          </div>
+        </div>
+        `;
+                    notificationsContainer.appendChild(card); // append in sorted order
+                });
+            });
+        });
+    </script>
+
+</body>
+
+</html>
