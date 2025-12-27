@@ -1,35 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hauser NG - Your Premier Property Listing Platform</title>
-    <link rel="manifest" href="manifest.json"> 
-    <meta name="theme-color" content="#080F73">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#ffffff">
     <link rel="apple-touch-icon" href="img/logo1.jpg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="js/main.js"></script>
     <style>
         :root {
             --primary-dark: #0f172a;
-            --primary-blue: #1e40af;
-            --primary-light: #3b82f6;
+            --primary-blue: #2563eb;
+            --primary-light: #60a5fa;
             --accent: #f59e0b;
-            --text-primary: #1f2937;
-            --text-secondary: #6b7280;
-            --text-light: #9ca3af;
+            --text-primary: #1e293b;
+            --text-secondary: #475569;
+            --text-light: #94a3b8;
             --bg-light: #f8fafc;
             --bg-white: #ffffff;
-            --border-light: #e5e7eb;
-            --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
-            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
-            --gradient-primary: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
+            --border-light: #e2e8f0;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+            --gradient-primary: linear-gradient(135deg, #1d4ed8 0%, #3b82f6 100%);
             --gradient-accent: linear-gradient(135deg, #d97706 0%, #f59e0b 100%);
-            --gradient-bg: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            --gradient-bg: linear-gradient(135deg, #eff6ff 0%, #f8fafc 100%);
             --transition-base: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
@@ -51,19 +54,18 @@
         }
 
         /* Typography */
-        h1, h2, h3, h4, h5, h6 {
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
             font-weight: 700;
             line-height: 1.2;
             letter-spacing: -0.025em;
             margin-bottom: 1rem;
+            color: var(--text-primary);
         }
-
-        .text-xl { font-size: 1.25rem; line-height: 1.5; }
-        .text-2xl { font-size: 1.5rem; line-height: 1.5; }
-        .text-3xl { font-size: 1.875rem; line-height: 1.375; }
-        .text-4xl { font-size: 2.25rem; line-height: 1.25; }
-        .text-5xl { font-size: 3rem; line-height: 1.2; }
-        .text-6xl { font-size: 3.75rem; line-height: 1.2; }
 
         p {
             margin-bottom: 1.5rem;
@@ -101,12 +103,12 @@
         .logo {
             font-size: 1.5rem;
             font-weight: 800;
-            color: var(--primary-blue);
+            color: var(--primary-dark);
             text-decoration: none;
             letter-spacing: -0.025em;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.75rem;
             transition: var(--transition-base);
         }
 
@@ -114,9 +116,9 @@
             opacity: 0.9;
         }
 
-        .logo::before {
-            content: '🏠';
+        .logo i {
             font-size: 1.25rem;
+            color: var(--accent);
         }
 
         .nav-links {
@@ -145,12 +147,12 @@
             left: 0;
             width: 0;
             height: 2px;
-            background: var(--primary-blue);
+            background: var(--primary-dark);
             transition: var(--transition-base);
         }
 
         .nav-links li a:hover {
-            color: var(--primary-blue);
+            color: var(--primary-dark);
         }
 
         .nav-links li a:hover::after {
@@ -158,7 +160,7 @@
         }
 
         .nav-links li a.btn-nav {
-            background: var(--gradient-primary);
+            background: var(--primary-dark);
             color: white;
             padding: 0.625rem 1.25rem;
             border-radius: 0.5rem;
@@ -196,7 +198,7 @@
         .mobile-menu span {
             width: 24px;
             height: 2px;
-            background: var(--primary-blue);
+            background: var(--accent);
             margin: 3px 0;
             transition: var(--transition-base);
             border-radius: 2px;
@@ -211,10 +213,10 @@
             align-items: center;
             justify-content: center;
             text-align: center;
-            color: white;
+            color: var(--text-primary);
             position: relative;
             overflow: hidden;
-            padding: 6rem 0 4rem;
+            padding: 8rem 0 4rem;
         }
 
         .hero::before {
@@ -240,15 +242,16 @@
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            background: rgba(59, 130, 246, 0.15);
-            border: 1px solid rgba(59, 130, 246, 0.3);
+            background: rgba(15, 23, 42, 0.05);
+            border: 1px solid rgba(15, 23, 42, 0.1);
             padding: 0.5rem 1.25rem;
             border-radius: 2rem;
             font-size: 0.875rem;
             font-weight: 600;
             margin-bottom: 2rem;
             backdrop-filter: blur(10px);
-            color: #e2e8f0;
+            color: var(--primary-dark);
+            box-shadow: var(--shadow-sm);
         }
 
         .hero h1 {
@@ -257,18 +260,17 @@
             font-weight: 800;
             line-height: 1.1;
             letter-spacing: -0.025em;
-            background: linear-gradient(135deg, #fff 0%, #e2e8f0 100%);
+            background: linear-gradient(135deg, var(--primary-dark) 0%, #334155 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         .hero p {
             font-size: clamp(1.125rem, 2vw, 1.375rem);
             margin-bottom: 3rem;
-            opacity: 0.9;
-            color: #cbd5e1;
+            opacity: 1;
+            color: var(--text-secondary);
             max-width: 700px;
             margin-left: auto;
             margin-right: auto;
@@ -286,7 +288,7 @@
         .btn {
             display: inline-flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.75rem;
             padding: 1rem 2.25rem;
             border: none;
             border-radius: 0.75rem;
@@ -313,16 +315,18 @@
         }
 
         .btn-secondary {
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            backdrop-filter: blur(10px);
+            background: white;
+            color: var(--text-primary);
+            border: 1px solid var(--border-light);
+            box-shadow: var(--shadow-sm);
         }
 
         .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.2);
+            background: var(--bg-light);
             transform: translateY(-3px);
             box-shadow: var(--shadow-md);
+            border-color: var(--accent);
+            color: var(--accent);
         }
 
         /* Section Styles */
@@ -347,14 +351,14 @@
 
         .section-badge {
             display: inline-block;
-            background: rgba(59, 130, 246, 0.1);
-            color: var(--primary-blue);
+            background: rgba(15, 23, 42, 0.05);
+            color: var(--primary-dark);
             padding: 0.5rem 1.25rem;
             border-radius: 2rem;
             font-size: 0.875rem;
             font-weight: 600;
             margin-bottom: 1.5rem;
-            border: 1px solid rgba(59, 130, 246, 0.2);
+            border: 1px solid rgba(15, 23, 42, 0.1);
         }
 
         .section-title {
@@ -419,7 +423,7 @@
         .stat-number {
             font-size: 2.25rem;
             font-weight: 800;
-            color: var(--primary-blue);
+            color: var(--accent);
             display: block;
             line-height: 1.2;
             margin-bottom: 0.25rem;
@@ -465,12 +469,14 @@
             font-size: 1.75rem;
             margin-bottom: 0.75rem;
             font-weight: 700;
+            color: white;
         }
 
         .about-image-content p {
-            opacity: 0.9;
+            opacity: 0.95;
             font-size: 1.125rem;
             line-height: 1.6;
+            color: rgba(255, 255, 255, 0.9);
         }
 
         /* Features Section */
@@ -493,6 +499,7 @@
             transition: var(--transition-base);
             position: relative;
             overflow: hidden;
+            box-shadow: var(--shadow-sm);
         }
 
         .feature-card::before {
@@ -502,7 +509,7 @@
             left: 0;
             right: 0;
             height: 4px;
-            background: var(--gradient-primary);
+            background: var(--gradient-accent);
             transform: scaleX(0);
             transform-origin: left;
             transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
@@ -515,25 +522,27 @@
         .feature-card:hover {
             transform: translateY(-8px);
             box-shadow: var(--shadow-xl);
-            border-color: rgba(59, 130, 246, 0.2);
+            border-color: rgba(245, 158, 11, 0.2);
         }
 
         .feature-icon {
             width: 64px;
             height: 64px;
-            background: var(--gradient-primary);
+            background: var(--bg-light);
             border-radius: 1rem;
             display: flex;
             align-items: center;
             justify-content: center;
             margin-bottom: 1.5rem;
             font-size: 1.5rem;
-            color: white;
-            box-shadow: var(--shadow-md);
+            color: var(--accent);
+            box-shadow: var(--shadow-sm);
             transition: var(--transition-base);
         }
 
         .feature-card:hover .feature-icon {
+            background: var(--gradient-accent);
+            color: white;
             transform: rotate(5deg) scale(1.05);
         }
 
@@ -550,24 +559,34 @@
             font-size: 1.0625rem;
         }
 
-        /* Education Section */
+        /* Education Section - Updated to Light Theme */
         .education {
-            background: var(--gradient-bg);
-            color: white;
+            background: var(--bg-light);
+            position: relative;
+        }
+
+        .education::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%233b82f6' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
         }
 
         .education .section-title {
-            color: white;
+            color: var(--text-primary);
         }
 
         .education .section-description {
-            color: #cbd5e1;
+            color: var(--text-secondary);
         }
 
         .education .section-badge {
-            background: rgba(245, 158, 11, 0.2);
+            background: rgba(245, 158, 11, 0.1);
             color: var(--accent);
-            border-color: rgba(245, 158, 11, 0.3);
+            border-color: rgba(245, 158, 11, 0.2);
         }
 
         .education-grid {
@@ -575,28 +594,29 @@
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2.5rem;
             margin-top: 3rem;
+            position: relative;
+            z-index: 1;
         }
 
         .education-step {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
+            background: white;
             padding: 2.5rem;
             border-radius: 1.5rem;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--border-light);
             transition: var(--transition-base);
             position: relative;
+            box-shadow: var(--shadow-sm);
         }
 
         .education-step:hover {
-            background: rgba(255, 255, 255, 0.1);
             transform: translateY(-8px);
-            border-color: rgba(255, 255, 255, 0.2);
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+            border-color: var(--primary-light);
+            box-shadow: var(--shadow-xl);
         }
 
         .step-number {
-            width: 56px;
-            height: 56px;
+            width: 50px;
+            height: 50px;
             background: var(--gradient-accent);
             border-radius: 1rem;
             display: flex;
@@ -613,18 +633,18 @@
             margin-bottom: 1.25rem;
             font-size: 1.375rem;
             font-weight: 700;
+            color: var(--text-primary);
         }
 
         .education-step p {
-            opacity: 0.9;
+            color: var(--text-secondary);
             line-height: 1.6;
-            color: #e2e8f0;
             font-size: 1.0625rem;
         }
 
         /* CTA Section */
         .cta-section {
-            background: var(--bg-light);
+            background: white;
             text-align: center;
         }
 
@@ -638,6 +658,7 @@
             background: var(--primary-dark);
             color: white;
             padding: 5rem 0 2rem;
+            position: relative;
         }
 
         .footer-content {
@@ -652,12 +673,12 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 0.5rem;
+            gap: 0.75rem;
             color: white;
         }
 
-        .footer-logo::before {
-            content: '🏠';
+        .footer-logo i {
+            color: var(--accent);
         }
 
         .footer p {
@@ -684,6 +705,7 @@
                 opacity: 0;
                 transform: translateY(30px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -695,6 +717,7 @@
                 opacity: 0;
                 transform: translateX(-30px);
             }
+
             to {
                 opacity: 1;
                 transform: translateX(0);
@@ -706,6 +729,7 @@
                 opacity: 0;
                 transform: translateX(30px);
             }
+
             to {
                 opacity: 1;
                 transform: translateX(0);
@@ -713,8 +737,15 @@
         }
 
         @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-10px) rotate(1deg); }
+
+            0%,
+            100% {
+                transform: translateY(0px) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-10px) rotate(1deg);
+            }
         }
 
         /* Scroll animations */
@@ -734,12 +765,12 @@
             .nav-container {
                 padding: 1rem 1.5rem;
             }
-            
+
             .about-grid {
                 grid-template-columns: 1fr;
                 gap: 3rem;
             }
-            
+
             .about-stats {
                 grid-template-columns: repeat(4, 1fr);
             }
@@ -759,7 +790,6 @@
             }
 
             .nav-links {
-                display: none;
                 position: fixed;
                 top: 72px;
                 left: 0;
@@ -774,6 +804,7 @@
                 box-shadow: var(--shadow-lg);
                 height: calc(100vh - 72px);
                 overflow-y: auto;
+                display: none;
             }
 
             .nav-links.active {
@@ -905,7 +936,7 @@
             transform: translateY(-4px);
         }
 
-        /* Focus states for accessibility */
+        /* Focus states */
         .btn:focus,
         .nav-links a:focus,
         .mobile-menu:focus {
@@ -928,6 +959,7 @@
 
         /* Reduced motion support */
         @media (prefers-reduced-motion: reduce) {
+
             *,
             *::before,
             *::after {
@@ -939,19 +971,25 @@
         }
     </style>
 </head>
+
 <body>
     <!-- Navigation -->
     <nav class="navbar" id="navbar">
         <div class="nav-container">
-            <a href="#home" class="logo">Hauser NG</a>
+            <a href="#home" class="logo">
+                <i class="fas fa-home"></i>
+                Hauser NG
+            </a>
             <ul class="nav-links" id="nav-links">
                 <li><a href="index.html">Home</a></li>
                 <li><a href="#about">About</a></li>
+                <li><a href="#bidding">Bidding</a></li>
+                <li><a href="#launch">Launch Business</a></li>
                 <li><a href="real_estate_subscription.html">Pricing</a></li>
                 <li><a href="vacancies.html">Vacancies</a></li>
                 <li><a href="login.html">Login</a></li>
                 <li><a href="signup.html" class="btn-nav">Get Started</a></li>
-                   <li><a href="app/app.html" class="btn-nav">Get our Mobile App</a></li>
+                <li><a href="app/app.html" class="btn-nav">Get our Mobile App</a></li>
                 <li><a href="https://cust.fillout.com/eu">Support</a></li>
             </ul>
             <button class="mobile-menu" id="mobile-menu" aria-label="Toggle navigation menu">
@@ -966,18 +1004,20 @@
     <section class="hero" id="home">
         <div class="hero-content">
             <div class="hero-badge">
-                <span>🚀</span>
+                <i class="fas fa-rocket"></i>
                 Nigeria's #1 Property Platform
             </div>
             <h1>Transform Your Property Business</h1>
-            <p>Connect with quality tenants through Nigeria's premier property listing platform. List your properties, reach more customers, and grow your rental business effortlessly with our advanced tools and analytics.</p>
+            <p>Connect with quality tenants through Nigeria's premier property listing platform. List your properties,
+                reach more customers, and grow your rental business effortlessly with our advanced tools and analytics.
+            </p>
             <div class="cta-buttons">
                 <a href="signup.html" class="btn btn-primary">
                     Start Listing Today
-                    <span>→</span>
+                    <i class="fas fa-arrow-right"></i>
                 </a>
                 <a href="#about" class="btn btn-secondary">
-                    <span>▶</span>
+                    <i class="fas fa-play"></i>
                     Watch Demo
                 </a>
             </div>
@@ -990,14 +1030,19 @@
             <div class="section-header fade-in">
                 <div class="section-badge">About Hauser NG</div>
                 <h2 class="section-title">Empowering Property Professionals</h2>
-                <p class="section-description">Revolutionizing the Nigerian property market with innovative digital solutions that actually work for local professionals.</p>
+                <p class="section-description">Revolutionizing the Nigerian property market with innovative digital
+                    solutions that actually work for local professionals.</p>
             </div>
             <div class="about-grid">
                 <div class="about-content fade-in">
                     <h3>Built for Nigerian Property Professionals</h3>
-                    <p>Hauser NG is Nigeria's leading online property listing platform, designed specifically for agents and landlords who want to maximize their property visibility and connect with serious tenants.</p>
-                    <p>Our platform combines cutting-edge technology with deep understanding of the Nigerian real estate market, providing you with tools that actually work in our local context.</p>
-                    <p>Whether you're managing a single property or a large portfolio, Hauser NG gives you the digital presence and professional tools you need to succeed in today's competitive market.</p>
+                    <p>Hauser NG is Nigeria's leading online property listing platform, designed specifically for agents
+                        and landlords who want to maximize their property visibility and connect with serious tenants.
+                    </p>
+                    <p>Our platform combines cutting-edge technology with deep understanding of the Nigerian real estate
+                        market, providing you with tools that actually work in our local context.</p>
+                    <p>Whether you're managing a single property or a large portfolio, Hauser NG gives you the digital
+                        presence and professional tools you need to succeed in today's competitive market.</p>
                     <div class="about-stats">
                         <div class="stat-item">
                             <span class="stat-number">10K+</span>
@@ -1035,38 +1080,185 @@
             <div class="section-header fade-in">
                 <div class="section-badge">Why Choose Us</div>
                 <h2 class="section-title">Powerful Features for Modern Agents</h2>
-                <p class="section-description">Discover the advantages that set us apart in the Nigerian property market with tools built for success.</p>
+                <p class="section-description">Discover the advantages that set us apart in the Nigerian property market
+                    with tools built for success.</p>
             </div>
             <div class="features-grid">
                 <div class="feature-card fade-in">
-                    <div class="feature-icon">🎯</div>
+                    <div class="feature-icon">
+                        <i class="fas fa-bullseye"></i>
+                    </div>
                     <h3>Maximum Visibility</h3>
-                    <p>Get your properties seen by thousands of potential tenants across Nigeria with our advanced listing optimization and targeted promotion tools.</p>
+                    <p>Get your properties seen by thousands of potential tenants across Nigeria with our advanced
+                        listing optimization and targeted promotion tools.</p>
                 </div>
                 <div class="feature-card fade-in">
-                    <div class="feature-icon">📱</div>
+                    <div class="feature-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
                     <h3>Mobile-First Design</h3>
-                    <p>Over 80% of Nigerian property searches happen on mobile. Our platform is optimized for the devices your customers actually use daily.</p>
+                    <p>Over 80% of Nigerian property searches happen on mobile. Our platform is optimized for the
+                        devices your customers actually use daily.</p>
                 </div>
                 <div class="feature-card fade-in">
-                    <div class="feature-icon">💰</div>
+                    <div class="feature-icon">
+                        <i class="fas fa-coins"></i>
+                    </div>
                     <h3>Cost-Effective Marketing</h3>
-                    <p>Replace expensive traditional advertising with targeted digital marketing that reaches the right tenants at the right time, reducing costs by 60%.</p>
+                    <p>Replace expensive traditional advertising with targeted digital marketing that reaches the right
+                        tenants at the right time, reducing costs by 60%.</p>
                 </div>
                 <div class="feature-card fade-in">
-                    <div class="feature-icon">⚡</div>
+                    <div class="feature-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
                     <h3>Quick Setup</h3>
-                    <p>List your first property in under 5 minutes. Our streamlined process gets you online and attracting qualified tenants immediately.</p>
+                    <p>List your first property in under 5 minutes. Our streamlined process gets you online and
+                        attracting qualified tenants immediately.</p>
                 </div>
                 <div class="feature-card fade-in">
-                    <div class="feature-icon">🔍</div>
+                    <div class="feature-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
                     <h3>Quality Leads</h3>
-                    <p>Our advanced verification system ensures you connect with serious, qualified tenants who are ready to rent, not just browsing casually.</p>
+                    <p>Our advanced verification system ensures you connect with serious, qualified tenants who are
+                        ready to rent, not just browsing casually.</p>
                 </div>
                 <div class="feature-card fade-in">
-                    <div class="feature-icon">📊</div>
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
                     <h3>Analytics Dashboard</h3>
-                    <p>Track your listing performance, understand market trends, and make data-driven decisions to optimize your rental business growth.</p>
+                    <p>Track your listing performance, understand market trends, and make data-driven decisions to
+                        optimize your rental business growth.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bidding Section -->
+    <section class="section bidding" id="bidding">
+        <div class="container">
+            <div class="section-header fade-in">
+                <div class="section-badge">Bidding & Negotiation</div>
+                <h2 class="section-title">Transparent Real-Time Bidding</h2>
+                <p class="section-description">Experience a fair and transparent way to secure your next home or office.
+                    Our platform enables real-time negotiation between property owners and prospective tenants.</p>
+            </div>
+            <div class="about-grid">
+                <div class="about-image fade-in">
+                    <div class="about-image-container" style="background: var(--primary-dark);">
+                        <div class="about-image-content">
+                            <i class="fas fa-gavel"
+                                style="font-size: 4rem; margin-bottom: 1.5rem; color: var(--accent);"></i>
+                            <h4>Fair Market Value</h4>
+                            <p>Let the market decide the best price through transparent bidding.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-content fade-in">
+                    <h3>How Bidding Works</h3>
+                    <p>Our bidding system is designed to provide equal opportunities for everyone. Prospective tenants
+                        can place offers, and owners can review and accept the best match.</p>
+                    <ul class="feature-checklist" style="list-style: none; margin-top: 2rem;">
+                        <li style="display: flex; gap: 1rem; margin-bottom: 1.5rem;">
+                            <i class="fas fa-check-circle" style="color: var(--accent); font-size: 1.25rem;"></i>
+                            <div>
+                                <strong>Real-Time Updates</strong>
+                                <p style="margin-bottom: 0; color: var(--text-secondary);">Get instant notifications
+                                    when a new bid is placed or an offer is accepted.</p>
+                            </div>
+                        </li>
+                        <li style="display: flex; gap: 1rem; margin-bottom: 1.5rem;">
+                            <i class="fas fa-check-circle" style="color: var(--accent); font-size: 1.25rem;"></i>
+                            <div>
+                                <strong>Verified Bidders</strong>
+                                <p style="margin-bottom: 0; color: var(--text-secondary);">We ensure all participants
+                                    are verified to maintain marketplace integrity.</p>
+                            </div>
+                        </li>
+                        <li style="display: flex; gap: 1rem; margin-bottom: 1.5rem;">
+                            <i class="fas fa-check-circle" style="color: var(--accent); font-size: 1.25rem;"></i>
+                            <div>
+                                <strong>Direct Negotiation</strong>
+                                <p style="margin-bottom: 0; color: var(--text-secondary);">Skip the middleman and
+                                    communicate directly with property managers.</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SaaS Business Section -->
+    <section class="section saas-launch" id="launch" style="background: var(--bg-light);">
+        <div class="container">
+            <div class="section-header fade-in">
+                <div class="section-badge">Your Business, Powered by Hauser</div>
+                <h2 class="section-title">Launch Your Real Estate Business</h2>
+                <p class="section-description">Hauser isn't just a listing platform—it's a complete SaaS infrastructure
+                    that allows agents and landlords to start and scale their own real estate ventures profitably.</p>
+            </div>
+            <div class="about-grid" style="grid-template-columns: 1fr 1fr; gap: 4rem;">
+                <div class="about-content fade-in">
+                    <h3>Business in a Box</h3>
+                    <p>We provide the digital foundation you need to professionalize your real estate operations from
+                        day one.</p>
+                    <div class="features-list" style="margin-top: 2rem;">
+                        <div class="feature-item"
+                            style="margin-bottom: 2rem; display: flex; gap: 1.5rem; align-items: flex-start;">
+                            <div
+                                style="background: var(--primary-dark); color: white; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                                <i class="fas fa-rocket"></i>
+                            </div>
+                            <div>
+                                <h4 style="margin-bottom: 0.5rem; font-size: 1.25rem;">Instant Deployment</h4>
+                                <p style="font-size: 1rem; color: var(--text-secondary);">Set up your professional
+                                    agency presence in minutes. No technical skills required to start listing and
+                                    attracting clients.</p>
+                            </div>
+                        </div>
+                        <div class="feature-item"
+                            style="margin-bottom: 2rem; display: flex; gap: 1.5rem; align-items: flex-start;">
+                            <div
+                                style="background: var(--accent); color: white; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                                <i class="fas fa-tools"></i>
+                            </div>
+                            <div>
+                                <h4 style="margin-bottom: 0.5rem; font-size: 1.25rem;">Admin Control Center</h4>
+                                <p style="font-size: 1rem; color: var(--text-secondary);">Manage listings, track
+                                    inquiries, and handle offers through a powerful dashboard designed for business
+                                    owners.</p>
+                            </div>
+                        </div>
+                        <div class="feature-item"
+                            style="margin-bottom: 2rem; display: flex; gap: 1.5rem; align-items: flex-start;">
+                            <div
+                                style="background: var(--primary-dark); color: white; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div>
+                                <h4 style="margin-bottom: 0.5rem; font-size: 1.25rem;">CRM & Lead Management</h4>
+                                <p style="font-size: 1rem; color: var(--text-secondary);">Keep track of every lead and
+                                    prospect. Our built-in tools help you convert visitors into loyal tenants or buyers.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-image fade-in">
+                    <div class="about-image-container"
+                        style="background: white; border: 1px solid var(--border-light); padding: 2rem; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;">
+                        <div style="font-size: 5rem; color: var(--primary-dark); margin-bottom: 2rem;">
+                            <i class="fas fa-briefcase"></i>
+                        </div>
+                        <h3 style="color: var(--primary-dark);">Scale Without Limits</h3>
+                        <p style="color: var(--text-secondary);">From your first property to a multi-city portfolio,
+                            Hauser grows with your ambition.</p>
+                        <a href="signup.html" class="btn btn-primary" style="margin-top: 2rem; width: 100%;">Get Started
+                            for Free</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1078,38 +1270,45 @@
             <div class="section-header fade-in">
                 <div class="section-badge">Success Guide</div>
                 <h2 class="section-title">How to Succeed on Hauser NG</h2>
-                <p class="section-description">Master these proven strategies to maximize your property visibility and attract quality tenants consistently.</p>
+                <p class="section-description">Master these proven strategies to maximize your property visibility and
+                    attract quality tenants consistently.</p>
             </div>
             <div class="education-grid">
                 <div class="education-step fade-in">
                     <div class="step-number">1</div>
                     <h3>Create Compelling Listings</h3>
-                    <p>Use high-quality photos, detailed descriptions, and highlight unique features. Properties with professional photos get 3x more inquiries and rent 40% faster.</p>
+                    <p>Use high-quality photos, detailed descriptions, and highlight unique features. Properties with
+                        professional photos get 3x more inquiries and rent 40% faster.</p>
                 </div>
                 <div class="education-step fade-in">
                     <div class="step-number">2</div>
                     <h3>Price Competitively</h3>
-                    <p>Research similar properties in your area. Use our market insights and pricing tools to set rates that attract tenants while maximizing your returns.</p>
+                    <p>Research similar properties in your area. Use our market insights and pricing tools to set rates
+                        that attract tenants while maximizing your returns.</p>
                 </div>
                 <div class="education-step fade-in">
                     <div class="step-number">3</div>
                     <h3>Respond Quickly</h3>
-                    <p>Fast response times build trust and increase conversion rates. Aim to respond to inquiries within 2 hours for 85% higher booking rates.</p>
+                    <p>Fast response times build trust and increase conversion rates. Aim to respond to inquiries within
+                        2 hours for 85% higher booking rates.</p>
                 </div>
                 <div class="education-step fade-in">
                     <div class="step-number">4</div>
                     <h3>Keep Information Updated</h3>
-                    <p>Regular updates signal active management to both tenants and our algorithm, improving your listing's visibility in search results by up to 200%.</p>
+                    <p>Regular updates signal active management to both tenants and our algorithm, improving your
+                        listing's visibility in search results by up to 200%.</p>
                 </div>
                 <div class="education-step fade-in">
                     <div class="step-number">5</div>
                     <h3>Build Your Profile</h3>
-                    <p>Complete your agent profile with credentials and testimonials. Verified profiles get 40% more tenant trust and generate higher-quality inquiries.</p>
+                    <p>Complete your agent profile with credentials and testimonials. Verified profiles get 40% more
+                        tenant trust and generate higher-quality inquiries.</p>
                 </div>
                 <div class="education-step fade-in">
                     <div class="step-number">6</div>
                     <h3>Use Premium Features</h3>
-                    <p>Boost your listings with featured placement, virtual tours, and priority support to stand out in a competitive market and close deals faster.</p>
+                    <p>Boost your listings with featured placement, virtual tours, and priority support to stand out in
+                        a competitive market and close deals faster.</p>
                 </div>
             </div>
         </div>
@@ -1121,11 +1320,12 @@
             <div class="cta-content fade-in">
                 <div class="section-badge">Ready to Get Started?</div>
                 <h2 class="section-title">Join Thousands of Successful Agents</h2>
-                <p class="section-description">Start listing your properties today and connect with quality tenants across Nigeria. No setup fees, no long-term contracts.</p>
+                <p class="section-description">Start listing your properties today and connect with quality tenants
+                    across Nigeria. No setup fees, no long-term contracts.</p>
                 <div class="cta-buttons">
                     <a href="signup.html" class="btn btn-primary">
                         Start Free Trial
-                        <span>→</span>
+                        <i class="fas fa-arrow-right"></i>
                     </a>
                     <a href="real_estate_subscription.html" class="btn btn-secondary">
                         View Pricing
@@ -1139,7 +1339,10 @@
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
-                <div class="footer-logo">Hauser NG</div>
+                <div class="footer-logo">
+                    <i class="fas fa-home"></i>
+                    Hauser NG
+                </div>
                 <p>Nigeria's premier property listing platform</p>
                 <p>Email: pixelpro548@gmail.com</p>
             </div>
@@ -1158,7 +1361,7 @@
             navLinks.classList.toggle('active');
             mobileMenu.classList.toggle('active');
             document.body.style.overflow = navLinks.classList.contains('active') ? 'hidden' : '';
-            
+
             // Animate hamburger menu
             const spans = mobileMenu.querySelectorAll('span');
             if (mobileMenu.classList.contains('active')) {
@@ -1178,7 +1381,7 @@
                 navLinks.classList.remove('active');
                 mobileMenu.classList.remove('active');
                 document.body.style.overflow = '';
-                
+
                 const spans = mobileMenu.querySelectorAll('span');
                 spans[0].style.transform = 'none';
                 spans[1].style.opacity = '1';
@@ -1192,13 +1395,13 @@
 
         window.addEventListener('scroll', () => {
             const currentScrollY = window.scrollY;
-            
+
             if (currentScrollY > 100) {
                 navbar.classList.add('scrolled');
             } else {
                 navbar.classList.remove('scrolled');
             }
-            
+
             // Hide navbar on scroll down, show on scroll up
             if (currentScrollY > lastScrollY && currentScrollY > 200 && !navLinks.classList.contains('active')) {
                 navbar.style.transform = 'translateY(-100%)';
@@ -1206,7 +1409,7 @@
             } else {
                 navbar.style.transform = 'translateY(0)';
             }
-            
+
             lastScrollY = currentScrollY;
         });
 
@@ -1230,7 +1433,7 @@
                     navLinks.classList.remove('active');
                     mobileMenu.classList.remove('active');
                     document.body.style.overflow = '';
-                    
+
                     // Reset hamburger menu
                     const spans = mobileMenu.querySelectorAll('span');
                     spans[0].style.transform = 'none';
@@ -1261,22 +1464,22 @@
 
         // Enhanced card interactions
         document.querySelectorAll('.feature-card, .education-step').forEach(card => {
-            card.addEventListener('mouseenter', function() {
+            card.addEventListener('mouseenter', function () {
                 this.style.transform = 'translateY(-8px)';
                 this.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
             });
-            
-            card.addEventListener('mouseleave', function() {
+
+            card.addEventListener('mouseleave', function () {
                 this.style.transform = 'translateY(0)';
             });
         });
 
         // Add loading states for buttons
         document.querySelectorAll('.btn-primary, .btn-secondary').forEach(btn => {
-            btn.addEventListener('click', function(e) {
+            btn.addEventListener('click', function (e) {
                 if (this.href && !this.href.startsWith('#')) {
                     this.style.opacity = '0.8';
-                    this.innerHTML = this.innerHTML.replace(/<span>.*<\/span>/, '') + ' <span>⏳</span>';
+                    this.innerHTML = this.innerHTML.replace(/<i.*><\/i>/, '') + ' <i class="fas fa-spinner fa-spin"></i>';
                     this.style.pointerEvents = 'none';
                 }
             });
@@ -1299,7 +1502,7 @@
         }
 
         // Add focus management for accessibility
-        document.addEventListener('keydown', function(e) {
+        document.addEventListener('keydown', function (e) {
             if (e.key === 'Escape' && navLinks.classList.contains('active')) {
                 navLinks.classList.remove('active');
                 mobileMenu.classList.remove('active');
@@ -1331,4 +1534,5 @@
         }
     </script>
 </body>
+
 </html>
