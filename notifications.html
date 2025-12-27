@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bid Notifications</title>
+    <title>Bid Notifications - Hauser NG</title>
     <style>
         :root {
             --primary: #f8f9fa;
@@ -39,34 +39,78 @@
             --transition-fast: all 0.15s ease;
         }
 
-        body {
-            font-family: Arial, sans-serif;
-            padding: 20px;
-            background: #f4f4f4;
-            color: var(--text-primary);
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
-        /* From Uiverse.io by vinodjangid07 */
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 50%, var(--primary) 100%);
+            background-size: 200% 200%;
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+            position: relative;
+            overflow-x: hidden;
+            animation: backgroundShift 20s ease infinite;
+        }
+
+        @keyframes backgroundShift {
+
+            0%,
+            100% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+
+        /* Button Component - Enhanced Responsive */
         .button {
-            width: 200px;
+            width: 100%;
+            max-width: 200px;
+            min-width: 140px;
             height: 40px;
             display: flex;
             align-items: center;
             justify-content: flex-start;
-            gap: 10px;
-            padding: 0px 15px;
+            gap: 8px;
+            padding: 0 12px;
             background-color: rgba(255, 255, 255, 0.9);
             border-radius: 10px;
             color: var(--text-primary);
             border: 1px solid var(--border);
             position: relative;
             cursor: pointer;
-            transition-duration: .2s;
+            transition: all 0.2s ease;
             box-shadow: var(--shadow-sm);
+        }
+
+        .button a {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            text-decoration: none;
+            color: inherit;
+            font-size: 0.9rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .button svg {
+            flex-shrink: 0;
+            width: 18px;
+            height: 18px;
         }
 
         .bell {
             width: 13px;
+            flex-shrink: 0;
         }
 
         .bell path {
@@ -75,10 +119,10 @@
 
         .arrow {
             position: absolute;
-            right: 0;
-            width: 30px;
+            right: 8px;
+            width: 24px;
             height: 100%;
-            font-size: 18px;
+            font-size: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -89,14 +133,12 @@
             background-color: rgba(249, 249, 249, 1);
             border-color: var(--border-highlight);
             box-shadow: var(--shadow);
-            transition-duration: .2s;
         }
 
         .button:hover .arrow {
-            animation: slide-right .6s ease-out both;
+            animation: slide-right 0.6s ease-out both;
         }
 
-        /* arrow animation */
         @keyframes slide-right {
             0% {
                 transform: translateX(-10px);
@@ -111,11 +153,9 @@
 
         .button:active {
             transform: translate(1px, 1px);
-            transition-duration: .2s;
         }
 
-
-
+        /* Loader */
         .loader {
             --dim: 3rem;
             width: var(--dim);
@@ -126,6 +166,7 @@
             margin-top: calc(var(--dim) / -2);
             margin-left: calc(var(--dim) / -2);
             animation: spin988 2s linear infinite;
+            z-index: 9999;
         }
 
         .loader .circle {
@@ -184,30 +225,7 @@
             }
         }
 
-
-
-
-        /* arrow animation */
-        @keyframes slide-right {
-            0% {
-                transform: translateX(-10px);
-                opacity: 0;
-            }
-
-            100% {
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
-
-        .button:active {
-            transform: translate(1px, 1px);
-            transition-duration: .2s;
-        }
-
-
-
-        /* Navbar Styles */
+        /* Navbar Styles - Enhanced Responsive */
         .navbar {
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(20px) saturate(180%);
@@ -219,6 +237,7 @@
             z-index: 1000;
             transition: var(--transition);
             border-radius: 20px;
+            margin-bottom: 1.5rem;
         }
 
         .navbar:hover {
@@ -228,17 +247,18 @@
         .navbar-container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 1.5rem;
+            padding: 0 1rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-
+            gap: 1rem;
         }
 
         .logo-section {
             display: flex;
             align-items: center;
             gap: 0.75rem;
+            flex-shrink: 0;
         }
 
         .logo-icon {
@@ -253,6 +273,7 @@
             font-size: 1.5rem;
             transition: var(--transition);
             animation: pulse-glow 3s ease-in-out infinite;
+            flex-shrink: 0;
         }
 
         @keyframes pulse-glow {
@@ -272,30 +293,52 @@
         }
 
         .logo-text {
-            font-size: 1.8rem;
+            font-size: clamp(1.25rem, 3vw, 1.8rem);
             font-weight: bold;
             background: linear-gradient(to right, var(--text-primary), var(--accent));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            white-space: nowrap;
+        }
+
+        /* Mobile Menu Toggle */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 0.3rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            background: transparent;
+            border: none;
+        }
+
+        .menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background: var(--accent);
+            border-radius: 2px;
+            transition: var(--transition);
         }
 
         .nav-links {
             display: flex;
             align-items: center;
-            gap: 1.5rem;
+            gap: 0.75rem;
+            flex-wrap: wrap;
         }
 
         .nav-link {
             color: var(--text-secondary);
             text-decoration: none;
             font-weight: 500;
-            padding: 0.5rem 1rem;
+            padding: 0.5rem 0.75rem;
             border-radius: var(--radius);
             transition: var(--transition);
             display: flex;
             align-items: center;
             gap: 0.5rem;
+            font-size: 0.9rem;
         }
 
         .nav-link:hover {
@@ -304,79 +347,391 @@
         }
 
         .nav-link svg {
-            width: 20px;
-            height: 20px;
+            width: 18px;
+            height: 18px;
+            flex-shrink: 0;
+        }
+
+        /* Page Container */
+        .page-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1.5rem 1rem;
         }
 
         h1 {
             text-align: center;
+            font-size: clamp(1.75rem, 4vw, 2.5rem);
+            font-weight: bold;
+            margin-bottom: 2rem;
+            background: linear-gradient(to right, var(--text-primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
-        /* From Uiverse.io by Yaya12085 */
+        #notificationsContainer {
+            display: grid;
+            gap: 1.25rem;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        }
+
+        /* Notification Card - Enhanced Responsive */
         .card {
-            background-color: rgba(243, 244, 246, 1);
-            padding: 2rem;
-            max-width: 100%;
-            /* Adjusted for responsiveness, was 320px */
-            border-radius: 10px;
-            box-shadow: 0 20px 30px -20px rgba(5, 5, 5, 0.24);
-            margin-bottom: 20px;
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px) saturate(180%);
+            padding: clamp(1.25rem, 3vw, 2rem);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-md), 0 1px 0 rgba(0, 0, 0, 0.02) inset;
+            border: 1px solid var(--border);
+            transition: var(--transition);
+            animation: cardFadeIn 0.5s ease-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent), var(--accent-light));
+        }
+
+        @keyframes cardFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg), 0 1px 0 rgba(0, 0, 0, 0.03) inset;
+            border-color: var(--border-highlight);
         }
 
         .header {
             display: flex;
             align-items: center;
-            grid-gap: 1rem;
             gap: 1rem;
+            margin-bottom: 1rem;
         }
 
         .header .image {
-            height: 4rem;
-            width: 4rem;
+            height: clamp(3rem, 8vw, 4rem);
+            width: clamp(3rem, 8vw, 4rem);
             border-radius: 9999px;
-            object-fit: cover;
-            background-color: royalblue;
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 1.5rem;
+            font-size: clamp(1.25rem, 3vw, 1.5rem);
             font-weight: bold;
             text-transform: uppercase;
+            box-shadow: var(--shadow-glow), var(--shadow);
+            flex-shrink: 0;
         }
 
         .stars {
             display: flex;
-            justify-content: center;
-            grid-gap: 0.125rem;
+            justify-content: flex-start;
             gap: 0.125rem;
             color: rgba(34, 197, 94, 1);
+            flex-wrap: wrap;
         }
 
         .stars svg {
-            height: 1rem;
-            width: 1rem;
+            height: clamp(0.85rem, 2vw, 1rem);
+            width: clamp(0.85rem, 2vw, 1rem);
+            flex-shrink: 0;
         }
 
         .name {
             margin-top: 0.25rem;
-            font-size: 1.125rem;
-            line-height: 1.75rem;
+            font-size: clamp(1rem, 2.2vw, 1.125rem);
+            line-height: 1.5;
             font-weight: 600;
-            --tw-text-opacity: 1;
             color: rgba(55, 65, 81, 1);
+            word-break: break-word;
         }
 
         .message {
             margin-top: 1rem;
             color: rgba(107, 114, 128, 1);
+            font-size: clamp(0.9rem, 1.8vw, 1rem);
+        }
+
+        .message p {
+            margin-bottom: 0.5rem;
+            line-height: 1.6;
+        }
+
+        .message strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .message em {
+            color: var(--accent);
+            font-style: normal;
+            font-weight: 500;
         }
 
         .bid-details {
-            margin-top: 0.5rem;
-            padding-top: 0.5rem;
-            border-top: 1px solid rgba(0, 0, 0, 0.1);
-            font-size: 0.9em;
+            margin-top: 0.75rem;
+            padding-top: 0.75rem;
+            border-top: 1px solid var(--border);
+            font-size: clamp(0.85rem, 1.6vw, 0.9rem);
+        }
+
+        .bid-details p {
+            margin-bottom: 0.35rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .bid-details p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Empty State */
+        .empty-state {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: clamp(2rem, 5vw, 3rem);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(249, 249, 249, 0.9) 100%);
+            border-radius: var(--radius-xl);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-md);
+        }
+
+        .empty-state p {
+            font-size: clamp(1rem, 2vw, 1.125rem);
+            color: var(--text-secondary);
+        }
+
+        /* ==================== RESPONSIVE BREAKPOINTS ==================== */
+
+        /* Tablet - Large (1024px and below) */
+        @media (max-width: 1024px) {
+            .nav-links {
+                gap: 0.5rem;
+            }
+
+            .button {
+                max-width: 180px;
+                min-width: 130px;
+                height: 38px;
+            }
+
+            #notificationsContainer {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                gap: 1rem;
+            }
+        }
+
+        /* Tablet - Medium (900px and below) */
+        @media (max-width: 900px) {
+            .page-container {
+                padding: 1.25rem 0.75rem;
+            }
+
+            .navbar {
+                margin-bottom: 1.25rem;
+            }
+
+            #notificationsContainer {
+                grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            }
+        }
+
+        /* Tablet / Mobile - Large (768px and below) */
+        @media (max-width: 768px) {
+            .navbar-container {
+                flex-wrap: wrap;
+            }
+
+            .menu-toggle {
+                display: flex;
+                order: 3;
+            }
+
+            .nav-links {
+                width: 100%;
+                order: 4;
+                flex-direction: column;
+                align-items: stretch;
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.3s ease;
+                gap: 0.5rem;
+            }
+
+            .nav-links.active {
+                max-height: 600px;
+                margin-top: 1rem;
+                padding-top: 1rem;
+                border-top: 1px solid var(--border);
+            }
+
+            .button {
+                max-width: 100%;
+                justify-content: space-between;
+            }
+
+            .logo-icon {
+                width: 42px;
+                height: 42px;
+                font-size: 1.3rem;
+            }
+
+            #notificationsContainer {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                margin-bottom: 1.5rem;
+            }
+
+            .header {
+                gap: 0.75rem;
+            }
+        }
+
+        /* Mobile - Medium (576px and below) */
+        @media (max-width: 576px) {
+            .navbar {
+                padding: 0.6rem 0;
+                border-radius: 15px;
+                margin-bottom: 1rem;
+            }
+
+            .navbar-container {
+                padding: 0 0.75rem;
+            }
+
+            .logo-icon {
+                width: 38px;
+                height: 38px;
+                font-size: 1.2rem;
+                border-radius: 12px;
+            }
+
+            .page-container {
+                padding: 1rem 0.5rem;
+            }
+
+            .card {
+                border-radius: var(--radius-lg);
+                padding: 1.25rem;
+            }
+
+            .button {
+                height: 36px;
+                font-size: 0.8rem;
+            }
+
+            .button a {
+                font-size: 0.85rem;
+            }
+
+            .bid-details {
+                font-size: 0.85rem;
+            }
+        }
+
+        /* Mobile - Small (400px and below) */
+        @media (max-width: 400px) {
+            .navbar-container {
+                padding: 0 0.5rem;
+            }
+
+            .logo-icon {
+                width: 36px;
+                height: 36px;
+                font-size: 1.1rem;
+                border-radius: 10px;
+            }
+
+            .page-container {
+                padding: 0.75rem 0.5rem;
+            }
+
+            .card {
+                padding: 1rem;
+            }
+
+            .header {
+                gap: 0.65rem;
+            }
+
+            .button {
+                height: 34px;
+                padding: 0 10px;
+                gap: 6px;
+            }
+
+            .button a {
+                font-size: 0.8rem;
+                gap: 4px;
+            }
+
+            .button svg {
+                width: 16px;
+                height: 16px;
+            }
+
+            .arrow {
+                font-size: 14px;
+                width: 20px;
+            }
+
+            h1 {
+                margin-bottom: 1.25rem;
+            }
+        }
+
+        /* Landscape Mobile Adjustments */
+        @media (max-height: 600px) and (orientation: landscape) {
+            .navbar {
+                padding: 0.5rem 0;
+                margin-bottom: 1rem;
+            }
+
+            .page-container {
+                padding: 1rem 0.75rem;
+            }
+
+            .logo-icon {
+                width: 36px;
+                height: 36px;
+                font-size: 1.1rem;
+            }
+
+            .card {
+                padding: 1rem;
+            }
+
+            h1 {
+                margin-bottom: 1rem;
+                font-size: 1.5rem;
+            }
+
+            .header .image {
+                height: 3rem;
+                width: 3rem;
+                font-size: 1.2rem;
+            }
         }
     </style>
 </head>
@@ -388,9 +743,16 @@
         <div class="navbar-container">
             <div class="logo-section">
                 <div class="logo-icon">🏠</div>
+                <h1 class="logo-text">Hauser NG</h1>
             </div>
-            <nav class="nav-links">
 
+            <button class="menu-toggle" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <nav class="nav-links" id="navLinks">
                 <button class="button">
                     <a href="dashboard.html" class="nav-link">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -401,9 +763,9 @@
                     </a>
                     <div class="arrow">›</div>
                 </button>
+
                 <button class="button">
-                    <a href="add-property.html" id="addPropertyLink" class="nav-link"
-                        style="color: black; text-decoration: none;">
+                    <a href="add-property.html" id="addPropertyLink" class="nav-link">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
@@ -412,18 +774,19 @@
                     </a>
                     <div class="arrow">›</div>
                 </button>
+
                 <button class="button">
-                    <a href="notifications.html" style=" color:black; text-decoration: none;">
+                    <a href="notifications.html">
                         <svg class="bell" viewBox="0 0 448 512">
                             <path
                                 d="M224 0c-17.7 0-32 14.3-32 32V49.9C119.5 61.4 64 124.2 64 200v33.4c0 45.4-15.5 89.5-43.8 124.9L5.3 377c-5.8 7.2-6.9 17.1-2.9 25.4S14.8 416 24 416H424c9.2 0 17.6-5.3 21.6-13.6s2.9-18.2-2.9-25.4l-14.9-18.6C399.5 322.9 384 278.8 384 233.4V200c0-75.8-55.5-138.6-128-150.1V32c0-17.7-14.3-32-32-32zm0 96h8c57.4 0 104 46.6 104 104v33.4c0 47.9 13.9 94.6 39.7 134.6H72.3C98.1 328 112 281.3 112 233.4V200c0-57.4 46.6-104 104-104h8zm64 352H224 160c0 17 6.7 33.3 18.7 45.3s28.3 18.7 45.3 18.7s33.3-6.7 45.3-18.7s18.7-28.3 18.7-45.3z">
                             </path>
                         </svg>
-                        Notifications </a>
-
+                        Notifications
+                    </a>
                     <div class="arrow">›</div>
-
                 </button>
+
                 <button class="button">
                     <a href="real_estate_subscription.html" class="nav-link">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -432,9 +795,9 @@
                         </svg>
                         Upgrade Plan
                     </a>
-                    <div class="arrow">›
-                    </div>
+                    <div class="arrow">›</div>
                 </button>
+
                 <button class="button">
                     <a href="vacancies.html" class="nav-link">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -443,8 +806,9 @@
                         </svg>
                         Vacancies
                     </a>
-                    <div class="arrow"></div>
+                    <div class="arrow">›</div>
                 </button>
+
                 <button class="button">
                     <a href="https://cust.fillout.com/eu" class="nav-link">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -453,29 +817,38 @@
                         </svg>
                         Feedback
                     </a>
+                    <div class="arrow">›</div>
                 </button>
             </nav>
         </div>
     </header>
 
-    <h1>Bid Notifications</h1>
-    <div id="notificationsContainer">
-
-        <div class="loader">
-            <div class="circle"></div>
-            <div class="circle"></div>
-            <div class="circle"></div>
-            <div class="circle"></div>
+    <!-- Main Content -->
+    <div class="page-container">
+        <h1>Bid Notifications</h1>
+        <div id="notificationsContainer">
+            <div class="loader">
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+            </div>
         </div>
-
     </div>
+
+    <script>
+        // Mobile menu toggle
+        function toggleMenu() {
+            const navLinks = document.getElementById('navLinks');
+            navLinks.classList.toggle('active');
+        }
+    </script>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
         import { getFirestore, collection, query, where, onSnapshot } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-auth.js";
 
-        // TODO: Replace with your Firebase config
         const firebaseConfig = {
             apiKey: "AIzaSyAHqg_u1DwWUB9l1vuoYDLKjCJl5Xx7Pbo",
             authDomain: "hauserng-77cc2.firebaseapp.com",
@@ -490,26 +863,29 @@
         const notificationsContainer = document.getElementById("notificationsContainer");
 
         onAuthStateChanged(auth, (user) => {
+            const loader = document.querySelector('.loader');
+
             if (!user) {
-                notificationsContainer.innerHTML = "<p>Please log in to view your bids.</p>";
+                if (loader) loader.style.display = 'none';
+                notificationsContainer.innerHTML = '<div class="empty-state"><p>Please log in to view your bids.</p></div>';
                 return;
             }
 
-            // Query bids where the listingOwnerUid matches the logged-in user
             const bidsQuery = query(collection(db, "bids"), where("listingOwnerUid", "==", user.uid));
 
             onSnapshot(bidsQuery, (snapshot) => {
-                notificationsContainer.innerHTML = ""; // clear previous
+                if (loader) loader.style.display = 'none';
+                notificationsContainer.innerHTML = "";
+
                 if (snapshot.empty) {
-                    notificationsContainer.innerHTML = "<p>No bids yet.</p>";
+                    notificationsContainer.innerHTML = '<div class="empty-state"><p>No bids yet.</p></div>';
                     return;
                 }
 
-                // Sort bids by createdAt timestamp (newest first)
                 const sortedDocs = snapshot.docs.sort((a, b) => {
                     const aTime = a.data().createdAt?.seconds || 0;
                     const bTime = b.data().createdAt?.seconds || 0;
-                    return bTime - aTime; // descending order (newest first)
+                    return bTime - aTime;
                 });
 
                 sortedDocs.forEach((doc) => {
@@ -546,17 +922,21 @@
         </div>
 
         <div class="message">
-          <p><strong>Offer:</strong> N${bid.bidAmount} for <em>${bid.listingTitle}</em></p>
-          <p>${bid.message}</p>
+          <p><strong>Offer:</strong> ₦${bid.bidAmount} for <em>${bid.listingTitle}</em></p>
+          <p>${bid.message || 'No additional message'}</p>
           <div class="bid-details">
-             <p>${bid.familyType} • ${bid.childrenCount} Children</p>
-             <p>📞 ${bid.bidderPhone}</p>
-             <p style="font-size: 0.8em; color: #888; margin-top:5px;">${bidTime}</p>
+             <p>${bid.familyType || 'N/A'} • ${bid.childrenCount || 0} Children</p>
+             <p>📞 ${bid.bidderPhone || 'N/A'}</p>
+             <p style="font-size: 0.85em; color: #888; margin-top:5px;">${bidTime}</p>
           </div>
         </div>
         `;
-                    notificationsContainer.appendChild(card); // append in sorted order
+                    notificationsContainer.appendChild(card);
                 });
+            }, (error) => {
+                if (loader) loader.style.display = 'none';
+                console.error("Error loading bids:", error);
+                notificationsContainer.innerHTML = '<div class="empty-state"><p>Error loading bids. Please refresh the page.</p></div>';
             });
         });
     </script>
