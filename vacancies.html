@@ -1295,6 +1295,7 @@
   <!-- Firebase -->
   <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-auth-compat.js"></script>
 
   <script>
     // Mobile menu toggle
@@ -1324,10 +1325,19 @@
 
     let allProperties = [];
 
-    function toggleDetails(id) {
-      const el = document.getElementById(id);
+    function toggleDetails(elementId, propertyId, ownerId) {
+      const el = document.getElementById(elementId);
       const current = window.getComputedStyle(el).display;
       el.style.display = (current === "none") ? "block" : "none";
+
+      // Track the click
+      const auth = firebase.auth();
+      db.collection('propertyClicks').add({
+        propertyId: propertyId,
+        ownerId: ownerId,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+        userId: auth.currentUser ? auth.currentUser.uid : null
+      }).catch(error => console.error('Error tracking click:', error));
     }
 
     function renderProperties(list) {
@@ -1400,7 +1410,7 @@
             <span>${p.location || 'Location not specified'}</span>
           </div>
           <p class="property-description">${p.description || 'No description available.'}</p>
-          <a href="javascript:void(0);" class="read-more" onclick="toggleDetails('${toggleId}')">
+          <a href="javascript:void(0);" class="read-more" onclick="toggleDetails('${toggleId}', '${p.id}', '${p.uid}')">
             <i class="fas fa-chevron-down"></i> More Details
           </a>
           <div id="${toggleId}" class="extra-details">
@@ -1599,23 +1609,37 @@
         const childrenField = document.getElementById("children");
         const messageField = document.getElementById("message");
 
-        await db.collection("bids").add({
-          listingId: activeListing.listingId,
-          listingOwnerUid: activeListing.ownerUid,
-          listingTitle: activeListing.title,
-          bidderName: nameField.value.trim(),
-          bidderPhone: phoneField.value.trim(),
-          bidAmount: Number(amountField.value),
-          familyType: document.querySelector('input[name="familyType"]:checked').value,
-          childrenCount: Number(childrenField.value || 0),
-          message: messageField.value.trim(),
-          status: "unread",
-          createdAt: firebase.firestore.FieldValue.serverTimestamp()
-        });
+        try {
+          // 1. Save the bid document
+          await db.collection("bids").add({
+            listingId: activeListing.listingId,
+            listingOwnerUid: activeListing.ownerUid,
+            listingTitle: activeListing.title,
+            bidderName: nameField.value.trim(),
+            bidderPhone: phoneField.value.trim(),
+            bidAmount: Number(amountField.value),
+            familyType: document.querySelector('input[name="familyType"]:checked').value,
+            childrenCount: Number(childrenField.value || 0),
+            message: messageField.value.trim(),
+            status: "unread",
+            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+          });
 
-        alert("Offer submitted successfully!");
-        e.target.reset();
-        bidModal.classList.remove("active");
+          // 2. Increment bidsCount on the property atomically
+          const propertyRef = db.collection('properties').doc(activeListing.listingId);
+          await propertyRef.update({
+            bidsCount: firebase.firestore.FieldValue.increment(1)
+          });
+
+          // Success feedback
+          alert("Offer submitted successfully!");
+          bidForm.reset();
+          bidModal.classList.remove("active");
+
+        } catch (error) {
+          console.error("Error submitting bid:", error);
+          alert("Failed to submit offer. Please try again.");
+        }
       });
     }
 
@@ -1628,6 +1652,7 @@
     }
   </script>
 
-</body>
+</body>x
 
 </html>
+```

@@ -724,10 +724,23 @@
       flex-wrap: wrap;
     }
 
+    .footer-info {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
     .property-id {
       font-size: clamp(0.7rem, 1.4vw, 0.75rem);
       color: var(--text-muted);
       opacity: 0.6;
+    }
+
+    .property-clicks {
+      font-size: clamp(0.7rem, 1.4vw, 0.75rem);
+      color: var(--success);
+      font-weight: 500;
     }
 
     .delete-btn {
@@ -1036,6 +1049,11 @@
         align-items: flex-start;
       }
 
+      .footer-info {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+
       .delete-btn {
         width: 100%;
         justify-content: center;
@@ -1237,6 +1255,15 @@
           <div class="arrow">›</div>
         </a>
 
+        <a href="analytics.html" class="button">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+          </svg>
+          Analytics
+          <div class="arrow">›</div>
+        </a>
+
         <a href="https://cust.fillout.com/eu" class="button" target="_blank" rel="noopener noreferrer">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -1410,7 +1437,10 @@
               </div>
               <p class="property-description">${p.description || "No description."}</p>
               <div class="property-footer">
-                <div class="property-id">Property ID: ${doc.id.substring(0, 8)}...</div>
+                <div class="footer-info">
+                  <div class="property-id">Property ID: ${doc.id.substring(0, 8)}...</div>
+                  <div class="property-clicks">Clicks: <span id="clicks-${doc.id}">Loading...</span></div>
+                </div>
                 <button class="delete-btn" data-id="${doc.id}">
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
@@ -1450,6 +1480,19 @@
               });
 
               list.appendChild(card);
+
+              // Fetch click count
+              db.collection('propertyClicks')
+                .where('propertyId', '==', doc.id)
+                .where('ownerId', '==', uid)
+                .get()
+                .then(snap => {
+                  document.getElementById(`clicks-${doc.id}`).textContent = snap.size;
+                })
+                .catch(error => {
+                  console.error('Error fetching clicks:', error);
+                  document.getElementById(`clicks-${doc.id}`).textContent = 'N/A';
+                });
             });
           }
         })
