@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loading Agency...</title>
+    <link rel="stylesheet" href="css/styles.css">
+
+    <!-- STEP 1: Load Firebase SDK (v9 compat version - works with your existing code) -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
+
+    <!-- STEP 2: Initialize Firebase -->
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyAHqg_u1DwWUB9l1vuoYDLKjCJl5Xx7Pbo",
+            authDomain: "hauserng-77cc2.firebaseapp.com",
+            projectId: "hauserng-77cc2",
+            storageBucket: "hauserng-77cc2.appStorage.com",
+            messagingSenderId: "613578175402",
+            appId: "1:613578175402:web:db7413f898987ac6a1f1d3"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+    </script>
+
+    <!-- STEP 3: Now load your branding script (after Firebase is ready) -->
+    <script src="js/branding.js" defer></script>
+</head>
+
+<body>
+
+    <header class="agency-header">
+        <img class="agency-logo" src="img/placeholder.jpg" alt="Agency Logo" style="display:none; max-height:80px;">
+        <h1 class="agency-name">Loading...</h1>
+    </header>
+
+    <section class="agency-about-section">
+        <p class="agency-about">Loading agency information...</p>
+    </section>
+
+    <section class="contact-info">
+        <p class="agency-phone"></p>
+        <p class="agency-email"></p>
+        <p class="agency-address"></p>
+    </section>
+
+    <section class="properties-section">
+        <h2>Available Properties</h2>
+        <div id="properties-grid" class="grid">
+            <p>Loading properties...</p>
+        </div>
+    </section>
+
+    <footer>
+        <p class="powered-by-hauser">Powered by Hauser</p>
+    </footer>
+
+    <script src="js/branding.js"></script> <!-- We'll create this next -->
+</body>
+
+</html>

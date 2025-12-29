@@ -1,0 +1,6 @@
+/js/*     /js/:splat     200
+/css/*    /css/:splat    200
+/img/*    /img/:splat    200
+/fonts/*  /fonts/:splat  200
+
+/*        /agency.html   200
