@@ -1,0 +1,292 @@
+/* agency.css - Branded Agency Public Page */
+:root {
+    --primary: #f8f9fa;
+    --primary-dark: #e9ecef;
+    --primary-light: #ffffff;
+    --accent: #f97316;
+    --accent-dark: #ea580c;
+    --accent-light: #fb923c;
+    --accent-glow: rgba(249, 115, 22, 0.2);
+    --text-primary: #1a1a1a;
+    --text-secondary: #4a4a4a;
+    --text-muted: #6b7280;
+    --bg-primary: #f8f9fa;
+    --bg-secondary: #ffffff;
+    --bg-card: rgba(255, 255, 255, 0.95);
+    --border: rgba(0, 0, 0, 0.08);
+    --border-highlight: rgba(249, 115, 22, 0.3);
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    --shadow-md: 0 8px 20px rgba(0, 0, 0, 0.12);
+    --shadow-lg: 0 12px 28px rgba(0, 0, 0, 0.15);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+    --shadow-glow: 0 0 20px var(--accent-glow);
+    --radius-sm: 0.5rem;
+    --radius: 0.75rem;
+    --radius-lg: 1rem;
+    --radius-xl: 1.5rem;
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 50%, #f8f9fa 100%);
+    background-size: 200% 200%;
+    color: var(--text-primary);
+    min-height: 100vh;
+    line-height: 1.6;
+    animation: backgroundShift 20s ease infinite;
+    position: relative;
+}
+
+@keyframes backgroundShift {
+
+    0%,
+    100% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    inset: -50%;
+    background:
+        radial-gradient(circle at 20% 30%, rgba(249, 115, 22, 0.04) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(249, 115, 22, 0.03) 0%, transparent 50%);
+    animation: float 25s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 0;
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0) rotate(0deg);
+    }
+
+    50% {
+        transform: translateY(-10px) rotate(1deg);
+    }
+}
+
+/* Header / Hero Section */
+.agency-header {
+    position: relative;
+    text-align: center;
+    padding: 4rem 2rem;
+    color: white;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6)), var(--accent);
+    background-size: cover;
+    background-position: center;
+    border-bottom: 4px solid var(--accent-light);
+    z-index: 1;
+}
+
+.agency-header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: -1;
+}
+
+.agency-logo {
+    max-height: 80px;
+    margin-bottom: 1rem;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-md);
+    display: none;
+}
+
+.hero-tagline {
+    font-size: 1.5rem;
+    font-weight: 500;
+    margin: 1rem 0;
+    opacity: 0.95;
+    display: none;
+}
+
+.agency-name {
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 700;
+    margin-bottom: 1rem;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
+}
+
+/* About Section */
+.agency-about-section {
+    max-width: 900px;
+    margin: 3rem auto;
+    padding: 2rem;
+    text-align: center;
+    background: var(--bg-card);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-md);
+    backdrop-filter: blur(20px);
+}
+
+.agency-about {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    line-height: 1.8;
+}
+
+/* Contact Info */
+.contact-info {
+    text-align: center;
+    margin: 2rem auto;
+    max-width: 600px;
+    padding: 1rem;
+}
+
+.agency-phone,
+.agency-email {
+    font-size: 1.1rem;
+    margin: 0.75rem 0;
+    color: var(--text-primary);
+}
+
+.agency-phone a,
+.agency-email a {
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+/* Properties Section */
+.properties-section {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+.properties-section h2 {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    color: var(--text-primary);
+}
+
+#properties-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.property-card {
+    background: var(--bg-card);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+    transition: var(--transition);
+    border: 1px solid var(--border);
+}
+
+.property-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-xl);
+    border-color: var(--accent);
+}
+
+.property-card img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+}
+
+.property-card h3 {
+    font-size: 1.2rem;
+    padding: 1rem 1rem 0.5rem;
+    font-weight: 600;
+}
+
+.property-card p {
+    padding: 0 1rem;
+    color: var(--text-secondary);
+}
+
+.price {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: var(--accent);
+    padding: 0.5rem 1rem;
+}
+
+.view-btn {
+    display: block;
+    margin: 1rem;
+    padding: 0.8rem;
+    background: var(--accent);
+    color: white;
+    text-align: center;
+    border-radius: var(--radius);
+    text-decoration: none;
+    font-weight: 600;
+    transition: var(--transition);
+}
+
+.view-btn:hover {
+    background: var(--accent-dark);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-glow);
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 2rem;
+    margin-top: 3rem;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.powered-by-hauser {
+    opacity: 0.8;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .agency-header {
+        padding: 3rem 1rem;
+    }
+
+    .hero-tagline {
+        font-size: 1.3rem;
+    }
+
+    .agency-name {
+        font-size: 2.2rem;
+    }
+
+    #properties-grid {
+        grid-template-columns: 1fr;
+        padding: 0 1rem;
+    }
+
+    .property-card img {
+        height: 200px;
+    }
+}
+
+@media (max-width: 480px) {
+    .agency-header {
+        padding: 2.5rem 1rem;
+    }
+
+    .agency-about-section {
+        padding: 1.5rem;
+        margin: 2rem 1rem;
+    }
+}

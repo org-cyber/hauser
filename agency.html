@@ -5,62 +5,701 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Loading Agency...</title>
-    <link rel="stylesheet" href="css/styles.css">
 
-    <!-- STEP 1: Load Firebase SDK (v9 compat version - works with your existing code) -->
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap"
+        rel="stylesheet">
 
-    <!-- STEP 2: Initialize Firebase -->
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore-compat.js"></script>
+
+    <style>
+        :root {
+            --primary-bg: #f8fafc;
+            --card-bg: #ffffff;
+            --primary-orange: #ea580c;
+            --secondary-orange: #f97316;
+            --slate-800: #1e293b;
+            --slate-700: #334155;
+            --slate-600: #475569;
+            --slate-500: #64748b;
+            --slate-400: #94a3b8;
+            --slate-200: #e2e8f0;
+            --slate-100: #f1f5f9;
+            --success-green: #059669;
+            --border-light: #e2e8f0;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            --radius-md: 0.5rem;
+            --radius-lg: 0.75rem;
+            --radius-xl: 1rem;
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--primary-bg);
+            min-height: 100vh;
+            color: var(--slate-800);
+            line-height: 1.6;
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: 'Manrope', sans-serif;
+            font-weight: 700;
+            letter-spacing: -0.025em;
+        }
+
+        /* Loading State */
+        .loading-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid var(--slate-200);
+            border-top-color: var(--primary-orange);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .loading-text {
+            margin-top: 1rem;
+            color: var(--slate-600);
+            font-size: 1rem;
+        }
+
+        /* Agency Header */
+        .agency-header {
+            position: relative;
+            text-align: center;
+            padding: 4rem 2rem;
+            color: white;
+            background: linear-gradient(135deg, var(--primary-orange), var(--secondary-orange));
+            background-size: cover;
+            background-position: center;
+            box-shadow: var(--shadow-lg);
+            min-height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .agency-header::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.5));
+            z-index: 0;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        .agency-logo {
+            max-height: 100px;
+            max-width: 300px;
+            margin: 0 auto 1.5rem;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-md);
+            background: white;
+            padding: 1rem;
+            display: none;
+        }
+
+        .agency-logo.show {
+            display: block;
+        }
+
+        .agency-name {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 800;
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
+        }
+
+        .hero-tagline {
+            font-size: clamp(1.125rem, 3vw, 1.5rem);
+            font-weight: 500;
+            opacity: 0.95;
+            display: none;
+        }
+
+        .hero-tagline.show {
+            display: block;
+        }
+
+        /* About Section */
+        .agency-about-section {
+            max-width: 900px;
+            margin: 3rem auto;
+            padding: 0 2rem;
+            display: none;
+        }
+
+        .agency-about-section.show {
+            display: block;
+        }
+
+        .about-container {
+            background: var(--card-bg);
+            border-radius: var(--radius-xl);
+            padding: 2.5rem;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-light);
+            text-align: center;
+        }
+
+        .about-title {
+            font-size: 1.75rem;
+            margin-bottom: 1rem;
+            color: var(--slate-800);
+        }
+
+        .agency-about {
+            font-size: 1.0625rem;
+            color: var(--slate-600);
+            line-height: 1.8;
+        }
+
+        /* Contact Info */
+        .contact-info {
+            text-align: center;
+            margin: 2rem auto;
+            max-width: 600px;
+            padding: 0 2rem;
+            display: none;
+        }
+
+        .contact-info.show {
+            display: block;
+        }
+
+        .contact-item {
+            font-size: 1.0625rem;
+            margin: 1rem 0;
+            color: var(--slate-700);
+        }
+
+        .contact-item a {
+            color: var(--primary-orange);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .contact-item a:hover {
+            color: var(--secondary-orange);
+        }
+
+        /* Properties Section */
+        .properties-section {
+            max-width: 1400px;
+            margin: 3rem auto;
+            padding: 0 2rem 3rem;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 2.5rem;
+            color: var(--slate-800);
+        }
+
+        .properties-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
+            gap: 2rem;
+        }
+
+        .property-card {
+            background: var(--card-bg);
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition);
+            border: 1px solid var(--border-light);
+        }
+
+        .property-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-xl);
+            border-color: var(--primary-orange);
+        }
+
+        .property-image {
+            width: 100%;
+            height: 240px;
+            object-fit: cover;
+            background: var(--slate-200);
+        }
+
+        .property-content {
+            padding: 1.5rem;
+        }
+
+        .property-title {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--slate-800);
+        }
+
+        .property-location {
+            font-size: 0.9375rem;
+            color: var(--slate-500);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .property-description {
+            font-size: 0.9375rem;
+            color: var(--slate-600);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .property-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-orange);
+            margin-bottom: 1rem;
+        }
+
+        .view-btn {
+            display: block;
+            width: 100%;
+            padding: 0.875rem;
+            background: linear-gradient(135deg, var(--primary-orange), var(--secondary-orange));
+            color: white;
+            text-align: center;
+            border-radius: var(--radius-md);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .view-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* Empty State */
+        .empty-state {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--slate-500);
+            background: var(--card-bg);
+            border-radius: var(--radius-xl);
+            border: 2px dashed var(--border-light);
+        }
+
+        .empty-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.3;
+        }
+
+        /* Error State */
+        .error-container {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .error-container.show {
+            display: flex;
+        }
+
+        .error-card {
+            max-width: 600px;
+            text-align: center;
+            background: white;
+            padding: 3rem 2rem;
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .error-icon {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            color: var(--slate-400);
+        }
+
+        .error-title {
+            font-size: 1.75rem;
+            margin-bottom: 1rem;
+            color: var(--slate-800);
+        }
+
+        .error-text {
+            font-size: 1.0625rem;
+            color: var(--slate-600);
+            margin-bottom: 2rem;
+        }
+
+        .error-link {
+            display: inline-block;
+            padding: 0.875rem 2rem;
+            background: linear-gradient(135deg, var(--primary-orange), var(--secondary-orange));
+            color: white;
+            text-decoration: none;
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .error-link:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+            color: var(--slate-500);
+            font-size: 0.9375rem;
+            border-top: 1px solid var(--border-light);
+        }
+
+        .powered-by-hauser {
+            opacity: 0.8;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .agency-header {
+                padding: 3rem 1.5rem;
+                min-height: 250px;
+            }
+
+            .about-container {
+                padding: 2rem 1.5rem;
+            }
+
+            .properties-section {
+                padding: 0 1rem 2rem;
+            }
+
+            .properties-grid {
+                gap: 1.5rem;
+            }
+
+            .property-image {
+                height: 200px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .agency-header {
+                padding: 2.5rem 1rem;
+            }
+
+            .about-container {
+                padding: 1.5rem;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Loading State -->
+    <div id="loadingContainer" class="loading-container">
+        <div class="loading-spinner"></div>
+        <div class="loading-text">Loading agency page...</div>
+    </div>
+
+    <!-- Main Content (hidden initially) -->
+    <div id="mainContent" style="display: none;">
+        <!-- Agency Header -->
+        <header class="agency-header" id="agencyHeader">
+            <div class="header-content">
+                <img id="agencyLogo" class="agency-logo" alt="Agency Logo">
+                <h1 id="agencyName" class="agency-name">Agency Name</h1>
+                <p id="heroTagline" class="hero-tagline"></p>
+            </div>
+        </header>
+
+        <!-- About Section -->
+        <section id="aboutSection" class="agency-about-section">
+            <div class="about-container">
+                <h2 class="about-title">About Us</h2>
+                <p id="agencyAbout" class="agency-about"></p>
+            </div>
+        </section>
+
+        <!-- Contact Info -->
+        <div id="contactInfo" class="contact-info">
+            <div id="phoneDisplay" class="contact-item" style="display: none;">
+                📞 <a id="phoneLink" href=""></a>
+            </div>
+            <div id="emailDisplay" class="contact-item" style="display: none;">
+                ✉️ <a id="emailLink" href=""></a>
+            </div>
+        </div>
+
+        <!-- Properties Section -->
+        <section class="properties-section">
+            <h2 class="section-title">Available Properties</h2>
+            <div id="propertiesGrid" class="properties-grid"></div>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <p id="poweredBy" class="powered-by-hauser">Powered by <strong>Hauser NG</strong></p>
+        </footer>
+    </div>
+
+    <!-- Error State (hidden initially) -->
+    <div id="errorContainer" class="error-container">
+        <div class="error-card">
+            <div class="error-icon">🏠</div>
+            <h1 class="error-title">Agency Not Found</h1>
+            <p class="error-text">The agency page you're looking for doesn't exist or has been removed.</p>
+            <a href="/" class="error-link">Go to Homepage</a>
+        </div>
+    </div>
+
     <script>
+        // Firebase Configuration
         const firebaseConfig = {
             apiKey: "AIzaSyAHqg_u1DwWUB9l1vuoYDLKjCJl5Xx7Pbo",
             authDomain: "hauserng-77cc2.firebaseapp.com",
             projectId: "hauserng-77cc2",
-            storageBucket: "hauserng-77cc2.appStorage.com",
+            storageBucket: "hauserng-77cc2.appspot.com",
             messagingSenderId: "613578175402",
             appId: "1:613578175402:web:db7413f898987ac6a1f1d3"
         };
 
-        // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        // Get slug from URL path
+        function getSlugFromURL() {
+            const path = window.location.pathname;
+            // Remove leading/trailing slashes and get first segment
+            const slug = path.replace(/^\/|\/$/g, '').split('/')[0];
+            return slug || null;
+        }
+
+        // Load agency and properties
+        async function loadAgencyPage() {
+            const slug = getSlugFromURL();
+
+            // Don't load if it's the main pages
+            if (!slug || slug === 'index.html' || slug === 'vacancies.html' || slug === 'login.html' || slug === 'signup.html' || slug === 'dashboard.html') {
+                showError();
+                return;
+            }
+
+            try {
+                // Load workspace/agency data by slug
+                const workspaceSnapshot = await db.collection('workspaces')
+                    .where('slug', '==', slug)
+                    .limit(1)
+                    .get();
+
+                if (workspaceSnapshot.empty) {
+                    showError();
+                    return;
+                }
+
+                const workspaceData = workspaceSnapshot.docs[0].data();
+                const ownerUid = workspaceData.ownerUid;
+
+                // Populate agency info
+                populateAgencyInfo(workspaceData);
+
+                // Load properties for this agency owner
+                // Using simple query to avoid index requirement
+                const propertiesSnapshot = await db.collection('properties')
+                    .where('uid', '==', ownerUid)
+                    .get();
+
+                const properties = propertiesSnapshot.docs.map(doc => ({
+                    id: doc.id,
+                    ...doc.data()
+                }));
+
+                // Sort by createdAt on client side
+                properties.sort((a, b) => {
+                    const aTime = a.createdAt?.toMillis() || 0;
+                    const bTime = b.createdAt?.toMillis() || 0;
+                    return bTime - aTime;
+                });
+
+                renderProperties(properties);
+
+                // Show main content, hide loading
+                document.getElementById('loadingContainer').style.display = 'none';
+                document.getElementById('mainContent').style.display = 'block';
+
+            } catch (error) {
+                console.error("Error loading agency page:", error);
+                showError();
+            }
+        }
+
+        function populateAgencyInfo(data) {
+            // Set page title
+            document.title = `${data.agencyName || 'Agency'} - Hauser NG`;
+
+            // Agency name
+            document.getElementById('agencyName').textContent = data.agencyName || 'Our Agency';
+
+            // Logo
+            if (data.logoUrl) {
+                const logo = document.getElementById('agencyLogo');
+                logo.src = data.logoUrl;
+                logo.classList.add('show');
+            }
+
+            // Hero image background
+            if (data.heroImageUrl) {
+                const header = document.getElementById('agencyHeader');
+                header.style.backgroundImage = `url(${data.heroImageUrl})`;
+            }
+
+            // Tagline
+            if (data.heroTagline) {
+                const tagline = document.getElementById('heroTagline');
+                tagline.textContent = data.heroTagline;
+                tagline.classList.add('show');
+            }
+
+            // About
+            if (data.about) {
+                document.getElementById('agencyAbout').textContent = data.about;
+                document.getElementById('aboutSection').classList.add('show');
+            }
+
+            // Contact info
+            let hasContact = false;
+            if (data.phone) {
+                document.getElementById('phoneLink').textContent = data.phone;
+                document.getElementById('phoneLink').href = `tel:${data.phone}`;
+                document.getElementById('phoneDisplay').style.display = 'block';
+                hasContact = true;
+            }
+            if (data.email) {
+                document.getElementById('emailLink').textContent = data.email;
+                document.getElementById('emailLink').href = `mailto:${data.email}`;
+                document.getElementById('emailDisplay').style.display = 'block';
+                hasContact = true;
+            }
+            if (hasContact) {
+                document.getElementById('contactInfo').classList.add('show');
+            }
+
+            // Hide "Powered by" if white label
+            if (data.whiteLabel) {
+                document.getElementById('poweredBy').style.display = 'none';
+            }
+        }
+
+        function renderProperties(properties) {
+            const grid = document.getElementById('propertiesGrid');
+            grid.innerHTML = '';
+
+            if (properties.length === 0) {
+                grid.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">📋</div>
+                        <h3>No Properties Listed Yet</h3>
+                        <p>Check back soon for new listings!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            properties.forEach(property => {
+                const card = createPropertyCard(property);
+                grid.appendChild(card);
+            });
+        }
+
+        function createPropertyCard(property) {
+            const card = document.createElement('div');
+            card.className = 'property-card';
+
+            // Get first image or use placeholder
+            const imageUrl = property.images?.[0] || property.media?.[0]?.url || 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240"%3E%3Crect fill="%23e2e8f0" width="400" height="240"/%3E%3Ctext x="50%25" y="50%25" text-anchor="middle" fill="%2394a3b8" font-family="Inter" font-size="20" dy=".3em"%3ENo Image%3C/text%3E%3C/svg%3E';
+
+            const price = property.price ? `₦${parseFloat(property.price).toLocaleString()}` : 'Price on request';
+            const location = property.location || 'Location not specified';
+            const state = property.state ? `, ${property.state}` : '';
+            const description = property.description || 'No description available';
+            const truncatedDesc = description.length > 120 ? description.substring(0, 120) + '...' : description;
+
+            card.innerHTML = `
+                <img src="${imageUrl}" alt="${property.title || 'Property'}" class="property-image" loading="lazy">
+                <div class="property-content">
+                    <h3 class="property-title">${property.title || 'Untitled Property'}</h3>
+                    <div class="property-location">📍 ${location}${state}</div>
+                    <p class="property-description">${truncatedDesc}</p>
+                    <div class="property-price">${price}</div>
+                    <a href="property-details.html?id=${property.id}" class="view-btn">View Details</a>
+                </div>
+            `;
+
+            return card;
+        }
+
+        function showError() {
+            document.getElementById('loadingContainer').style.display = 'none';
+            document.getElementById('mainContent').style.display = 'none';
+            document.getElementById('errorContainer').classList.add('show');
+        }
+
+        // Load page on DOM ready
+        document.addEventListener('DOMContentLoaded', loadAgencyPage);
     </script>
-
-    <!-- STEP 3: Now load your branding script (after Firebase is ready) -->
-    <script src="js/branding.js" defer></script>
-</head>
-
-<body>
-
-    <header class="agency-header">
-        <img class="agency-logo" src="img/placeholder.jpg" alt="Agency Logo" style="display:none; max-height:80px;">
-        <h1 class="agency-name">Loading...</h1>
-    </header>
-
-    <section class="agency-about-section">
-        <p class="agency-about">Loading agency information...</p>
-    </section>
-
-    <section class="contact-info">
-        <p class="agency-phone"></p>
-        <p class="agency-email"></p>
-        <p class="agency-address"></p>
-    </section>
-
-    <section class="properties-section">
-        <h2>Available Properties</h2>
-        <div id="properties-grid" class="grid">
-            <p>Loading properties...</p>
-        </div>
-    </section>
-
-    <footer>
-        <p class="powered-by-hauser">Powered by Hauser</p>
-    </footer>
-
-    <script src="js/branding.js"></script> <!-- We'll create this next -->
 </body>
 
 </html>
