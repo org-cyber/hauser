@@ -1621,7 +1621,7 @@
             familyType: document.querySelector('input[name="familyType"]:checked').value,
             childrenCount: Number(childrenField.value || 0),
             message: messageField.value.trim(),
-            status: "unread",
+            read: false,
             createdAt: firebase.firestore.FieldValue.serverTimestamp()
           });
 

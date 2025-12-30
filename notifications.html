@@ -837,6 +837,7 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
         import { getFirestore, collection, query, where, onSnapshot } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-auth.js";
+        import { orderBy } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyAHqg_u1DwWUB9l1vuoYDLKjCJl5Xx7Pbo",
@@ -846,10 +847,23 @@
             messagingSenderId: "613578175402",
             appId: "1:613578175402:web:db7413f898987ac6a1f1d3"
         };
+
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
         const auth = getAuth(app);
         const notificationsContainer = document.getElementById("notificationsContainer");
+
+        // Function to generate star rating HTML
+        function generateStars(count = 5) {
+            let starsHTML = '';
+            for (let i = 0; i < count; i++) {
+                starsHTML += `
+        <svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+        </svg>`;
+            }
+            return starsHTML;
+        }
 
         onAuthStateChanged(auth, (user) => {
             const loader = document.querySelector('.loader');
@@ -860,7 +874,12 @@
                 return;
             }
 
-            const bidsQuery = query(collection(db, "bids"), where("listingOwnerUid", "==", user.uid));
+            const bidsQuery = query(
+                collection(db, "bids"),
+                where("listingOwnerUid", "==", user.uid),
+                orderBy("createdAt", "desc")  // <-- ensures newest bids show first and updates live
+            );
+
 
             onSnapshot(bidsQuery, (snapshot) => {
                 if (loader) loader.style.display = 'none';
@@ -871,57 +890,45 @@
                     return;
                 }
 
-                const sortedDocs = snapshot.docs.sort((a, b) => {
-                    const aTime = a.data().createdAt?.seconds || 0;
-                    const bTime = b.data().createdAt?.seconds || 0;
-                    return bTime - aTime;
-                });
+                // Sort by createdAt descending
 
-                sortedDocs.forEach((doc) => {
+                snapshot.docs.forEach((doc) => {
                     const bid = doc.data();
-                    const bidTime = bid.createdAt?.seconds ? new Date(bid.createdAt.seconds * 1000).toLocaleString() : "N/A";
+                    const bidTime = bid.createdAt?.seconds
+                        ? new Date(bid.createdAt.seconds * 1000).toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short' })
+                        : "N/A";
+
+                    // Use avatar image if available, otherwise initials
+                    const avatarHTML = bid.bidderAvatar
+                        ? `<img src="${bid.bidderAvatar}" alt="${bid.bidderName}" class="image" style="object-fit:cover;">`
+                        : `<div class="image">${bid.bidderName ? bid.bidderName.charAt(0) : '?'}</div>`;
+
                     const card = document.createElement("div");
                     card.className = "card";
-
-                    const initial = bid.bidderName ? bid.bidderName.charAt(0) : '?';
-
                     card.innerHTML = `
-        <div class="header">
-          <div class="image">${initial}</div>
-          <div>
-            <div class="stars">
-              <svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
-              </svg>
-              <svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
-              </svg>
-              <svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
-              </svg>
-              <svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
-              </svg>
-              <svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
-              </svg>
-            </div>
-            <p class="name">${bid.bidderName}</p>
-          </div>
-        </div>
+                <div class="header">
+                    ${avatarHTML}
+                    <div>
+                        <div class="stars">
+                            ${generateStars(bid.rating || 5)}
+                        </div>
+                        <p class="name">${bid.bidderName || 'Unknown'}</p>
+                    </div>
+                </div>
 
-        <div class="message">
-          <p><strong>Offer:</strong> ₦${bid.bidAmount} for <em>${bid.listingTitle}</em></p>
-          <p>${bid.message || 'No additional message'}</p>
-          <div class="bid-details">
-             <p>${bid.familyType || 'N/A'} • ${bid.childrenCount || 0} Children</p>
-             <p>📞 ${bid.bidderPhone || 'N/A'}</p>
-             <p style="font-size: 0.85em; color: #888; margin-top:5px;">${bidTime}</p>
-          </div>
-        </div>
-        `;
+                <div class="message">
+                    <p><strong>Offer:</strong> ₦${bid.bidAmount || 'N/A'} for <em>${bid.listingTitle || 'N/A'}</em></p>
+                    <p>${bid.message || 'No additional message'}</p>
+                    <div class="bid-details">
+                        <p>${bid.familyType || 'N/A'} • ${bid.childrenCount || 0} Children</p>
+                        <p>📞 ${bid.bidderPhone || 'N/A'}</p>
+                        <p style="font-size: 0.85em; color: #888; margin-top:5px;">${bidTime}</p>
+                    </div>
+                </div>
+            `;
                     notificationsContainer.appendChild(card);
                 });
+
             }, (error) => {
                 if (loader) loader.style.display = 'none';
                 console.error("Error loading bids:", error);
