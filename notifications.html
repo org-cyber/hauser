@@ -1,42 +1,44 @@
-<!-- notifications.html -->
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bid Notifications - Hauser NG</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Notifications - Hauser NG</title>
+
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Firebase Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore-compat.js"></script>
+
     <style>
         :root {
-            --primary: #f8f9fa;
-            --primary-dark: #e9ecef;
-            --primary-light: #ffffff;
-            --accent: #f97316;
-            --accent-dark: #ea580c;
-            --accent-light: #fb923c;
-            --accent-glow: rgba(249, 115, 22, 0.2);
-            --text-primary: #1a1a1a;
-            --text-secondary: #4a4a4a;
-            --text-muted: #6b7280;
-            --bg-primary: #f8f9fa;
-            --bg-secondary: #ffffff;
-            --bg-card: rgba(255, 255, 255, 0.9);
-            --border: rgba(0, 0, 0, 0.08);
-            --border-highlight: rgba(249, 115, 22, 0.3);
-            --error: #ef4444;
-            --success: #22c55e;
-            --warning: #f59e0b;
-            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
-            --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            --shadow-md: 0 8px 20px rgba(0, 0, 0, 0.12);
-            --shadow-lg: 0 12px 28px rgba(0, 0, 0, 0.15);
-            --shadow-glow: 0 0 20px var(--accent-glow);
-            --radius-sm: 0.5rem;
-            --radius: 0.75rem;
-            --radius-lg: 1rem;
-            --radius-xl: 1.5rem;
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            --transition-fast: all 0.15s ease;
+            --primary-bg: #f8fafc;
+            --card-bg: #ffffff;
+            --primary-orange: #ea580c;
+            --secondary-orange: #f97316;
+            --slate-800: #1e293b;
+            --slate-700: #334155;
+            --slate-600: #475569;
+            --slate-500: #64748b;
+            --slate-400: #94a3b8;
+            --slate-300: #cbd5e1;
+            --slate-200: #e2e8f0;
+            --slate-100: #f1f5f9;
+            --success-green: #059669;
+            --border-light: #e2e8f0;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --radius-md: 0.5rem;
+            --radius-lg: 0.75rem;
+            --radius-xl: 1rem;
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         * {
@@ -46,698 +48,385 @@
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 50%, var(--primary) 100%);
-            background-size: 200% 200%;
-            color: var(--text-primary);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--primary-bg);
             min-height: 100vh;
+            color: var(--slate-800);
             line-height: 1.6;
-            position: relative;
-            overflow-x: hidden;
-            animation: backgroundShift 20s ease infinite;
+            font-size: 15px;
         }
 
-        @keyframes backgroundShift {
-
-            0%,
-            100% {
-                background-position: 0% 50%;
-            }
-
-            50% {
-                background-position: 100% 50%;
-            }
+        h1,
+        h2,
+        h3 {
+            font-family: 'Manrope', sans-serif;
+            font-weight: 700;
+            letter-spacing: -0.025em;
         }
 
-        /* Button Component - Enhanced Responsive */
-        .button {
-            width: 100%;
-            max-width: 200px;
-            min-width: 140px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-            gap: 8px;
-            padding: 0 12px;
-            background-color: rgba(255, 255, 255, 0.9);
-            border-radius: 10px;
-            color: var(--text-primary);
-            border: 1px solid var(--border);
-            position: relative;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            box-shadow: var(--shadow-sm);
-        }
-
-        .button a {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            text-decoration: none;
-            color: inherit;
-            font-size: 0.9rem;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .button svg {
-            flex-shrink: 0;
-            width: 18px;
-            height: 18px;
-        }
-
-        .bell {
-            width: 13px;
-            flex-shrink: 0;
-        }
-
-        .bell path {
-            fill: rgb(0, 206, 62);
-        }
-
-        .arrow {
-            position: absolute;
-            right: 8px;
-            width: 24px;
-            height: 100%;
-            font-size: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--text-secondary);
-        }
-
-        .button:hover {
-            background-color: rgba(249, 249, 249, 1);
-            border-color: var(--border-highlight);
-            box-shadow: var(--shadow);
-        }
-
-        .button:hover .arrow {
-            animation: slide-right 0.6s ease-out both;
-        }
-
-        @keyframes slide-right {
-            0% {
-                transform: translateX(-10px);
-                opacity: 0;
-            }
-
-            100% {
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
-
-        .button:active {
-            transform: translate(1px, 1px);
-        }
-
-        /* Loader */
-        .loader {
-            --dim: 3rem;
-            width: var(--dim);
-            height: var(--dim);
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            margin-top: calc(var(--dim) / -2);
-            margin-left: calc(var(--dim) / -2);
-            animation: spin988 2s linear infinite;
-            z-index: 9999;
-        }
-
-        .loader .circle {
-            --color: #333;
-            --dim: 1.2rem;
-            width: var(--dim);
-            height: var(--dim);
-            background-color: var(--color);
-            border-radius: 50%;
-            position: absolute;
-        }
-
-        .loader .circle:nth-child(1) {
-            top: 0;
-            left: 0;
-        }
-
-        .loader .circle:nth-child(2) {
-            top: 0;
-            right: 0;
-        }
-
-        .loader .circle:nth-child(3) {
-            bottom: 0;
-            left: 0;
-        }
-
-        .loader .circle:nth-child(4) {
-            bottom: 0;
-            right: 0;
-        }
-
-        @keyframes spin988 {
-            0% {
-                transform: scale(1) rotate(0);
-            }
-
-            20%,
-            25% {
-                transform: scale(1.3) rotate(90deg);
-            }
-
-            45%,
-            50% {
-                transform: scale(1) rotate(180deg);
-            }
-
-            70%,
-            75% {
-                transform: scale(1.3) rotate(270deg);
-            }
-
-            95%,
-            100% {
-                transform: scale(1) rotate(360deg);
-            }
-        }
-
-        /* Navbar Styles - Enhanced Responsive */
+        /* Navbar */
         .navbar {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px) saturate(180%);
-            border-bottom: 1px solid var(--border);
-            box-shadow: var(--shadow-md), 0 1px 0 rgba(0, 0, 0, 0.02) inset;
-            padding: 0.8rem 0;
+            background: var(--card-bg);
+            border-bottom: 1px solid var(--border-light);
+            box-shadow: var(--shadow-sm);
+            padding: 0;
             position: sticky;
             top: 0;
             z-index: 1000;
-            transition: var(--transition);
-            border-radius: 20px;
-            margin-bottom: 1.5rem;
-        }
-
-        .navbar:hover {
-            box-shadow: var(--shadow-lg), 0 1px 0 rgba(0, 0, 0, 0.03) inset;
         }
 
         .navbar-container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
-            padding: 0 1rem;
+            padding: 1rem 1.5rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            gap: 1rem;
         }
 
         .logo-section {
             display: flex;
             align-items: center;
             gap: 0.75rem;
-            flex-shrink: 0;
         }
 
         .logo-icon {
-            width: 48px;
-            height: 48px;
-            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
-            border-radius: 14px;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary-orange), var(--secondary-orange));
+            border-radius: var(--radius-md);
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: var(--shadow-glow), var(--shadow);
             font-size: 1.5rem;
-            transition: var(--transition);
-            animation: pulse-glow 3s ease-in-out infinite;
-            flex-shrink: 0;
-        }
-
-        @keyframes pulse-glow {
-
-            0%,
-            100% {
-                box-shadow: var(--shadow-glow), var(--shadow);
-            }
-
-            50% {
-                box-shadow: 0 0 30px var(--accent-glow), var(--shadow-md);
-            }
-        }
-
-        .logo-icon:hover {
-            transform: scale(1.05) rotate(5deg);
+            box-shadow: var(--shadow-sm);
         }
 
         .logo-text {
-            font-size: clamp(1.25rem, 3vw, 1.8rem);
-            font-weight: bold;
-            background: linear-gradient(to right, var(--text-primary), var(--accent));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--slate-800);
+        }
+
+        .back-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: var(--card-bg);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-md);
+            color: var(--slate-700);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .back-link:hover {
+            background: var(--slate-100);
+            border-color: var(--primary-orange);
+        }
+
+        .back-link svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* Main Container */
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+
+        .page-header {
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .page-title {
+            font-size: clamp(1.75rem, 4vw, 2.5rem);
+            margin-bottom: 0.5rem;
+        }
+
+        .page-subtitle {
+            font-size: 1.0625rem;
+            color: var(--slate-600);
+        }
+
+        /* Filters */
+        .filters {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            background: var(--card-bg);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-md);
+            color: var(--slate-700);
+            font-size: 0.9375rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .filter-btn:hover {
+            background: var(--slate-100);
+        }
+
+        .filter-btn.active {
+            background: var(--primary-orange);
+            color: white;
+            border-color: var(--primary-orange);
+        }
+
+        /* Notifications Grid */
+        .notifications-grid {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .notification-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+        }
+
+        .notification-card:hover {
+            box-shadow: var(--shadow-md);
+            border-color: var(--primary-orange);
+        }
+
+        .notification-card.unread {
+            border-left: 4px solid var(--primary-orange);
+            background: rgba(234, 88, 12, 0.02);
+        }
+
+        .notification-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+            gap: 1rem;
+        }
+
+        .notification-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--slate-800);
+            flex: 1;
+        }
+
+        .notification-badge {
+            padding: 0.25rem 0.75rem;
+            background: var(--success-green);
+            color: white;
+            border-radius: 1rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
             white-space: nowrap;
         }
 
-        /* Mobile Menu Toggle */
-        .menu-toggle {
-            display: none;
-            flex-direction: column;
-            gap: 0.3rem;
-            cursor: pointer;
-            padding: 0.5rem;
-            background: transparent;
-            border: none;
+        .notification-badge.unread {
+            background: var(--primary-orange);
         }
 
-        .menu-toggle span {
-            width: 25px;
-            height: 3px;
-            background: var(--accent);
-            border-radius: 2px;
-            transition: var(--transition);
-        }
-
-        .nav-links {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            flex-wrap: wrap;
-        }
-
-        .nav-link {
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-weight: 500;
-            padding: 0.5rem 0.75rem;
-            border-radius: var(--radius);
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.9rem;
-        }
-
-        .nav-link:hover {
-            color: var(--accent);
-            background: rgba(0, 0, 0, 0.05);
-        }
-
-        .nav-link svg {
-            width: 18px;
-            height: 18px;
-            flex-shrink: 0;
-        }
-
-        /* Page Container */
-        .page-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 1.5rem 1rem;
-        }
-
-        h1 {
-            text-align: center;
-            font-size: clamp(1.75rem, 4vw, 2.5rem);
-            font-weight: bold;
-            margin-bottom: 2rem;
-            background: linear-gradient(to right, var(--text-primary), var(--accent));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        #notificationsContainer {
+        .notification-content {
             display: grid;
-            gap: 1.25rem;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        }
-
-        /* Notification Card - Enhanced Responsive */
-        .card {
-            background-color: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px) saturate(180%);
-            padding: clamp(1.25rem, 3vw, 2rem);
-            border-radius: var(--radius-xl);
-            box-shadow: var(--shadow-md), 0 1px 0 rgba(0, 0, 0, 0.02) inset;
-            border: 1px solid var(--border);
-            transition: var(--transition);
-            animation: cardFadeIn 0.5s ease-out;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, var(--accent), var(--accent-light));
-        }
-
-        @keyframes cardFadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .card:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-lg), 0 1px 0 rgba(0, 0, 0, 0.03) inset;
-            border-color: var(--border-highlight);
-        }
-
-        .header {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
+            gap: 0.75rem;
             margin-bottom: 1rem;
         }
 
-        .header .image {
-            height: clamp(3rem, 8vw, 4rem);
-            width: clamp(3rem, 8vw, 4rem);
-            border-radius: 9999px;
-            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: clamp(1.25rem, 3vw, 1.5rem);
-            font-weight: bold;
-            text-transform: uppercase;
-            box-shadow: var(--shadow-glow), var(--shadow);
-            flex-shrink: 0;
-        }
-
-        .stars {
-            display: flex;
-            justify-content: flex-start;
-            gap: 0.125rem;
-            color: rgba(34, 197, 94, 1);
-            flex-wrap: wrap;
-        }
-
-        .stars svg {
-            height: clamp(0.85rem, 2vw, 1rem);
-            width: clamp(0.85rem, 2vw, 1rem);
-            flex-shrink: 0;
-        }
-
-        .name {
-            margin-top: 0.25rem;
-            font-size: clamp(1rem, 2.2vw, 1.125rem);
-            line-height: 1.5;
-            font-weight: 600;
-            color: rgba(55, 65, 81, 1);
-            word-break: break-word;
-        }
-
-        .message {
-            margin-top: 1rem;
-            color: rgba(107, 114, 128, 1);
-            font-size: clamp(0.9rem, 1.8vw, 1rem);
-        }
-
-        .message p {
-            margin-bottom: 0.5rem;
-            line-height: 1.6;
-        }
-
-        .message strong {
-            color: var(--text-primary);
-            font-weight: 600;
-        }
-
-        .message em {
-            color: var(--accent);
-            font-style: normal;
-            font-weight: 500;
-        }
-
-        .bid-details {
-            margin-top: 0.75rem;
-            padding-top: 0.75rem;
-            border-top: 1px solid var(--border);
-            font-size: clamp(0.85rem, 1.6vw, 0.9rem);
-        }
-
-        .bid-details p {
-            margin-bottom: 0.35rem;
+        .notification-detail {
             display: flex;
             align-items: center;
             gap: 0.5rem;
+            font-size: 0.9375rem;
+            color: var(--slate-600);
         }
 
-        .bid-details p:last-child {
-            margin-bottom: 0;
+        .detail-label {
+            font-weight: 600;
+            color: var(--slate-700);
+        }
+
+        .detail-value {
+            color: var(--slate-600);
+        }
+
+        .bid-amount {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--primary-orange);
+        }
+
+        .notification-message {
+            padding: 1rem;
+            background: var(--slate-100);
+            border-radius: var(--radius-md);
+            font-size: 0.9375rem;
+            color: var(--slate-700);
+            line-height: 1.6;
+            border-left: 3px solid var(--slate-300);
+        }
+
+        .notification-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-light);
+            gap: 1rem;
+        }
+
+        .notification-time {
+            font-size: 0.8125rem;
+            color: var(--slate-500);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .action-btn {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-md);
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            background: var(--card-bg);
+            color: var(--slate-700);
+        }
+
+        .action-btn:hover {
+            background: var(--slate-100);
+        }
+
+        .action-btn.primary {
+            background: var(--primary-orange);
+            color: white;
+            border-color: var(--primary-orange);
+        }
+
+        .action-btn.primary:hover {
+            background: var(--secondary-orange);
         }
 
         /* Empty State */
         .empty-state {
-            grid-column: 1 / -1;
             text-align: center;
-            padding: clamp(2rem, 5vw, 3rem);
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(249, 249, 249, 0.9) 100%);
-            border-radius: var(--radius-xl);
-            border: 1px solid var(--border);
-            box-shadow: var(--shadow-md);
+            padding: 4rem 2rem;
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            border: 2px dashed var(--border-light);
         }
 
-        .empty-state p {
-            font-size: clamp(1rem, 2vw, 1.125rem);
-            color: var(--text-secondary);
+        .empty-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.3;
         }
 
-        /* ==================== RESPONSIVE BREAKPOINTS ==================== */
+        .empty-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--slate-700);
+        }
 
-        /* Tablet - Large (1024px and below) */
-        @media (max-width: 1024px) {
-            .nav-links {
-                gap: 0.5rem;
+        .empty-subtitle {
+            font-size: 0.9375rem;
+            color: var(--slate-500);
+        }
+
+        /* Loading */
+        .loader {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 3rem;
+            gap: 0.5rem;
+        }
+
+        .loader-circle {
+            width: 12px;
+            height: 12px;
+            background: var(--primary-orange);
+            border-radius: 50%;
+            animation: bounce 1.4s infinite ease-in-out both;
+        }
+
+        .loader-circle:nth-child(1) {
+            animation-delay: -0.32s;
+        }
+
+        .loader-circle:nth-child(2) {
+            animation-delay: -0.16s;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            80%,
+            100% {
+                transform: scale(0);
             }
 
-            .button {
-                max-width: 180px;
-                min-width: 130px;
-                height: 38px;
-            }
-
-            #notificationsContainer {
-                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-                gap: 1rem;
+            40% {
+                transform: scale(1);
             }
         }
 
-        /* Tablet - Medium (900px and below) */
-        @media (max-width: 900px) {
-            .page-container {
-                padding: 1.25rem 0.75rem;
-            }
-
-            .navbar {
-                margin-bottom: 1.25rem;
-            }
-
-            #notificationsContainer {
-                grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            }
-        }
-
-        /* Tablet / Mobile - Large (768px and below) */
+        /* Responsive */
         @media (max-width: 768px) {
-            .navbar-container {
-                flex-wrap: wrap;
+            .main-container {
+                padding: 1.5rem 1rem;
             }
 
-            .menu-toggle {
-                display: flex;
-                order: 3;
-            }
-
-            .nav-links {
-                width: 100%;
-                order: 4;
-                flex-direction: column;
-                align-items: stretch;
-                max-height: 0;
-                overflow: hidden;
-                transition: max-height 0.3s ease;
-                gap: 0.5rem;
-            }
-
-            .nav-links.active {
-                max-height: 600px;
-                margin-top: 1rem;
-                padding-top: 1rem;
-                border-top: 1px solid var(--border);
-            }
-
-            .button {
-                max-width: 100%;
-                justify-content: space-between;
-            }
-
-            .logo-icon {
-                width: 42px;
-                height: 42px;
-                font-size: 1.3rem;
-            }
-
-            #notificationsContainer {
-                grid-template-columns: 1fr;
-            }
-
-            h1 {
-                margin-bottom: 1.5rem;
-            }
-
-            .header {
-                gap: 0.75rem;
-            }
-        }
-
-        /* Mobile - Medium (576px and below) */
-        @media (max-width: 576px) {
-            .navbar {
-                padding: 0.6rem 0;
-                border-radius: 15px;
-                margin-bottom: 1rem;
-            }
-
-            .navbar-container {
-                padding: 0 0.75rem;
-            }
-
-            .logo-icon {
-                width: 38px;
-                height: 38px;
-                font-size: 1.2rem;
-                border-radius: 12px;
-            }
-
-            .page-container {
-                padding: 1rem 0.5rem;
-            }
-
-            .card {
-                border-radius: var(--radius-lg);
+            .notification-card {
                 padding: 1.25rem;
             }
 
-            .button {
-                height: 36px;
-                font-size: 0.8rem;
+            .notification-header {
+                flex-direction: column;
+                align-items: flex-start;
             }
 
-            .button a {
-                font-size: 0.85rem;
+            .notification-footer {
+                flex-direction: column;
+                align-items: flex-start;
             }
 
-            .bid-details {
-                font-size: 0.85rem;
-            }
-        }
-
-        /* Mobile - Small (400px and below) */
-        @media (max-width: 400px) {
-            .navbar-container {
-                padding: 0 0.5rem;
+            .action-buttons {
+                width: 100%;
+                flex-direction: column;
             }
 
-            .logo-icon {
-                width: 36px;
-                height: 36px;
-                font-size: 1.1rem;
-                border-radius: 10px;
-            }
-
-            .page-container {
-                padding: 0.75rem 0.5rem;
-            }
-
-            .card {
-                padding: 1rem;
-            }
-
-            .header {
-                gap: 0.65rem;
-            }
-
-            .button {
-                height: 34px;
-                padding: 0 10px;
-                gap: 6px;
-            }
-
-            .button a {
-                font-size: 0.8rem;
-                gap: 4px;
-            }
-
-            .button svg {
-                width: 16px;
-                height: 16px;
-            }
-
-            .arrow {
-                font-size: 14px;
-                width: 20px;
-            }
-
-            h1 {
-                margin-bottom: 1.25rem;
+            .action-btn {
+                width: 100%;
             }
         }
 
-        /* Landscape Mobile Adjustments */
-        @media (max-height: 600px) and (orientation: landscape) {
-            .navbar {
-                padding: 0.5rem 0;
-                margin-bottom: 1rem;
-            }
-
-            .page-container {
-                padding: 1rem 0.75rem;
-            }
-
-            .logo-icon {
-                width: 36px;
-                height: 36px;
-                font-size: 1.1rem;
-            }
-
-            .card {
+        @media (max-width: 480px) {
+            .notification-card {
                 padding: 1rem;
-            }
-
-            h1 {
-                margin-bottom: 1rem;
-                font-size: 1.5rem;
-            }
-
-            .header .image {
-                height: 3rem;
-                width: 3rem;
-                font-size: 1.2rem;
             }
         }
     </style>
 </head>
 
 <body>
-
     <!-- Navbar -->
     <header class="navbar">
         <div class="navbar-container">
@@ -745,100 +434,40 @@
                 <div class="logo-icon">🏠</div>
                 <h1 class="logo-text">Hauser NG</h1>
             </div>
-
-            <button class="menu-toggle" onclick="toggleMenu()">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-
-
-            <nav class="nav-links" id="navLinks">
-                <a href="dashboard.html" class="button">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                    </svg>
-                    Back
-                    <div class="arrow">›</div>
-                </a>
-
-                <a href="add-property.html" id="addPropertyLink" class="button" style="display: none;">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                    </svg>
-                    Add Property
-                    <div class="arrow">›</div>
-                </a>
-
-                <a href="notifications.html" class="button">
-                    <svg class="bell" viewBox="0 0 448 512">
-                        <path
-                            d="M224 0c-17.7 0-32 14.3-32 32V49.9C119.5 61.4 64 124.2 64 200v33.4c0 45.4-15.5 89.5-43.8 124.9L5.3 377c-5.8 7.2-6.9 17.1-2.9 25.4S14.8 416 24 416H424c9.2 0 17.6-5.3 21.6-13.6s2.9-18.2-2.9-25.4l-14.9-18.6C399.5 322.9 384 278.8 384 233.4V200c0-75.8-55.5-138.6-128-150.1V32c0-17.7-14.3-32-32-32zm0 96h8c57.4 0 104 46.6 104 104v33.4c0 47.9 13.9 94.6 39.7 134.6H72.3C98.1 328 112 281.3 112 233.4V200c0-57.4 46.6-104 104-104h8zm64 352H224 160c0 17 6.7 33.3 18.7 45.3s28.3 18.7 45.3 18.7s33.3-6.7 45.3-18.7s18.7-28.3 18.7-45.3z">
-                        </path>
-                    </svg>
-                    Notifications
-                    <div class="arrow">›</div>
-                </a>
-
-                <a href="real_estate_subscription.html" class="button">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M13 10V3L4 14h7v7l9-11h-7z" />
-                    </svg>
-                    Upgrade Plan
-                    <div class="arrow">›</div>
-                </a>
-
-                <a href="vacancies.html" class="button">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                    </svg>
-                    Vacancies
-                    <div class="arrow">›</div>
-                </a>
-
-                <a href="https://cust.fillout.com/eu" class="button" target="_blank" rel="noopener noreferrer">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
-                    </svg>
-                    Feedback
-                    <div class="arrow">›</div>
-                </a>
-            </nav>
+            <a href="dashboard.html" class="back-link">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                </svg>
+                Back to Dashboard
+            </a>
         </div>
     </header>
 
     <!-- Main Content -->
-    <div class="page-container">
-        <h1>Bid Notifications</h1>
-        <div id="notificationsContainer">
-            <div class="loader">
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-            </div>
+    <main class="main-container">
+        <div class="page-header">
+            <h1 class="page-title">Notifications</h1>
+            <p class="page-subtitle">Bids and offers on your properties</p>
         </div>
-    </div>
+
+        <div class="filters">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="unread">Unread</button>
+            <button class="filter-btn" data-filter="read">Read</button>
+        </div>
+
+        <div class="loader" id="loader">
+            <div class="loader-circle"></div>
+            <div class="loader-circle"></div>
+            <div class="loader-circle"></div>
+        </div>
+
+        <div id="notificationsList" class="notifications-grid"></div>
+    </main>
 
     <script>
-        // Mobile menu toggle
-        function toggleMenu() {
-            const navLinks = document.getElementById('navLinks');
-            navLinks.classList.toggle('active');
-        }
-    </script>
-
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
-        import { getFirestore, collection, query, where, onSnapshot } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js";
-        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-auth.js";
-        import { orderBy } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js";
-
+        // Firebase config
         const firebaseConfig = {
             apiKey: "AIzaSyAHqg_u1DwWUB9l1vuoYDLKjCJl5Xx7Pbo",
             authDomain: "hauserng-77cc2.firebaseapp.com",
@@ -847,96 +476,210 @@
             messagingSenderId: "613578175402",
             appId: "1:613578175402:web:db7413f898987ac6a1f1d3"
         };
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
 
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-        const auth = getAuth(app);
-        const notificationsContainer = document.getElementById("notificationsContainer");
+        let allBids = [];
+        let currentFilter = 'all';
 
-        // Function to generate star rating HTML
-        function generateStars(count = 5) {
-            let starsHTML = '';
-            for (let i = 0; i < count; i++) {
-                starsHTML += `
-        <svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
-        </svg>`;
+        // Auth check
+        auth.onAuthStateChanged(user => {
+            if (user) {
+                loadNotifications(user.uid);
+                markAllAsRead(user.uid);
+            } else {
+                window.location.href = "login.html";
             }
-            return starsHTML;
+        });
+
+        // Load bids (notifications)
+        function loadNotifications(uid) {
+            const loader = document.getElementById('loader');
+            const list = document.getElementById('notificationsList');
+
+            db.collection('bids')
+                .where('listingOwnerUid', '==', uid)
+                .orderBy('createdAt', 'desc')
+                .get()
+                .then(snapshot => {
+                    loader.style.display = 'none';
+
+                    allBids = snapshot.docs.map(doc => ({
+                        id: doc.id,
+                        ...doc.data()
+                    }));
+
+                    renderNotifications();
+                })
+                .catch(error => {
+                    console.error('Error loading bids:', error);
+                    loader.style.display = 'none';
+                    list.innerHTML = `
+            <div class="empty-state">
+              <div class="empty-icon">⚠️</div>
+              <h3 class="empty-title">Error Loading Notifications</h3>
+              <p class="empty-subtitle">Please refresh the page to try again</p>
+            </div>
+          `;
+                });
         }
 
-        onAuthStateChanged(auth, (user) => {
-            const loader = document.querySelector('.loader');
+        // Mark all unread bids as read
+        async function markAllAsRead(uid) {
+            try {
+                const snapshot = await db.collection('bids')
+                    .where('listingOwnerUid', '==', uid)
+                    .where('status', '==', 'unread')
+                    .get();
 
-            if (!user) {
-                if (loader) loader.style.display = 'none';
-                notificationsContainer.innerHTML = '<div class="empty-state"><p>Please log in to view your bids.</p></div>';
+                if (!snapshot.empty) {
+                    const batch = db.batch();
+                    snapshot.forEach(doc => {
+                        batch.update(doc.ref, {
+                            status: 'read',
+                            readAt: firebase.firestore.FieldValue.serverTimestamp()
+                        });
+                    });
+                    await batch.commit();
+                    console.log('✅ Marked', snapshot.size, 'bids as read');
+                }
+            } catch (error) {
+                console.error('Error marking as read:', error);
+            }
+        }
+
+        // Render notifications
+        function renderNotifications() {
+            const list = document.getElementById('notificationsList');
+
+            let filtered = allBids;
+            if (currentFilter === 'unread') {
+                filtered = allBids.filter(bid => bid.status === 'unread');
+            } else if (currentFilter === 'read') {
+                filtered = allBids.filter(bid => bid.status === 'read');
+            }
+
+            if (filtered.length === 0) {
+                list.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-icon">🔔</div>
+            <h3 class="empty-title">No ${currentFilter === 'all' ? '' : currentFilter} notifications</h3>
+            <p class="empty-subtitle">You're all caught up!</p>
+          </div>
+        `;
                 return;
             }
 
-            const bidsQuery = query(
-                collection(db, "bids"),
-                where("listingOwnerUid", "==", user.uid),
-                orderBy("createdAt", "desc")  // <-- ensures newest bids show first and updates live
-            );
+            list.innerHTML = '';
+            filtered.forEach(bid => {
+                const card = createNotificationCard(bid);
+                list.appendChild(card);
+            });
+        }
 
+        // Create notification card
+        function createNotificationCard(bid) {
+            const card = document.createElement('div');
+            card.className = `notification-card ${bid.status === 'unread' ? 'unread' : ''}`;
 
-            onSnapshot(bidsQuery, (snapshot) => {
-                if (loader) loader.style.display = 'none';
-                notificationsContainer.innerHTML = "";
+            const timeAgo = getTimeAgo(bid.createdAt);
+            const familyType = bid.familyType?.replace('_', ' ') || 'Not specified';
 
-                if (snapshot.empty) {
-                    notificationsContainer.innerHTML = '<div class="empty-state"><p>No bids yet.</p></div>';
-                    return;
-                }
+            card.innerHTML = `
+        <div class="notification-header">
+          <h3 class="notification-title">New Bid on: ${bid.listingTitle || 'Your Property'}</h3>
+          <span class="notification-badge ${bid.status === 'unread' ? 'unread' : ''}">${bid.status}</span>
+        </div>
+        
+        <div class="notification-content">
+          <div class="notification-detail">
+            <span class="detail-label">From:</span>
+            <span class="detail-value">${bid.bidderName || 'Anonymous'}</span>
+          </div>
+          
+          <div class="notification-detail">
+            <span class="detail-label">Offer Amount:</span>
+            <span class="bid-amount">₦${(bid.bidAmount || 0).toLocaleString()}</span>
+          </div>
+          
+          <div class="notification-detail">
+            <span class="detail-label">Phone:</span>
+            <span class="detail-value">${bid.bidderPhone || 'Not provided'}</span>
+          </div>
+          
+          <div class="notification-detail">
+            <span class="detail-label">Family Type:</span>
+            <span class="detail-value">${familyType}</span>
+          </div>
+          
+          <div class="notification-detail">
+            <span class="detail-label">Children:</span>
+            <span class="detail-value">${bid.childrenCount || 0}</span>
+          </div>
+          
+          ${bid.message ? `
+            <div class="notification-message">
+              <strong>Message:</strong><br>
+              ${bid.message}
+            </div>
+          ` : ''}
+        </div>
+        
+        <div class="notification-footer">
+          <span class="notification-time">${timeAgo}</span>
+          <div class="action-buttons">
+            <a href="tel:${bid.bidderPhone}" class="action-btn primary">Call Bidder</a>
+            <button class="action-btn" onclick="deleteBid('${bid.id}')">Dismiss</button>
+          </div>
+        </div>
+      `;
 
-                // Sort by createdAt descending
+            return card;
+        }
 
-                snapshot.docs.forEach((doc) => {
-                    const bid = doc.data();
-                    const bidTime = bid.createdAt?.seconds
-                        ? new Date(bid.createdAt.seconds * 1000).toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short' })
-                        : "N/A";
+        // Get time ago
+        function getTimeAgo(timestamp) {
+            if (!timestamp) return 'Just now';
 
-                    // Use avatar image if available, otherwise initials
-                    const avatarHTML = bid.bidderAvatar
-                        ? `<img src="${bid.bidderAvatar}" alt="${bid.bidderName}" class="image" style="object-fit:cover;">`
-                        : `<div class="image">${bid.bidderName ? bid.bidderName.charAt(0) : '?'}</div>`;
+            const now = Date.now();
+            const time = timestamp.toMillis ? timestamp.toMillis() : timestamp;
+            const diff = now - time;
 
-                    const card = document.createElement("div");
-                    card.className = "card";
-                    card.innerHTML = `
-                <div class="header">
-                    ${avatarHTML}
-                    <div>
-                        <div class="stars">
-                            ${generateStars(bid.rating || 5)}
-                        </div>
-                        <p class="name">${bid.bidderName || 'Unknown'}</p>
-                    </div>
-                </div>
+            const minutes = Math.floor(diff / 60000);
+            const hours = Math.floor(diff / 3600000);
+            const days = Math.floor(diff / 86400000);
 
-                <div class="message">
-                    <p><strong>Offer:</strong> ₦${bid.bidAmount || 'N/A'} for <em>${bid.listingTitle || 'N/A'}</em></p>
-                    <p>${bid.message || 'No additional message'}</p>
-                    <div class="bid-details">
-                        <p>${bid.familyType || 'N/A'} • ${bid.childrenCount || 0} Children</p>
-                        <p>📞 ${bid.bidderPhone || 'N/A'}</p>
-                        <p style="font-size: 0.85em; color: #888; margin-top:5px;">${bidTime}</p>
-                    </div>
-                </div>
-            `;
-                    notificationsContainer.appendChild(card);
-                });
+            if (minutes < 1) return 'Just now';
+            if (minutes < 60) return `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
+            if (hours < 24) return `${hours} hour${hours > 1 ? 's' : ''} ago`;
+            return `${days} day${days > 1 ? 's' : ''} ago`;
+        }
 
-            }, (error) => {
-                if (loader) loader.style.display = 'none';
-                console.error("Error loading bids:", error);
-                notificationsContainer.innerHTML = '<div class="empty-state"><p>Error loading bids. Please refresh the page.</p></div>';
+        // Delete bid
+        async function deleteBid(bidId) {
+            if (!confirm('Are you sure you want to dismiss this bid?')) return;
+
+            try {
+                await db.collection('bids').doc(bidId).delete();
+                allBids = allBids.filter(bid => bid.id !== bidId);
+                renderNotifications();
+            } catch (error) {
+                console.error('Error deleting bid:', error);
+                alert('Failed to dismiss bid. Please try again.');
+            }
+        }
+
+        // Filter buttons
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentFilter = btn.dataset.filter;
+                renderNotifications();
             });
         });
     </script>
-
 </body>
 
 </html>

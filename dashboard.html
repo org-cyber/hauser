@@ -851,6 +851,13 @@
     // Auth state
     auth.onAuthStateChanged(user => {
       if (user) {
+        // Check if user has clicked notifications before (even in previous session)
+        const lastViewed = localStorage.getItem('lastNotificationView_' + user.uid);
+        if (lastViewed) {
+          hasClickedNotifications = true;
+          console.log('📝 User has viewed notifications before');
+        }
+
         loadUserProfile(user.uid);
         loadListings(user.uid);
         listenForUnreadNotifications(user.uid);
@@ -999,20 +1006,57 @@
         });
     }
 
-    // ===== FIXED NOTIFICATION SYSTEM =====
+    // ===== FIXED NOTIFICATION SYSTEM - USES BIDS COLLECTION =====
+    let notificationListenerUnsubscribe = null;
+    let hasClickedNotifications = false; // Track if user has clicked
+
     function listenForUnreadNotifications(uid) {
       const badge = document.getElementById("notificationBadge");
       const btn = document.getElementById("notificationBtn");
 
-      // Real-time listener for unread notifications
-      db.collection("notifications")
-        .where("userId", "==", uid)
-        .where("read", "==", false)
+      console.log('🔔 Setting up notification listener for UID:', uid);
+
+      // Check localStorage to see if user has already viewed notifications
+      const lastViewedTime = localStorage.getItem('lastNotificationView_' + uid);
+
+      // Real-time listener for unread bids (notifications)
+      notificationListenerUnsubscribe = db.collection("bids")
+        .where("listingOwnerUid", "==", uid)
+        .where("status", "==", "unread")
         .onSnapshot((snapshot) => {
           const count = snapshot.size;
-          updateNotificationUI(count, badge, btn);
+          console.log('🔔 Unread bids (notifications):', count);
+
+          // Only show animations if user hasn't clicked the button this session
+          if (!hasClickedNotifications) {
+            updateNotificationUI(count, badge, btn);
+          } else {
+            // User has clicked - keep animations off even if there are unread
+            badge.classList.remove('show');
+            btn.classList.remove('has-unread');
+          }
         }, error => {
-          console.error('Notification listener error:', error);
+          console.error('❌ Bid listener error:', error);
+          console.log('💡 Trying fallback without compound query...');
+
+          // Fallback: Listen to all bids for this user and filter client-side
+          notificationListenerUnsubscribe = db.collection("bids")
+            .where("listingOwnerUid", "==", uid)
+            .onSnapshot((snapshot) => {
+              const unreadCount = snapshot.docs.filter(doc => {
+                const data = doc.data();
+                return data.status === 'unread';
+              }).length;
+
+              console.log('🔔 Fallback method - Unread count:', unreadCount);
+
+              if (!hasClickedNotifications) {
+                updateNotificationUI(unreadCount, badge, btn);
+              } else {
+                badge.classList.remove('show');
+                btn.classList.remove('has-unread');
+              }
+            });
         });
     }
 
@@ -1053,9 +1097,53 @@
       }
     }
 
-    // Navigate to notifications page (don't mark as read on click)
-    document.getElementById('notificationBtn').addEventListener('click', (e) => {
+    // Navigate to notifications page and permanently stop animations
+    document.getElementById('notificationBtn').addEventListener('click', async (e) => {
       e.preventDefault();
+
+      const uid = auth.currentUser?.uid;
+      if (!uid) {
+        window.location.href = 'notifications.html';
+        return;
+      }
+
+      // Set flag to prevent animations from coming back
+      hasClickedNotifications = true;
+
+      // Save to localStorage so it persists across page reloads
+      localStorage.setItem('lastNotificationView_' + uid, Date.now().toString());
+
+      // Instant visual feedback - remove effects immediately
+      const badge = document.getElementById("notificationBadge");
+      const btn = document.getElementById("notificationBtn");
+
+      badge.classList.remove('show');
+      btn.classList.remove('has-unread');
+      document.title = 'Agent Dashboard - Hauser NG';
+
+      try {
+        // Mark all unread bids as read in background
+        const snapshot = await db.collection("bids")
+          .where("listingOwnerUid", "==", uid)
+          .where("status", "==", "unread")
+          .get();
+
+        if (!snapshot.empty) {
+          const batch = db.batch();
+          snapshot.forEach(doc => {
+            batch.update(doc.ref, {
+              status: "read",
+              readAt: firebase.firestore.FieldValue.serverTimestamp()
+            });
+          });
+          await batch.commit();
+          console.log('✅ Marked', snapshot.size, 'bids as read');
+        }
+      } catch (error) {
+        console.error('Error marking bids as read:', error);
+      }
+
+      // Navigate to notifications page
       window.location.href = 'notifications.html';
     });
   </script>
