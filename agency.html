@@ -8,7 +8,7 @@
 
     <!-- Google Fonts -->
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Sora:wght@600;700;800&display=swap"
         rel="stylesheet">
 
     <!-- Firebase SDK -->
@@ -18,28 +18,29 @@
 
     <style>
         :root {
-            --primary-bg: #f8fafc;
+            --primary-bg: #fafafa;
             --card-bg: #ffffff;
-            --primary-orange: #ea580c;
-            --secondary-orange: #f97316;
-            --slate-800: #1e293b;
-            --slate-700: #334155;
-            --slate-600: #475569;
-            --slate-500: #64748b;
-            --slate-400: #94a3b8;
-            --slate-200: #e2e8f0;
-            --slate-100: #f1f5f9;
-            --success-green: #059669;
-            --border-light: #e2e8f0;
-            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-            --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
-            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            --primary-accent: #ea580c;
+            --accent-hover: #dc2626;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-muted: #94a3b8;
+            --border: #e2e8f0;
+            --border-hover: #cbd5e1;
+            --success: #10b981;
+            --overlay: rgba(15, 23, 42, 0.6);
+            --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+            --radius-sm: 0.375rem;
             --radius-md: 0.5rem;
             --radius-lg: 0.75rem;
             --radius-xl: 1rem;
-            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --radius-2xl: 1.5rem;
+            --transition-fast: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         * {
@@ -51,17 +52,24 @@
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             background: var(--primary-bg);
-            min-height: 100vh;
-            color: var(--slate-800);
+            color: var(--text-primary);
             line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         h1,
         h2,
         h3 {
-            font-family: 'Manrope', sans-serif;
+            font-family: 'Sora', sans-serif;
             font-weight: 700;
-            letter-spacing: -0.025em;
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+        }
+
+        /* Smooth Scroll */
+        html {
+            scroll-behavior: smooth;
         }
 
         /* Loading State */
@@ -72,13 +80,14 @@
             justify-content: center;
             min-height: 100vh;
             padding: 2rem;
+            background: var(--primary-bg);
         }
 
         .loading-spinner {
-            width: 50px;
-            height: 50px;
-            border: 4px solid var(--slate-200);
-            border-top-color: var(--primary-orange);
+            width: 48px;
+            height: 48px;
+            border: 3px solid var(--border);
+            border-top-color: var(--primary-accent);
             border-radius: 50%;
             animation: spin 0.8s linear infinite;
         }
@@ -90,194 +99,508 @@
         }
 
         .loading-text {
-            margin-top: 1rem;
-            color: var(--slate-600);
-            font-size: 1rem;
+            margin-top: 1.5rem;
+            color: var(--text-secondary);
+            font-size: 0.9375rem;
+            font-weight: 500;
         }
 
-        /* Agency Header */
-        .agency-header {
+        /* Navigation Bar */
+        .nav-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            z-index: 100;
+            transition: var(--transition);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .nav-bar.scrolled {
+            box-shadow: var(--shadow-md);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .nav-logo {
+            height: 40px;
+            width: auto;
+            max-width: 150px;
+            object-fit: contain;
+        }
+
+        .nav-brand {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            font-family: 'Sora', sans-serif;
+        }
+
+        .nav-contact {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .nav-contact-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: var(--transition-fast);
+        }
+
+        .nav-contact-item:hover {
+            color: var(--primary-accent);
+        }
+
+        .nav-icon {
+            font-size: 1.125rem;
+        }
+
+        /* Hero Section */
+        .hero-section {
             position: relative;
-            text-align: center;
-            padding: 4rem 2rem;
-            color: white;
-            background: linear-gradient(135deg, var(--primary-orange), var(--secondary-orange));
-            background-size: cover;
-            background-position: center;
-            box-shadow: var(--shadow-lg);
-            min-height: 300px;
+            min-height: 70vh;
             display: flex;
             align-items: center;
             justify-content: center;
+            overflow: hidden;
+            margin-top: 72px;
         }
 
-        .agency-header::before {
-            content: '';
+        .hero-media-container {
             position: absolute;
             inset: 0;
-            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.5));
             z-index: 0;
         }
 
-        .header-content {
-            position: relative;
-            z-index: 1;
-            max-width: 1200px;
+        .hero-image {
             width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
-        .agency-logo {
-            max-height: 100px;
-            max-width: 300px;
-            margin: 0 auto 1.5rem;
-            border-radius: var(--radius-md);
-            box-shadow: var(--shadow-md);
+        .hero-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, rgba(15, 23, 42, 0.4), rgba(15, 23, 42, 0.7));
+            z-index: 1;
+        }
+
+        .video-controls {
+            position: absolute;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 3;
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .video-btn {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.95);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition-fast);
+            box-shadow: var(--shadow-lg);
+            color: var(--text-primary);
+            font-size: 1.125rem;
+        }
+
+        .video-btn:hover {
             background: white;
-            padding: 1rem;
-            display: none;
+            transform: scale(1.05);
         }
 
-        .agency-logo.show {
-            display: block;
+        .video-btn:active {
+            transform: scale(0.95);
         }
 
-        .agency-name {
-            font-size: clamp(2rem, 5vw, 3.5rem);
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            color: white;
+            padding: 3rem 2rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .hero-logo-container {
+            margin-bottom: 2rem;
+        }
+
+        .hero-logo {
+            max-height: 100px;
+            max-width: 250px;
+            border-radius: var(--radius-lg);
+            background: white;
+            padding: 1rem 1.5rem;
+            box-shadow: var(--shadow-xl);
+        }
+
+        .hero-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
             font-weight: 800;
-            margin-bottom: 1rem;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
+            margin-bottom: 1.25rem;
+            text-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            letter-spacing: -0.03em;
         }
 
         .hero-tagline {
-            font-size: clamp(1.125rem, 3vw, 1.5rem);
-            font-weight: 500;
+            font-size: clamp(1.125rem, 2.5vw, 1.375rem);
+            font-weight: 400;
             opacity: 0.95;
-            display: none;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            line-height: 1.6;
         }
 
-        .hero-tagline.show {
+        .hero-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            background: white;
+            color: var(--text-primary);
+            text-decoration: none;
+            border-radius: var(--radius-lg);
+            font-weight: 600;
+            font-size: 1rem;
+            transition: var(--transition);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .hero-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 24px 32px -8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Stats Bar */
+        .stats-bar {
+            max-width: 1200px;
+            margin: -3rem auto 0;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .stats-container {
+            background: white;
+            border-radius: var(--radius-xl);
+            padding: 2rem;
+            box-shadow: var(--shadow-xl);
+            border: 1px solid var(--border);
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 1rem;
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-accent);
+            font-family: 'Sora', sans-serif;
             display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
         }
 
         /* About Section */
-        .agency-about-section {
-            max-width: 900px;
-            margin: 3rem auto;
+        .about-section {
+            max-width: 1000px;
+            margin: 5rem auto 4rem;
             padding: 0 2rem;
-            display: none;
-        }
-
-        .agency-about-section.show {
-            display: block;
         }
 
         .about-container {
-            background: var(--card-bg);
-            border-radius: var(--radius-xl);
-            padding: 2.5rem;
-            box-shadow: var(--shadow-md);
-            border: 1px solid var(--border-light);
-            text-align: center;
+            background: white;
+            border-radius: var(--radius-2xl);
+            padding: 3rem;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border);
         }
 
-        .about-title {
-            font-size: 1.75rem;
+        .section-label {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--primary-accent);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
             margin-bottom: 1rem;
-            color: var(--slate-800);
-        }
-
-        .agency-about {
-            font-size: 1.0625rem;
-            color: var(--slate-600);
-            line-height: 1.8;
-        }
-
-        /* Contact Info */
-        .contact-info {
-            text-align: center;
-            margin: 2rem auto;
-            max-width: 600px;
-            padding: 0 2rem;
-            display: none;
-        }
-
-        .contact-info.show {
             display: block;
         }
 
-        .contact-item {
-            font-size: 1.0625rem;
-            margin: 1rem 0;
-            color: var(--slate-700);
+        .about-title {
+            font-size: 2.25rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
         }
 
-        .contact-item a {
-            color: var(--primary-orange);
-            text-decoration: none;
-            font-weight: 600;
+        .about-text {
+            font-size: 1.0625rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        /* Contact Section */
+        .contact-section {
+            max-width: 800px;
+            margin: 0 auto 4rem;
+            padding: 0 2rem;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .contact-card {
+            background: white;
+            border-radius: var(--radius-xl);
+            padding: 2rem;
+            text-align: center;
+            border: 1px solid var(--border);
             transition: var(--transition);
         }
 
-        .contact-item a:hover {
-            color: var(--secondary-orange);
+        .contact-card:hover {
+            border-color: var(--primary-accent);
+            box-shadow: var(--shadow-md);
+            transform: translateY(-4px);
+        }
+
+        .contact-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .contact-label {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .contact-link {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.0625rem;
+            transition: var(--transition-fast);
+        }
+
+        .contact-link:hover {
+            color: var(--primary-accent);
         }
 
         /* Properties Section */
         .properties-section {
             max-width: 1400px;
-            margin: 3rem auto;
+            margin: 4rem auto;
             padding: 0 2rem 3rem;
         }
 
-        .section-title {
+        .section-header {
             text-align: center;
-            font-size: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .section-description {
+            font-size: 1.0625rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Filter Bar */
+        .filter-bar {
+            display: flex;
+            gap: 1rem;
             margin-bottom: 2.5rem;
-            color: var(--slate-800);
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .filter-btn {
+            padding: 0.75rem 1.5rem;
+            border: 1px solid var(--border);
+            background: white;
+            border-radius: var(--radius-lg);
+            font-weight: 500;
+            font-size: 0.9375rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: var(--transition-fast);
+        }
+
+        .filter-btn:hover {
+            border-color: var(--primary-accent);
+            color: var(--primary-accent);
+        }
+
+        .filter-btn.active {
+            background: var(--primary-accent);
+            color: white;
+            border-color: var(--primary-accent);
         }
 
         .properties-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr));
             gap: 2rem;
         }
 
         .property-card {
-            background: var(--card-bg);
+            background: white;
             border-radius: var(--radius-xl);
             overflow: hidden;
-            box-shadow: var(--shadow-md);
+            box-shadow: var(--shadow-sm);
             transition: var(--transition);
-            border: 1px solid var(--border-light);
+            border: 1px solid var(--border);
+            position: relative;
         }
 
         .property-card:hover {
             transform: translateY(-8px);
             box-shadow: var(--shadow-xl);
-            border-color: var(--primary-orange);
+            border-color: var(--border-hover);
+        }
+
+        .property-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            padding: 0.5rem 1rem;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(8px);
+            border-radius: var(--radius-lg);
+            font-size: 0.8125rem;
+            font-weight: 600;
+            color: var(--primary-accent);
+            z-index: 2;
+            box-shadow: var(--shadow-md);
+        }
+
+        .property-image-container {
+            position: relative;
+            width: 100%;
+            height: 260px;
+            overflow: hidden;
+            background: var(--border);
         }
 
         .property-image {
             width: 100%;
-            height: 240px;
+            height: 100%;
             object-fit: cover;
-            background: var(--slate-200);
+            transition: var(--transition);
+        }
+
+        .property-card:hover .property-image {
+            transform: scale(1.05);
+        }
+
+        .property-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .play-overlay {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .property-image-container:hover .play-overlay {
+            opacity: 1;
+        }
+
+        .play-button {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: white;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--primary-accent);
+            cursor: pointer;
+            box-shadow: var(--shadow-xl);
         }
 
         .property-content {
-            padding: 1.5rem;
+            padding: 1.75rem;
         }
 
         .property-title {
             font-size: 1.25rem;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.75rem;
             font-weight: 600;
-            color: var(--slate-800);
+            color: var(--text-primary);
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
         }
 
         .property-location {
             font-size: 0.9375rem;
-            color: var(--slate-500);
+            color: var(--text-muted);
             margin-bottom: 1rem;
             display: flex;
             align-items: center;
@@ -286,56 +609,74 @@
 
         .property-description {
             font-size: 0.9375rem;
-            color: var(--slate-600);
+            color: var(--text-secondary);
             line-height: 1.6;
-            margin-bottom: 1rem;
+            margin-bottom: 1.25rem;
             display: -webkit-box;
             -webkit-line-clamp: 3;
             -webkit-box-orient: vertical;
             overflow: hidden;
         }
 
+        .property-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border);
+        }
+
         .property-price {
             font-size: 1.5rem;
             font-weight: 700;
-            color: var(--primary-orange);
-            margin-bottom: 1rem;
+            color: var(--primary-accent);
+            font-family: 'Sora', sans-serif;
         }
 
         .view-btn {
-            display: block;
-            width: 100%;
-            padding: 0.875rem;
-            background: linear-gradient(135deg, var(--primary-orange), var(--secondary-orange));
+            padding: 0.75rem 1.5rem;
+            background: var(--text-primary);
             color: white;
-            text-align: center;
-            border-radius: var(--radius-md);
             text-decoration: none;
+            border-radius: var(--radius-md);
             font-weight: 600;
-            transition: var(--transition);
-            box-shadow: var(--shadow-sm);
+            font-size: 0.9375rem;
+            transition: var(--transition-fast);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
         .view-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
+            background: var(--primary-accent);
+            transform: translateX(4px);
         }
 
         /* Empty State */
         .empty-state {
             grid-column: 1 / -1;
             text-align: center;
-            padding: 4rem 2rem;
-            color: var(--slate-500);
-            background: var(--card-bg);
-            border-radius: var(--radius-xl);
-            border: 2px dashed var(--border-light);
+            padding: 5rem 2rem;
+            background: white;
+            border-radius: var(--radius-2xl);
+            border: 2px dashed var(--border);
         }
 
         .empty-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            opacity: 0.3;
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            opacity: 0.2;
+        }
+
+        .empty-title {
+            font-size: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: var(--text-primary);
+        }
+
+        .empty-text {
+            color: var(--text-muted);
+            font-size: 1rem;
         }
 
         /* Error State */
@@ -345,6 +686,7 @@
             justify-content: center;
             min-height: 100vh;
             padding: 2rem;
+            background: var(--primary-bg);
         }
 
         .error-container.show {
@@ -352,67 +694,155 @@
         }
 
         .error-card {
-            max-width: 600px;
+            max-width: 500px;
             text-align: center;
             background: white;
             padding: 3rem 2rem;
-            border-radius: var(--radius-xl);
+            border-radius: var(--radius-2xl);
             box-shadow: var(--shadow-xl);
+            border: 1px solid var(--border);
         }
 
         .error-icon {
             font-size: 4rem;
             margin-bottom: 1.5rem;
-            color: var(--slate-400);
+            opacity: 0.3;
         }
 
         .error-title {
             font-size: 1.75rem;
             margin-bottom: 1rem;
-            color: var(--slate-800);
+            color: var(--text-primary);
         }
 
         .error-text {
-            font-size: 1.0625rem;
-            color: var(--slate-600);
+            font-size: 1rem;
+            color: var(--text-secondary);
             margin-bottom: 2rem;
+            line-height: 1.6;
         }
 
         .error-link {
-            display: inline-block;
-            padding: 0.875rem 2rem;
-            background: linear-gradient(135deg, var(--primary-orange), var(--secondary-orange));
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            background: var(--text-primary);
             color: white;
             text-decoration: none;
-            border-radius: var(--radius-md);
+            border-radius: var(--radius-lg);
             font-weight: 600;
             transition: var(--transition);
         }
 
         .error-link:hover {
+            background: var(--primary-accent);
             transform: translateY(-2px);
             box-shadow: var(--shadow-md);
         }
 
         /* Footer */
         footer {
+            background: white;
+            border-top: 1px solid var(--border);
+            padding: 3rem 2rem 2rem;
+            margin-top: 5rem;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
             text-align: center;
-            padding: 2rem;
-            margin-top: 3rem;
-            color: var(--slate-500);
+        }
+
+        .footer-text {
+            color: var(--text-muted);
             font-size: 0.9375rem;
-            border-top: 1px solid var(--border-light);
+            margin-bottom: 1rem;
         }
 
-        .powered-by-hauser {
-            opacity: 0.8;
+        .footer-brand {
+            font-weight: 600;
+            color: var(--text-primary);
         }
 
-        /* Responsive */
+        .back-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: var(--primary-accent);
+            color: white;
+            border: none;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: var(--shadow-xl);
+            transition: var(--transition);
+            z-index: 99;
+        }
+
+        .back-to-top.show {
+            display: flex;
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 24px 32px -8px rgba(234, 88, 12, 0.4);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .stats-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
         @media (max-width: 768px) {
-            .agency-header {
-                padding: 3rem 1.5rem;
-                min-height: 250px;
+            .nav-container {
+                padding: 1rem 1.5rem;
+            }
+
+            .nav-contact {
+                display: none;
+            }
+
+            .hero-section {
+                min-height: 60vh;
+                margin-top: 64px;
+            }
+
+            .hero-content {
+                padding: 2rem 1.5rem;
+            }
+
+            .video-controls {
+                bottom: 1rem;
+                right: 1rem;
+            }
+
+            .video-btn {
+                width: 44px;
+                height: 44px;
+            }
+
+            .stats-bar {
+                margin-top: -2rem;
+                padding: 0 1rem;
+            }
+
+            .stats-container {
+                padding: 1.5rem;
+                gap: 1.5rem;
+            }
+
+            .about-section,
+            .contact-section {
+                margin: 3rem auto;
             }
 
             .about-container {
@@ -427,23 +857,87 @@
                 gap: 1.5rem;
             }
 
-            .property-image {
-                height: 200px;
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .back-to-top {
+                width: 48px;
+                height: 48px;
+                bottom: 1.5rem;
+                right: 1.5rem;
             }
         }
 
         @media (max-width: 480px) {
-            .agency-header {
-                padding: 2.5rem 1rem;
+            .hero-title {
+                font-size: 2rem;
             }
 
-            .about-container {
-                padding: 1.5rem;
+            .hero-tagline {
+                font-size: 1rem;
+            }
+
+            .stats-container {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .stat-item {
+                padding: 0.5rem;
+            }
+
+            .about-title {
+                font-size: 1.75rem;
             }
 
             .section-title {
-                font-size: 1.5rem;
+                font-size: 1.75rem;
             }
+
+            .property-image-container {
+                height: 220px;
+            }
+
+            .property-content {
+                padding: 1.25rem;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+
+        /* Accessibility */
+        .visually-hidden {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        /* Focus styles */
+        *:focus-visible {
+            outline: 2px solid var(--primary-accent);
+            outline-offset: 2px;
         }
     </style>
 </head>
@@ -455,54 +949,143 @@
         <div class="loading-text">Loading agency page...</div>
     </div>
 
-    <!-- Main Content (hidden initially) -->
+    <!-- Main Content -->
     <div id="mainContent" style="display: none;">
-        <!-- Agency Header -->
-        <header class="agency-header" id="agencyHeader">
-            <div class="header-content">
-                <img id="agencyLogo" class="agency-logo" alt="Agency Logo">
-                <h1 id="agencyName" class="agency-name">Agency Name</h1>
-                <p id="heroTagline" class="hero-tagline"></p>
+        <!-- Navigation Bar -->
+        <nav class="nav-bar" id="navbar">
+            <div class="nav-container">
+                <div>
+                    <img id="navLogo" class="nav-logo" alt="Agency Logo" style="display: none;">
+                    <span id="navBrand" class="nav-brand">Agency</span>
+                </div>
+                <div class="nav-contact" id="navContact">
+                    <a href="#" id="navPhone" class="nav-contact-item" style="display: none;">
+                        <span class="nav-icon">📞</span>
+                        <span id="navPhoneText"></span>
+                    </a>
+                    <a href="#" id="navEmail" class="nav-contact-item" style="display: none;">
+                        <span class="nav-icon">✉️</span>
+                        <span id="navEmailText"></span>
+                    </a>
+                </div>
             </div>
-        </header>
+        </nav>
 
-        <!-- About Section -->
-        <section id="aboutSection" class="agency-about-section">
-            <div class="about-container">
-                <h2 class="about-title">About Us</h2>
-                <p id="agencyAbout" class="agency-about"></p>
+        <!-- Hero Section -->
+        <section class="hero-section" id="heroSection">
+            <div class="hero-media-container" id="heroMediaContainer">
+                <img id="heroImage" class="hero-image" alt="Hero background" style="display: none;">
+                <video id="heroVideo" class="hero-video" loop muted style="display: none;">
+                    Your browser does not support the video tag.
+                </video>
+                <div class="hero-overlay"></div>
+            </div>
+
+            <div class="video-controls" id="videoControls" style="display: none;">
+                <button class="video-btn" id="playPauseBtn" aria-label="Play/Pause video">
+                    <span id="playPauseIcon">▶️</span>
+                </button>
+                <button class="video-btn" id="muteBtn" aria-label="Mute/Unmute video">
+                    <span id="muteIcon">🔇</span>
+                </button>
+            </div>
+
+            <div class="hero-content">
+                <div class="hero-logo-container" id="heroLogoContainer" style="display: none;">
+                    <img id="heroLogo" class="hero-logo" alt="Agency Logo">
+                </div>
+                <h1 id="heroTitle" class="hero-title">Welcome</h1>
+                <p id="heroTagline" class="hero-tagline" style="display: none;"></p>
+                <a href="#properties" class="hero-cta" id="heroCta" style="display: none;">
+                    <span>Browse Properties</span>
+                    <span>↓</span>
+                </a>
             </div>
         </section>
 
-        <!-- Contact Info -->
-        <div id="contactInfo" class="contact-info">
-            <div id="phoneDisplay" class="contact-item" style="display: none;">
-                📞 <a id="phoneLink" href=""></a>
-            </div>
-            <div id="emailDisplay" class="contact-item" style="display: none;">
-                ✉️ <a id="emailLink" href=""></a>
+        <!-- Stats Bar -->
+        <div class="stats-bar" id="statsBar" style="display: none;">
+            <div class="stats-container">
+                <div class="stat-item">
+                    <span class="stat-value" id="propertyCount">0</span>
+                    <span class="stat-label">Properties</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-value">24/7</span>
+                    <span class="stat-label">Support</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-value">100%</span>
+                    <span class="stat-label">Verified</span>
+                </div>
             </div>
         </div>
 
+        <!-- About Section -->
+        <section id="aboutSection" class="about-section" style="display: none;">
+            <div class="about-container">
+                <span class="section-label">About Us</span>
+                <h2 class="about-title">Who We Are</h2>
+                <p id="aboutText" class="about-text"></p>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contactSection" class="contact-section" style="display: none;">
+            <div class="contact-grid">
+                <div class="contact-card" id="phoneCard" style="display: none;">
+                    <div class="contact-icon">📞</div>
+                    <div class="contact-label">Call Us</div>
+                    <a id="phoneLink" class="contact-link" href=""></a>
+                </div>
+                <div class="contact-card" id="emailCard" style="display: none;">
+                    <div class="contact-icon">✉️</div>
+                    <div class="contact-label">Email Us</div>
+                    <a id="emailLink" class="contact-link" href=""></a>
+                </div>
+            </div>
+        </section>
+
         <!-- Properties Section -->
-        <section class="properties-section">
-            <h2 class="section-title">Available Properties</h2>
+        <section class="properties-section" id="properties">
+            <div class="section-header">
+                <span class="section-label">Our Listings</span>
+                <h2 class="section-title">Available Properties</h2>
+                <p class="section-description">Discover your perfect space from our curated selection of premium
+                    properties</p>
+            </div>
             <div id="propertiesGrid" class="properties-grid"></div>
         </section>
 
         <!-- Footer -->
         <footer>
-            <p id="poweredBy" class="powered-by-hauser">Powered by <strong>Hauser NG</strong></p>
+            <div class="footer-content">
+                <p class="footer-text">
+                    <span id="footerYear"></span> © <span id="footerAgencyName">Agency</span>. All rights reserved.
+                </p>
+                <p id="poweredBy" class="footer-text">
+                    Powered by <span class="footer-brand">Hauser NG</span>
+                </p>
+            </div>
         </footer>
+
+        <!-- Back to Top Button -->
+        <button class="back-to-top" id="backToTop" aria-label="Back to top">
+            ↑
+        </button>
     </div>
 
-    <!-- Error State (hidden initially) -->
+    <!-- Error State -->
     <div id="errorContainer" class="error-container">
         <div class="error-card">
             <div class="error-icon">🏠</div>
             <h1 class="error-title">Agency Not Found</h1>
-            <p class="error-text">The agency page you're looking for doesn't exist or has been removed.</p>
-            <a href="/" class="error-link">Go to Homepage</a>
+            <p class="error-text">We couldn't find the agency page you're looking for. It may have been removed or
+                doesn't exist.</p>
+            <a href="/" class="error-link">
+                <span>←</span>
+                <span>Go to Homepage</span>
+            </a>
         </div>
     </div>
 
@@ -520,26 +1103,85 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
 
-        // Get slug from URL path
+        // Get slug from URL
         function getSlugFromURL() {
             const path = window.location.pathname;
-            // Remove leading/trailing slashes and get first segment
             const slug = path.replace(/^\/|\/$/g, '').split('/')[0];
             return slug || null;
         }
 
-        // Load agency and properties
+        // Video controls
+        function setupVideoControls() {
+            const video = document.getElementById('heroVideo');
+            const playPauseBtn = document.getElementById('playPauseBtn');
+            const muteBtn = document.getElementById('muteBtn');
+            const playPauseIcon = document.getElementById('playPauseIcon');
+            const muteIcon = document.getElementById('muteIcon');
+
+            if (!video || video.style.display === 'none') return;
+
+            playPauseBtn.addEventListener('click', () => {
+                if (video.paused) {
+                    video.play();
+                    playPauseIcon.textContent = '⏸️';
+                } else {
+                    video.pause();
+                    playPauseIcon.textContent = '▶️';
+                }
+            });
+
+            muteBtn.addEventListener('click', () => {
+                video.muted = !video.muted;
+                muteIcon.textContent = video.muted ? '🔇' : '🔊';
+            });
+        }
+
+        // Navigation scroll effect
+        function setupNavigation() {
+            const navbar = document.getElementById('navbar');
+            let lastScroll = 0;
+
+            window.addEventListener('scroll', () => {
+                const currentScroll = window.pageYOffset;
+
+                if (currentScroll > 100) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+
+                lastScroll = currentScroll;
+            });
+        }
+
+        // Back to top button
+        function setupBackToTop() {
+            const backToTop = document.getElementById('backToTop');
+
+            window.addEventListener('scroll', () => {
+                if (window.pageYOffset > 500) {
+                    backToTop.classList.add('show');
+                } else {
+                    backToTop.classList.remove('show');
+                }
+            });
+
+            backToTop.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        }
+
+        // Load agency page
         async function loadAgencyPage() {
             const slug = getSlugFromURL();
 
-            // Don't load if it's the main pages
-            if (!slug || slug === 'index.html' || slug === 'vacancies.html' || slug === 'login.html' || slug === 'signup.html' || slug === 'dashboard.html') {
+            if (!slug || slug === 'index.html' || slug === 'vacancies.html' ||
+                slug === 'login.html' || slug === 'signup.html' || slug === 'dashboard.html') {
                 showError();
                 return;
             }
 
             try {
-                // Load workspace/agency data by slug
                 const workspaceSnapshot = await db.collection('workspaces')
                     .where('slug', '==', slug)
                     .limit(1)
@@ -553,11 +1195,8 @@
                 const workspaceData = workspaceSnapshot.docs[0].data();
                 const ownerUid = workspaceData.ownerUid;
 
-                // Populate agency info
                 populateAgencyInfo(workspaceData);
 
-                // Load properties for this agency owner
-                // Using simple query to avoid index requirement
                 const propertiesSnapshot = await db.collection('properties')
                     .where('uid', '==', ownerUid)
                     .get();
@@ -567,7 +1206,6 @@
                     ...doc.data()
                 }));
 
-                // Sort by createdAt on client side
                 properties.sort((a, b) => {
                     const aTime = a.createdAt?.toMillis() || 0;
                     const bTime = b.createdAt?.toMillis() || 0;
@@ -576,9 +1214,18 @@
 
                 renderProperties(properties);
 
-                // Show main content, hide loading
+                // Update property count
+                document.getElementById('propertyCount').textContent = properties.length;
+                if (properties.length > 0) {
+                    document.getElementById('statsBar').style.display = 'block';
+                }
+
                 document.getElementById('loadingContainer').style.display = 'none';
                 document.getElementById('mainContent').style.display = 'block';
+
+                setupVideoControls();
+                setupNavigation();
+                setupBackToTop();
 
             } catch (error) {
                 console.error("Error loading agency page:", error);
@@ -587,60 +1234,83 @@
         }
 
         function populateAgencyInfo(data) {
-            // Set page title
             document.title = `${data.agencyName || 'Agency'} - Hauser NG`;
 
-            // Agency name
-            document.getElementById('agencyName').textContent = data.agencyName || 'Our Agency';
+            const agencyName = data.agencyName || 'Our Agency';
+            document.getElementById('heroTitle').textContent = agencyName;
+            document.getElementById('navBrand').textContent = agencyName;
+            document.getElementById('footerAgencyName').textContent = agencyName;
 
             // Logo
             if (data.logoUrl) {
-                const logo = document.getElementById('agencyLogo');
-                logo.src = data.logoUrl;
-                logo.classList.add('show');
+                const navLogo = document.getElementById('navLogo');
+                const heroLogo = document.getElementById('heroLogo');
+                navLogo.src = data.logoUrl;
+                navLogo.style.display = 'block';
+                heroLogo.src = data.logoUrl;
+                document.getElementById('heroLogoContainer').style.display = 'block';
+                document.getElementById('navBrand').style.display = 'none';
             }
 
-            // Hero image background
-            if (data.heroImageUrl) {
-                const header = document.getElementById('agencyHeader');
-                header.style.backgroundImage = `url(${data.heroImageUrl})`;
+            // Hero media
+            if (data.heroVideoUrl) {
+                const video = document.getElementById('heroVideo');
+                video.src = data.heroVideoUrl;
+                video.style.display = 'block';
+                document.getElementById('videoControls').style.display = 'flex';
+            } else if (data.heroImageUrl) {
+                const img = document.getElementById('heroImage');
+                img.src = data.heroImageUrl;
+                img.style.display = 'block';
             }
 
             // Tagline
             if (data.heroTagline) {
-                const tagline = document.getElementById('heroTagline');
-                tagline.textContent = data.heroTagline;
-                tagline.classList.add('show');
+                document.getElementById('heroTagline').textContent = data.heroTagline;
+                document.getElementById('heroTagline').style.display = 'block';
             }
+
+            // Show CTA button
+            document.getElementById('heroCta').style.display = 'inline-flex';
 
             // About
             if (data.about) {
-                document.getElementById('agencyAbout').textContent = data.about;
-                document.getElementById('aboutSection').classList.add('show');
+                document.getElementById('aboutText').textContent = data.about;
+                document.getElementById('aboutSection').style.display = 'block';
             }
 
             // Contact info
             let hasContact = false;
             if (data.phone) {
-                document.getElementById('phoneLink').textContent = data.phone;
-                document.getElementById('phoneLink').href = `tel:${data.phone}`;
-                document.getElementById('phoneDisplay').style.display = 'block';
+                const phoneText = data.phone;
+                document.getElementById('phoneLink').textContent = phoneText;
+                document.getElementById('phoneLink').href = `tel:${phoneText}`;
+                document.getElementById('phoneCard').style.display = 'block';
+                document.getElementById('navPhone').href = `tel:${phoneText}`;
+                document.getElementById('navPhoneText').textContent = phoneText;
+                document.getElementById('navPhone').style.display = 'flex';
                 hasContact = true;
             }
             if (data.email) {
                 document.getElementById('emailLink').textContent = data.email;
                 document.getElementById('emailLink').href = `mailto:${data.email}`;
-                document.getElementById('emailDisplay').style.display = 'block';
+                document.getElementById('emailCard').style.display = 'block';
+                document.getElementById('navEmail').href = `mailto:${data.email}`;
+                document.getElementById('navEmailText').textContent = data.email;
+                document.getElementById('navEmail').style.display = 'flex';
                 hasContact = true;
             }
             if (hasContact) {
-                document.getElementById('contactInfo').classList.add('show');
+                document.getElementById('contactSection').style.display = 'block';
             }
 
-            // Hide "Powered by" if white label
+            // White label
             if (data.whiteLabel) {
                 document.getElementById('poweredBy').style.display = 'none';
             }
+
+            // Footer year
+            document.getElementById('footerYear').textContent = new Date().getFullYear();
         }
 
         function renderProperties(properties) {
@@ -650,16 +1320,18 @@
             if (properties.length === 0) {
                 grid.innerHTML = `
                     <div class="empty-state">
-                        <div class="empty-icon">📋</div>
-                        <h3>No Properties Listed Yet</h3>
-                        <p>Check back soon for new listings!</p>
+                        <div class="empty-icon">🏘️</div>
+                        <h3 class="empty-title">No Properties Listed Yet</h3>
+                        <p class="empty-text">Check back soon for exciting new listings!</p>
                     </div>
                 `;
                 return;
             }
 
-            properties.forEach(property => {
+            properties.forEach((property, index) => {
                 const card = createPropertyCard(property);
+                card.style.animationDelay = `${index * 0.1}s`;
+                card.classList.add('fade-in');
                 grid.appendChild(card);
             });
         }
@@ -668,25 +1340,77 @@
             const card = document.createElement('div');
             card.className = 'property-card';
 
-            // Get first image or use placeholder
-            const imageUrl = property.images?.[0] || property.media?.[0]?.url || 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240"%3E%3Crect fill="%23e2e8f0" width="400" height="240"/%3E%3Ctext x="50%25" y="50%25" text-anchor="middle" fill="%2394a3b8" font-family="Inter" font-size="20" dy=".3em"%3ENo Image%3C/text%3E%3C/svg%3E';
+            // Get media
+            const hasVideo = property.media?.some(m => m.type === 'video');
+            const firstVideo = hasVideo ? property.media.find(m => m.type === 'video')?.url : null;
+            const imageUrl = property.images?.[0] || property.media?.find(m => m.type === 'image')?.url ||
+                'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 260"%3E%3Crect fill="%23e2e8f0" width="400" height="260"/%3E%3Ctext x="50%25" y="50%25" text-anchor="middle" fill="%2394a3b8" font-family="Inter" font-size="18" dy=".3em"%3ENo Image%3C/text%3E%3C/svg%3E';
 
-            const price = property.price ? `₦${parseFloat(property.price).toLocaleString()}` : 'Price on request';
+            const price = property.price ? `₦${parseFloat(property.price).toLocaleString()}` : 'Contact for Price';
             const location = property.location || 'Location not specified';
             const state = property.state ? `, ${property.state}` : '';
             const description = property.description || 'No description available';
-            const truncatedDesc = description.length > 120 ? description.substring(0, 120) + '...' : description;
+
+            // Property type badge
+            const propertyType = property.propertyType || property.type || 'Property';
 
             card.innerHTML = `
-                <img src="${imageUrl}" alt="${property.title || 'Property'}" class="property-image" loading="lazy">
+                ${propertyType !== 'Property' ? `<div class="property-badge">${propertyType}</div>` : ''}
+                <div class="property-image-container">
+                    ${firstVideo ? `
+                        <video class="property-video" loop muted>
+                            <source src="${firstVideo}" type="video/mp4">
+                        </video>
+                        <div class="play-overlay">
+                            <button class="play-button" aria-label="Play video">▶</button>
+                        </div>
+                    ` : `
+                        <img src="${imageUrl}" alt="${property.title || 'Property'}" class="property-image" loading="lazy">
+                    `}
+                </div>
                 <div class="property-content">
                     <h3 class="property-title">${property.title || 'Untitled Property'}</h3>
-                    <div class="property-location">📍 ${location}${state}</div>
-                    <p class="property-description">${truncatedDesc}</p>
-                    <div class="property-price">${price}</div>
-                    <a href="property-details.html?id=${property.id}" class="view-btn">View Details</a>
+                    <div class="property-location">
+                        <span>📍</span>
+                        <span>${location}${state}</span>
+                    </div>
+                    <p class="property-description">${description}</p>
+                    <div class="property-footer">
+                        <div class="property-price">${price}</div>
+                        <a href="property-details.html?id=${property.id}" class="view-btn">
+                            <span>View</span>
+                            <span>→</span>
+                        </a>
+                    </div>
                 </div>
             `;
+
+            // Add video hover play functionality
+            if (firstVideo) {
+                const video = card.querySelector('.property-video');
+                const playBtn = card.querySelector('.play-button');
+
+                card.addEventListener('mouseenter', () => {
+                    video.play();
+                });
+
+                card.addEventListener('mouseleave', () => {
+                    video.pause();
+                    video.currentTime = 0;
+                });
+
+                if (playBtn) {
+                    playBtn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        if (video.paused) {
+                            video.play();
+                        } else {
+                            video.pause();
+                        }
+                    });
+                }
+            }
 
             return card;
         }
@@ -697,7 +1421,7 @@
             document.getElementById('errorContainer').classList.add('show');
         }
 
-        // Load page on DOM ready
+        // Initialize
         document.addEventListener('DOMContentLoaded', loadAgencyPage);
     </script>
 </body>
