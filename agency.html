@@ -1221,7 +1221,7 @@
         </div>
 
         <!-- About Section -->
-        <section id="aboutSection" class="about-section fade-in-up" style="display: none;">
+        <section id="aboutSection" class="about-section" style="display: none;">
             <div class="about-container">
                 <span class="section-label">About Us</span>
                 <h2 class="about-title">Who We Are</h2>
@@ -1230,7 +1230,7 @@
         </section>
 
         <!-- Contact Section -->
-        <section id="contactSection" class="contact-section fade-in-up" style="display: none;">
+        <section id="contactSection" class="contact-section" style="display: none;">
             <div class="contact-grid">
                 <div class="contact-card" id="phoneCard" style="display: none;">
                     <div class="contact-icon">
@@ -1250,7 +1250,7 @@
         </section>
 
         <!-- Properties Section -->
-        <section class="properties-section fade-in-up" id="properties">
+        <section class="properties-section" id="properties">
             <div class="section-header">
                 <span class="section-label">Our Listings</span>
                 <h2 class="section-title">Available Properties</h2>
@@ -1377,6 +1377,12 @@
         // Scroll animations
         function setupScrollAnimations() {
             const elements = document.querySelectorAll('.fade-in-up');
+
+            // Immediately show all elements on mobile
+            if (window.innerWidth <= 768) {
+                elements.forEach(el => el.classList.add('visible'));
+                return;
+            }
 
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
