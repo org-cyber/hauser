@@ -23,7 +23,9 @@
     "@capacitor/cli": "^7.4.2",
     "@capacitor/core": "^7.4.2",
     "@sendgrid/mail": "^8.1.6",
+    "firebase-admin": "^13.6.0",
     "imagekit": "^6.0.0",
-    "nodemailer": "^7.0.12"
+    "nodemailer": "^7.0.12",
+    "resend": "^6.6.0"
   }
 }

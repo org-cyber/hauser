@@ -4,53 +4,111 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hauser NG - Your Premier Property Listing Platform</title>
+    <title>Hauser NG - Nigeria's Premier Property Management Platform</title>
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#ffffff">
     <link rel="apple-touch-icon" href="img/logo1.jpg">
+    <meta name="description"
+        content="Transform your property business with Nigeria's most advanced property listing and management platform. Connect with quality tenants and grow your rental business.">
+
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Sora:wght@600;700;800&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
         :root {
-            --primary-dark: #0f172a;
-            --primary-blue: #2563eb;
-            --primary-light: #60a5fa;
-            --accent: #f59e0b;
-            --text-primary: #1e293b;
-            --text-secondary: #475569;
-            --text-light: #94a3b8;
-            --bg-light: #f8fafc;
-            --bg-white: #ffffff;
-            --border-light: #e2e8f0;
-            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
-            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
-            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
-            --gradient-primary: linear-gradient(135deg, #1d4ed8 0%, #3b82f6 100%);
-            --gradient-accent: linear-gradient(135deg, #d97706 0%, #f59e0b 100%);
-            --gradient-bg: linear-gradient(135deg, #eff6ff 0%, #f8fafc 100%);
-            --transition-base: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            /* Primary Colors */
+            --primary: #1a1a1a;
+            --primary-light: #2d2d2d;
+            --accent-orange: #ff6b35;
+            --accent-orange-light: #ff8555;
+            --accent-orange-dark: #e85a2a;
+
+            /* Neutral Colors */
+            --white: #ffffff;
+            --off-white: #fafafa;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-400: #9ca3af;
+            --gray-500: #6b7280;
+            --gray-600: #4b5563;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+
+            /* Semantic Colors */
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+            --info: #3b82f6;
+
+            /* Spacing */
+            --space-xs: 0.25rem;
+            --space-sm: 0.5rem;
+            --space-md: 1rem;
+            --space-lg: 1.5rem;
+            --space-xl: 2rem;
+            --space-2xl: 3rem;
+            --space-3xl: 4rem;
+            --space-4xl: 6rem;
+            --space-5xl: 8rem;
+
+            /* Typography */
+            --font-display: 'Sora', system-ui, sans-serif;
+            --font-body: 'DM Sans', system-ui, sans-serif;
+
+            /* Shadows */
+            --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+            --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            --shadow-orange: 0 10px 40px -10px rgba(255, 107, 53, 0.4);
+
+            /* Border Radius */
+            --radius-sm: 0.375rem;
+            --radius-md: 0.5rem;
+            --radius-lg: 0.75rem;
+            --radius-xl: 1rem;
+            --radius-2xl: 1.5rem;
+            --radius-full: 9999px;
+
+            /* Transitions */
+            --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-spring: 500ms cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
-        * {
+        /* Reset & Base Styles */
+        *,
+        *::before,
+        *::after {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            line-height: 1.6;
-            color: var(--text-primary);
-            overflow-x: hidden;
-            background: var(--bg-white);
-            font-weight: 400;
+        html {
+            scroll-behavior: smooth;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            font-family: var(--font-body);
+            font-size: 1rem;
+            line-height: 1.6;
+            color: var(--gray-700);
+            background: var(--white);
+            overflow-x: hidden;
         }
 
         /* Typography */
@@ -60,646 +118,277 @@
         h4,
         h5,
         h6 {
+            font-family: var(--font-display);
             font-weight: 700;
             line-height: 1.2;
-            letter-spacing: -0.025em;
-            margin-bottom: 1rem;
-            color: var(--text-primary);
+            color: var(--primary);
+            letter-spacing: -0.02em;
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+        }
+
+        h2 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 700;
+        }
+
+        h3 {
+            font-size: clamp(1.5rem, 3vw, 2rem);
+            font-weight: 600;
+        }
+
+        h4 {
+            font-size: clamp(1.25rem, 2.5vw, 1.5rem);
+        }
+
+        h5 {
+            font-size: 1.125rem;
+        }
+
+        h6 {
+            font-size: 1rem;
         }
 
         p {
-            margin-bottom: 1.5rem;
+            margin-bottom: var(--space-lg);
+            line-height: 1.7;
         }
 
         /* Navigation */
         .navbar {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(229, 231, 235, 0.5);
-            z-index: 1000;
-            padding: 0;
-            transition: var(--transition-base);
-            box-shadow: var(--shadow-sm);
-        }
 
-        .navbar.scrolled {
-            box-shadow: var(--shadow-md);
-        }
-
-        .nav-container {
-            max-width: 1280px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 2rem;
-            height: 72px;
-        }
-
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 800;
-            color: var(--primary-dark);
-            text-decoration: none;
-            letter-spacing: -0.025em;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            transition: var(--transition-base);
-        }
-
-        .logo:hover {
-            opacity: 0.9;
-        }
-
-        .logo i {
-            font-size: 1.25rem;
-            color: var(--accent);
-        }
-
-        .nav-links {
-            display: flex;
-            list-style: none;
-            gap: 1.5rem;
-            align-items: center;
-        }
-
-        .nav-links li a {
-            color: var(--text-primary);
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 0.875rem;
-            letter-spacing: -0.025em;
-            transition: var(--transition-base);
-            padding: 0.5rem 0;
-            position: relative;
-            white-space: nowrap;
-        }
-
-        .nav-links li a::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--primary-dark);
-            transition: var(--transition-base);
-        }
-
-        .nav-links li a:hover {
-            color: var(--primary-dark);
-        }
-
-        .nav-links li a:hover::after {
-            width: 100%;
-        }
-
-        .nav-links li a.btn-nav {
-            background: var(--primary-dark);
-            color: white;
-            padding: 0.625rem 1.25rem;
-            border-radius: 0.5rem;
-            font-weight: 600;
-            box-shadow: var(--shadow-sm);
-        }
-
-        .nav-links li a.btn-nav:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
-            color: white;
-            opacity: 0.95;
-        }
-
-        .nav-links li a.btn-nav::after {
-            display: none;
-        }
-
-        .mobile-menu {
-            display: none;
-            flex-direction: column;
-            cursor: pointer;
-            padding: 0.75rem;
-            border-radius: 0.5rem;
-            transition: var(--transition-base);
-            background: transparent;
-            border: none;
-            z-index: 1001;
-        }
-
-        .mobile-menu:hover {
-            background: rgba(30, 64, 175, 0.1);
-        }
-
-        .mobile-menu span {
-            width: 24px;
-            height: 2px;
-            background: var(--accent);
-            margin: 3px 0;
-            transition: var(--transition-base);
-            border-radius: 2px;
-            display: block;
-        }
-
-        /* Hero Section */
-        .hero {
-            min-height: 100vh;
-            background: var(--gradient-bg);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            color: var(--text-primary);
-            position: relative;
-            overflow: hidden;
-            padding: 8rem 0 4rem;
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
             top: 0;
             left: 0;
             right: 0;
-            bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><radialGradient id="g1" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="%233b82f6" stop-opacity="0.1"/><stop offset="100%" stop-color="transparent"/></radialGradient><radialGradient id="g2" cx="80%" cy="20%" r="40%"><stop offset="0%" stop-color="%23f59e0b" stop-opacity="0.1"/><stop offset="100%" stop-color="transparent"/></radialGradient></defs><rect width="1000" height="1000" fill="url(%23g1)"/><rect width="1000" height="1000" fill="url(%23g2)"/></svg>');
-            animation: float 20s ease-in-out infinite;
-            opacity: 0.6;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--gray-200);
+            transition: all var(--transition-base);
         }
 
-        .hero-content {
-            max-width: 1000px;
-            z-index: 2;
-            padding: 0 2rem;
-            animation: fadeInUp 1s ease-out;
-        }
-
-        .hero-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            background: rgba(15, 23, 42, 0.05);
-            border: 1px solid rgba(15, 23, 42, 0.1);
-            padding: 0.5rem 1.25rem;
-            border-radius: 2rem;
-            font-size: 0.875rem;
-            font-weight: 600;
-            margin-bottom: 2rem;
-            backdrop-filter: blur(10px);
-            color: var(--primary-dark);
+        .navbar.scrolled {
+            background: rgba(255, 255, 255, 0.95);
             box-shadow: var(--shadow-sm);
         }
 
-        .hero h1 {
-            font-size: clamp(2.5rem, 6vw, 4.5rem);
-            margin-bottom: 1.5rem;
-            font-weight: 800;
-            line-height: 1.1;
-            letter-spacing: -0.025em;
-            background: linear-gradient(135deg, var(--primary-dark) 0%, #334155 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .hero p {
-            font-size: clamp(1.125rem, 2vw, 1.375rem);
-            margin-bottom: 3rem;
-            opacity: 1;
-            color: var(--text-secondary);
-            max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
-            line-height: 1.6;
-        }
-
-        .cta-buttons {
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: var(--space-lg) var(--space-2xl);
             display: flex;
-            gap: 1.5rem;
-            justify-content: center;
-            flex-wrap: wrap;
+            justify-content: space-between;
             align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0;
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            text-decoration: none;
+            transition: transform var(--transition-fast);
+        }
+
+        .logo:hover {
+            transform: translateY(-2px);
+        }
+
+        .logo-img {
+            height: 140px;
+            width: auto;
+            display: block;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: var(--space-2xl);
+            align-items: center;
+        }
+
+        .nav-menu a {
+            font-family: var(--font-body);
+            font-size: 0.9375rem;
+            font-weight: 500;
+            color: var(--gray-700);
+            text-decoration: none;
+            transition: color var(--transition-fast);
+            position: relative;
+        }
+
+        .nav-menu a:not(.btn):hover {
+            color: var(--accent-orange);
+        }
+
+        .nav-menu a:not(.btn)::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-orange);
+            transition: width var(--transition-base);
+        }
+
+        .nav-menu a:not(.btn):hover::after {
+            width: 100%;
         }
 
         .btn {
             display: inline-flex;
             align-items: center;
-            gap: 0.75rem;
-            padding: 1rem 2.25rem;
+            justify-content: center;
+            gap: var(--space-sm);
+            padding: var(--space-md) var(--space-xl);
             border: none;
-            border-radius: 0.75rem;
-            font-size: 1rem;
+            border-radius: var(--radius-lg);
+            font-family: var(--font-body);
+            font-size: 0.9375rem;
             font-weight: 600;
             text-decoration: none;
-            transition: var(--transition-base);
             cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            letter-spacing: -0.025em;
+            transition: all var(--transition-base);
+            white-space: nowrap;
         }
 
         .btn-primary {
-            background: var(--gradient-accent);
-            color: white;
-            box-shadow: var(--shadow-lg);
+            background: var(--accent-orange);
+            color: var(--white);
+            box-shadow: var(--shadow-orange);
         }
 
         .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: var(--shadow-xl);
-            opacity: 0.95;
+            background: var(--accent-orange-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 15px 45px -10px rgba(255, 107, 53, 0.5);
         }
 
         .btn-secondary {
-            background: white;
-            color: var(--text-primary);
-            border: 1px solid var(--border-light);
-            box-shadow: var(--shadow-sm);
+            background: transparent;
+            color: var(--gray-700);
+            border: 1.5px solid var(--gray-300);
         }
 
         .btn-secondary:hover {
-            background: var(--bg-light);
-            transform: translateY(-3px);
-            box-shadow: var(--shadow-md);
-            border-color: var(--accent);
-            color: var(--accent);
+            background: var(--gray-50);
+            border-color: var(--accent-orange);
+            color: var(--accent-orange);
         }
 
-        /* Section Styles */
-        .section {
-            padding: 8rem 0;
+        .btn-outline {
+            background: transparent;
+            color: var(--accent-orange);
+            border: 1.5px solid var(--accent-orange);
+        }
+
+        .btn-outline:hover {
+            background: var(--accent-orange);
+            color: var(--white);
+        }
+
+        .mobile-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: var(--space-sm);
+        }
+
+        .mobile-toggle span {
+            width: 24px;
+            height: 2px;
+            background: var(--primary);
+            border-radius: var(--radius-full);
+            transition: all var(--transition-base);
+        }
+
+        .mobile-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(6px, 6px);
+        }
+
+        .mobile-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .mobile-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(6px, -6px);
+        }
+
+        /* Hero Section */
+        .hero {
             position: relative;
-        }
-
-        .container {
-            max-width: 1280px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-
-        .section-header {
-            text-align: center;
-            margin-bottom: 4rem;
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .section-badge {
-            display: inline-block;
-            background: rgba(15, 23, 42, 0.05);
-            color: var(--primary-dark);
-            padding: 0.5rem 1.25rem;
-            border-radius: 2rem;
-            font-size: 0.875rem;
-            font-weight: 600;
-            margin-bottom: 1.5rem;
-            border: 1px solid rgba(15, 23, 42, 0.1);
-        }
-
-        .section-title {
-            font-size: clamp(2rem, 4vw, 3.5rem);
-            margin-bottom: 1.5rem;
-            color: var(--text-primary);
-            font-weight: 800;
-            letter-spacing: -0.025em;
-            line-height: 1.2;
-        }
-
-        .section-description {
-            font-size: 1.25rem;
-            color: var(--text-secondary);
-            line-height: 1.6;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        /* About Section */
-        .about {
-            background: var(--bg-light);
-        }
-
-        .about-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            align-items: center;
-        }
-
-        .about-content {
-            animation: slideInLeft 1s ease-out;
-        }
-
-        .about-content h3 {
-            font-size: 2rem;
-            margin-bottom: 1.5rem;
-            color: var(--text-primary);
-            font-weight: 700;
-            line-height: 1.3;
-        }
-
-        .about-content p {
-            font-size: 1.125rem;
-            line-height: 1.7;
-            color: var(--text-secondary);
-            margin-bottom: 1.5rem;
-        }
-
-        .about-stats {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-
-        .stat-item {
-            text-align: left;
-        }
-
-        .stat-number {
-            font-size: 2.25rem;
-            font-weight: 800;
-            color: var(--accent);
-            display: block;
-            line-height: 1.2;
-            margin-bottom: 0.25rem;
-        }
-
-        .stat-label {
-            font-size: 0.875rem;
-            color: var(--text-secondary);
-            font-weight: 500;
-            letter-spacing: 0.025em;
-        }
-
-        .about-image {
-            position: relative;
-            animation: slideInRight 1s ease-out;
-        }
-
-        .about-image-container {
-            position: relative;
-            border-radius: 1.5rem;
-            overflow: hidden;
-            box-shadow: var(--shadow-xl);
-            background: var(--gradient-primary);
-            aspect-ratio: 4/3;
+            min-height: 100vh;
             display: flex;
             align-items: center;
-            justify-content: center;
-            transition: var(--transition-base);
-        }
-
-        .about-image-container:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-        }
-
-        .about-image-content {
-            text-align: center;
-            color: white;
-            padding: 3rem;
-        }
-
-        .about-image-content h4 {
-            font-size: 1.75rem;
-            margin-bottom: 0.75rem;
-            font-weight: 700;
-            color: white;
-        }
-
-        .about-image-content p {
-            opacity: 0.95;
-            font-size: 1.125rem;
-            line-height: 1.6;
-            color: rgba(255, 255, 255, 0.9);
-        }
-
-        /* Features Section */
-        .features {
-            background: white;
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-
-        .feature-card {
-            background: white;
-            padding: 2.5rem;
-            border-radius: 1.5rem;
-            border: 1px solid var(--border-light);
-            transition: var(--transition-base);
-            position: relative;
+            padding: var(--space-5xl) var(--space-2xl) var(--space-4xl);
+            background: linear-gradient(135deg, #fafafa 0%, #ffffff 50%, #fff5f0 100%);
             overflow: hidden;
-            box-shadow: var(--shadow-sm);
         }
 
-        .feature-card::before {
+        .hero::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: var(--gradient-accent);
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            top: -50%;
+            right: -20%;
+            width: 80%;
+            height: 150%;
+            background: radial-gradient(circle, rgba(255, 107, 53, 0.08) 0%, transparent 70%);
+            animation: float 20s ease-in-out infinite;
         }
 
-        .feature-card:hover::before {
-            transform: scaleX(1);
-        }
-
-        .feature-card:hover {
-            transform: translateY(-8px);
-            box-shadow: var(--shadow-xl);
-            border-color: rgba(245, 158, 11, 0.2);
-        }
-
-        .feature-icon {
-            width: 64px;
-            height: 64px;
-            background: var(--bg-light);
-            border-radius: 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 1.5rem;
-            font-size: 1.5rem;
-            color: var(--accent);
-            box-shadow: var(--shadow-sm);
-            transition: var(--transition-base);
-        }
-
-        .feature-card:hover .feature-icon {
-            background: var(--gradient-accent);
-            color: white;
-            transform: rotate(5deg) scale(1.05);
-        }
-
-        .feature-card h3 {
-            font-size: 1.375rem;
-            margin-bottom: 1rem;
-            color: var(--text-primary);
-            font-weight: 700;
-        }
-
-        .feature-card p {
-            color: var(--text-secondary);
-            line-height: 1.6;
-            font-size: 1.0625rem;
-        }
-
-        /* Education Section - Updated to Light Theme */
-        .education {
-            background: var(--bg-light);
-            position: relative;
-        }
-
-        .education::before {
+        .hero::after {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
+            bottom: -30%;
+            left: -10%;
+            width: 60%;
             height: 100%;
-            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%233b82f6' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            background: radial-gradient(circle, rgba(255, 107, 53, 0.05) 0%, transparent 70%);
+            animation: float 25s ease-in-out infinite reverse;
         }
 
-        .education .section-title {
-            color: var(--text-primary);
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+
+            33% {
+                transform: translate(30px, -30px) rotate(2deg);
+            }
+
+            66% {
+                transform: translate(-20px, 20px) rotate(-2deg);
+            }
         }
 
-        .education .section-description {
-            color: var(--text-secondary);
-        }
-
-        .education .section-badge {
-            background: rgba(245, 158, 11, 0.1);
-            color: var(--accent);
-            border-color: rgba(245, 158, 11, 0.2);
-        }
-
-        .education-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2.5rem;
-            margin-top: 3rem;
+        .hero-container {
             position: relative;
             z-index: 1;
-        }
-
-        .education-step {
-            background: white;
-            padding: 2.5rem;
-            border-radius: 1.5rem;
-            border: 1px solid var(--border-light);
-            transition: var(--transition-base);
-            position: relative;
-            box-shadow: var(--shadow-sm);
-        }
-
-        .education-step:hover {
-            transform: translateY(-8px);
-            border-color: var(--primary-light);
-            box-shadow: var(--shadow-xl);
-        }
-
-        .step-number {
-            width: 50px;
-            height: 50px;
-            background: var(--gradient-accent);
-            border-radius: 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 1.25rem;
-            margin-bottom: 1.5rem;
-            box-shadow: var(--shadow-md);
-            color: white;
-        }
-
-        .education-step h3 {
-            margin-bottom: 1.25rem;
-            font-size: 1.375rem;
-            font-weight: 700;
-            color: var(--text-primary);
-        }
-
-        .education-step p {
-            color: var(--text-secondary);
-            line-height: 1.6;
-            font-size: 1.0625rem;
-        }
-
-        /* CTA Section */
-        .cta-section {
-            background: white;
-            text-align: center;
-        }
-
-        .cta-content {
-            max-width: 700px;
+            max-width: 1400px;
             margin: 0 auto;
-        }
-
-        /* Footer */
-        .footer {
-            background: var(--primary-dark);
-            color: white;
-            padding: 5rem 0 2rem;
-            position: relative;
-        }
-
-        .footer-content {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-
-        .footer-logo {
-            font-size: 1.75rem;
-            font-weight: 800;
-            margin-bottom: 1.5rem;
-            display: flex;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-4xl);
             align-items: center;
-            justify-content: center;
-            gap: 0.75rem;
-            color: white;
         }
 
-        .footer-logo i {
-            color: var(--accent);
+        .hero-content {
+            animation: fadeInUp 0.8s ease-out;
         }
 
-        .footer p {
-            opacity: 0.8;
-            margin-bottom: 0.75rem;
-            color: #cbd5e1;
-            max-width: 500px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .footer-bottom {
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            padding-top: 2rem;
-            text-align: center;
-            opacity: 0.6;
-            font-size: 0.875rem;
-            color: #9ca3af;
-        }
-
-        /* Animations */
         @keyframes fadeInUp {
             from {
                 opacity: 0;
@@ -712,19 +401,52 @@
             }
         }
 
-        @keyframes slideInLeft {
-            from {
-                opacity: 0;
-                transform: translateX(-30px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-sm);
+            padding: var(--space-sm) var(--space-lg);
+            background: linear-gradient(135deg, rgba(255, 107, 53, 0.1) 0%, rgba(255, 133, 85, 0.1) 100%);
+            border: 1px solid rgba(255, 107, 53, 0.2);
+            border-radius: var(--radius-full);
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--accent-orange);
+            margin-bottom: var(--space-xl);
         }
 
-        @keyframes slideInRight {
+        .hero-title {
+            margin-bottom: var(--space-lg);
+            line-height: 1.1;
+        }
+
+        .hero-title .highlight {
+            background: linear-gradient(135deg, var(--accent-orange) 0%, var(--accent-orange-light) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-description {
+            font-size: 1.25rem;
+            line-height: 1.7;
+            color: var(--gray-600);
+            margin-bottom: var(--space-2xl);
+            max-width: 580px;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: var(--space-lg);
+            flex-wrap: wrap;
+        }
+
+        .hero-visual {
+            position: relative;
+            animation: fadeInRight 0.8s ease-out 0.2s both;
+        }
+
+        @keyframes fadeInRight {
             from {
                 opacity: 0;
                 transform: translateX(30px);
@@ -736,23 +458,546 @@
             }
         }
 
-        @keyframes float {
-
-            0%,
-            100% {
-                transform: translateY(0px) rotate(0deg);
-            }
-
-            50% {
-                transform: translateY(-10px) rotate(1deg);
-            }
+        .hero-image {
+            position: relative;
+            border-radius: var(--radius-2xl);
+            overflow: hidden;
+            box-shadow: var(--shadow-2xl);
+            background: linear-gradient(135deg, var(--accent-orange) 0%, var(--accent-orange-dark) 100%);
+            aspect-ratio: 4/3;
         }
 
-        /* Scroll animations */
+        .hero-image-content {
+            padding: var(--space-3xl);
+            color: var(--white);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: 100%;
+        }
+
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-2xl);
+            margin-top: var(--space-3xl);
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            display: block;
+            font-family: var(--font-display);
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--accent-orange);
+            line-height: 1;
+            margin-bottom: var(--space-sm);
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: var(--gray-600);
+            font-weight: 500;
+        }
+
+        /* Section Styles */
+        .section {
+            padding: var(--space-5xl) var(--space-2xl);
+            position: relative;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto var(--space-4xl);
+        }
+
+        .section-badge {
+            display: inline-block;
+            padding: var(--space-sm) var(--space-lg);
+            background: rgba(255, 107, 53, 0.1);
+            border: 1px solid rgba(255, 107, 53, 0.2);
+            border-radius: var(--radius-full);
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--accent-orange);
+            margin-bottom: var(--space-lg);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .section-title {
+            margin-bottom: var(--space-lg);
+        }
+
+        .section-description {
+            font-size: 1.125rem;
+            line-height: 1.7;
+            color: var(--gray-600);
+        }
+
+        /* Features Section */
+        .features {
+            background: var(--gray-50);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: var(--space-2xl);
+        }
+
+        .feature-card {
+            background: var(--white);
+            padding: var(--space-2xl);
+            border-radius: var(--radius-xl);
+            border: 1px solid var(--gray-200);
+            transition: all var(--transition-base);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-orange) 0%, var(--accent-orange-light) 100%);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform var(--transition-base);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-xl);
+            border-color: rgba(255, 107, 53, 0.3);
+        }
+
+        .feature-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .feature-icon {
+            width: 64px;
+            height: 64px;
+            background: linear-gradient(135deg, rgba(255, 107, 53, 0.1) 0%, rgba(255, 133, 85, 0.1) 100%);
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.75rem;
+            color: var(--accent-orange);
+            margin-bottom: var(--space-lg);
+            transition: all var(--transition-spring);
+        }
+
+        .feature-card:hover .feature-icon {
+            background: var(--accent-orange);
+            color: var(--white);
+            transform: rotate(5deg) scale(1.1);
+        }
+
+        .feature-title {
+            margin-bottom: var(--space-md);
+            font-size: 1.375rem;
+        }
+
+        .feature-description {
+            color: var(--gray-600);
+            line-height: 1.7;
+        }
+
+        /* How It Works Section */
+        .how-it-works {
+            background: var(--white);
+        }
+
+        .steps-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--space-3xl);
+            margin-top: var(--space-4xl);
+            position: relative;
+        }
+
+        .steps-container::before {
+            content: '';
+            position: absolute;
+            top: 40px;
+            left: 10%;
+            right: 10%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-orange) 0%, var(--accent-orange-light) 100%);
+            z-index: 0;
+        }
+
+        .step-card {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+        }
+
+        .step-number {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto var(--space-lg);
+            background: linear-gradient(135deg, var(--accent-orange) 0%, var(--accent-orange-light) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-display);
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--white);
+            box-shadow: var(--shadow-orange);
+            position: relative;
+        }
+
+        .step-number::before {
+            content: '';
+            position: absolute;
+            inset: -8px;
+            border-radius: 50%;
+            background: var(--white);
+            z-index: -1;
+        }
+
+        .step-title {
+            margin-bottom: var(--space-md);
+            font-size: 1.25rem;
+        }
+
+        .step-description {
+            color: var(--gray-600);
+            line-height: 1.7;
+        }
+
+        /* Platform Features */
+        .platform-features {
+            background: linear-gradient(180deg, var(--gray-50) 0%, var(--white) 100%);
+        }
+
+        .about {
+            background: var(--white);
+        }
+
+        .bidding {
+            background: var(--gray-50);
+        }
+
+        .saas-launch {
+            background: var(--white);
+        }
+
+        .platform-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-4xl);
+            align-items: center;
+        }
+
+        .platform-content h3 {
+            margin-bottom: var(--space-xl);
+        }
+
+        .feature-list {
+            list-style: none;
+        }
+
+        .feature-list-item {
+            display: flex;
+            gap: var(--space-lg);
+            margin-bottom: var(--space-xl);
+            align-items: flex-start;
+        }
+
+        .feature-list-icon {
+            width: 48px;
+            height: 48px;
+            flex-shrink: 0;
+            background: linear-gradient(135deg, rgba(255, 107, 53, 0.1) 0%, rgba(255, 133, 85, 0.1) 100%);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent-orange);
+            font-size: 1.25rem;
+        }
+
+        .feature-list-content h4 {
+            margin-bottom: var(--space-sm);
+            font-size: 1.125rem;
+        }
+
+        .feature-list-content p {
+            margin-bottom: 0;
+            color: var(--gray-600);
+        }
+
+        .platform-visual {
+            position: relative;
+        }
+
+        .platform-image {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            border-radius: var(--radius-2xl);
+            padding: var(--space-3xl);
+            box-shadow: var(--shadow-2xl);
+            min-height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+        }
+
+        /* Pricing Teaser */
+        .pricing-teaser {
+            background: var(--primary);
+            color: var(--white);
+            text-align: center;
+        }
+
+        .pricing-teaser .section-badge {
+            background: rgba(255, 107, 53, 0.2);
+            border-color: rgba(255, 107, 53, 0.3);
+            color: var(--accent-orange-light);
+        }
+
+        .pricing-teaser .section-title {
+            color: var(--white);
+        }
+
+        .pricing-teaser .section-description {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .pricing-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--space-2xl);
+            margin-top: var(--space-4xl);
+        }
+
+        .pricing-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius-xl);
+            padding: var(--space-2xl);
+            text-align: left;
+            transition: all var(--transition-base);
+        }
+
+        .pricing-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--accent-orange);
+            transform: translateY(-5px);
+        }
+
+        .pricing-card.featured {
+            background: var(--accent-orange);
+            border-color: var(--accent-orange);
+        }
+
+        .pricing-card-header {
+            margin-bottom: var(--space-xl);
+        }
+
+        .pricing-card-name {
+            font-size: 1.25rem;
+            margin-bottom: var(--space-sm);
+        }
+
+        .pricing-card-price {
+            font-family: var(--font-display);
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--white);
+        }
+
+        .pricing-card-price small {
+            font-size: 1rem;
+            font-weight: 500;
+            opacity: 0.8;
+        }
+
+        .pricing-features {
+            list-style: none;
+            margin-bottom: var(--space-xl);
+        }
+
+        .pricing-features li {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+            margin-bottom: var(--space-md);
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .pricing-features i {
+            color: var(--accent-orange-light);
+        }
+
+        .pricing-card.featured .pricing-features i {
+            color: var(--white);
+        }
+
+        /* Testimonials */
+        .testimonials {
+            background: var(--gray-50);
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: var(--space-2xl);
+            margin-top: var(--space-4xl);
+        }
+
+        .testimonial-card {
+            background: var(--white);
+            padding: var(--space-2xl);
+            border-radius: var(--radius-xl);
+            border: 1px solid var(--gray-200);
+            transition: all var(--transition-base);
+        }
+
+        .testimonial-card:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-5px);
+        }
+
+        .testimonial-content {
+            margin-bottom: var(--space-xl);
+            font-size: 1.0625rem;
+            line-height: 1.7;
+            color: var(--gray-700);
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+        }
+
+        .testimonial-avatar {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-orange) 0%, var(--accent-orange-light) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-family: var(--font-display);
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+
+        .testimonial-info h4 {
+            margin-bottom: var(--space-xs);
+            font-size: 1rem;
+        }
+
+        .testimonial-info p {
+            margin-bottom: 0;
+            font-size: 0.875rem;
+            color: var(--gray-500);
+        }
+
+        .testimonial-rating {
+            color: var(--accent-orange);
+            margin-bottom: var(--space-md);
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, var(--accent-orange) 0%, var(--accent-orange-dark) 100%);
+            color: var(--white);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -25%;
+            width: 100%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            animation: float 15s ease-in-out infinite;
+        }
+
+        .cta-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-section .section-title {
+            color: var(--white);
+            margin-bottom: var(--space-lg);
+        }
+
+        .cta-section .section-description {
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: var(--space-2xl);
+        }
+
+        .cta-actions {
+            display: flex;
+            gap: var(--space-lg);
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-white {
+            background: var(--white);
+            color: var(--accent-orange);
+        }
+
+        .btn-white:hover {
+            background: var(--gray-50);
+            transform: translateY(-2px);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--primary);
+            color: rgba(255, 255, 255, 0.8);
+            padding: var(--space-4xl) var(--space-2xl) var(--space-2xl);
+        }
+
+        .footer-bottom {
+            padding-top: var(--space-2xl);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+
+        .footer-bottom p {
+            margin-bottom: 0;
+            font-size: 0.875rem;
+            opacity: 0.6;
+            color: #9ca3af;
+        }
+
+        /* Scroll Animations */
         .fade-in {
             opacity: 0;
             transform: translateY(20px);
-            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.6s ease-out;
         }
 
         .fade-in.visible {
@@ -761,203 +1006,175 @@
         }
 
         /* Responsive Design */
-        @media (max-width: 1024px) {
-            .nav-container {
-                padding: 1rem 1.5rem;
+        @media (max-width: 1200px) {
+            .hero-container {
+                gap: var(--space-3xl);
             }
 
-            .about-grid {
+            .platform-grid {
+                gap: var(--space-3xl);
+            }
+
+            .footer-grid {
+                grid-template-columns: 2fr 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .hero-container {
                 grid-template-columns: 1fr;
-                gap: 3rem;
+                text-align: center;
             }
 
-            .about-stats {
-                grid-template-columns: repeat(4, 1fr);
+            .hero-content {
+                order: 1;
             }
 
-            .features-grid {
-                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            .hero-visual {
+                order: 2;
             }
 
-            .section {
-                padding: 6rem 0;
+            .hero-description {
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .hero-actions {
+                justify-content: center;
+            }
+
+            .platform-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .platform-visual {
+                order: -1;
+            }
+
+            .steps-container::before {
+                display: none;
             }
         }
 
         @media (max-width: 768px) {
-            .mobile-menu {
-                display: flex;
+            .nav-container {
+                padding: var(--space-lg);
             }
 
-            .nav-links {
+            .nav-menu {
                 position: fixed;
-                top: 72px;
+                top: 73px;
                 left: 0;
-                width: 100%;
+                right: 0;
+                bottom: 0;
                 background: rgba(255, 255, 255, 0.98);
                 backdrop-filter: blur(20px);
-                -webkit-backdrop-filter: blur(20px);
                 flex-direction: column;
-                padding: 2rem;
-                gap: 1.5rem;
-                border-top: 1px solid var(--border-light);
-                box-shadow: var(--shadow-lg);
-                height: calc(100vh - 72px);
+                padding: var(--space-2xl);
+                gap: var(--space-lg);
+                transform: translateX(100%);
+                transition: transform var(--transition-base);
+                box-shadow: var(--shadow-xl);
                 overflow-y: auto;
-                display: none;
             }
 
-            .nav-links.active {
+            .nav-menu.active {
+                transform: translateX(0);
+            }
+
+            .mobile-toggle {
                 display: flex;
-            }
-
-            .nav-links li a {
-                font-size: 1.125rem;
-                padding: 0.75rem 0;
-                color: var(--text-primary);
-            }
-
-            .nav-links li a.btn-nav {
-                width: 100%;
-                text-align: center;
-                justify-content: center;
-            }
-
-            .hero {
-                padding: 8rem 0 4rem;
-                min-height: 90vh;
-            }
-
-            .hero-content {
-                padding: 0 1.5rem;
-            }
-
-            .cta-buttons {
-                flex-direction: column;
-                align-items: center;
-                width: 100%;
-                gap: 1rem;
-            }
-
-            .btn {
-                width: 100%;
-                max-width: 300px;
-                justify-content: center;
-            }
-
-            .container {
-                padding: 0 1.5rem;
             }
 
             .section {
-                padding: 5rem 0;
+                padding: var(--space-4xl) var(--space-lg);
             }
 
-            .section-header {
-                margin-bottom: 3rem;
+            .hero {
+                padding: var(--space-4xl) var(--space-lg) var(--space-3xl);
+                min-height: auto;
             }
 
-            .about-stats {
-                grid-template-columns: repeat(2, 1fr);
+            .hero-stats {
+                grid-template-columns: 1fr;
             }
 
             .features-grid {
                 grid-template-columns: 1fr;
             }
 
-            .education-grid {
+            .steps-container {
+                grid-template-columns: 1fr;
+                gap: var(--space-2xl);
+            }
+
+            .testimonials-grid {
                 grid-template-columns: 1fr;
             }
 
-            .feature-card {
-                padding: 2rem;
+            .pricing-cards {
+                grid-template-columns: 1fr;
             }
 
-            .education-step {
-                padding: 2rem;
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: var(--space-2xl);
             }
 
-            .about-image-content {
-                padding: 2rem;
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .cta-actions {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .btn {
+                width: 100%;
             }
         }
 
         @media (max-width: 480px) {
-            .nav-container {
-                padding: 1rem;
+            h1 {
+                font-size: 2.25rem;
             }
 
-            .hero {
-                padding: 7rem 0 3rem;
+            h2 {
+                font-size: 1.75rem;
             }
 
-            .hero-badge {
-                font-size: 0.75rem;
-                padding: 0.5rem 1rem;
+            h3 {
+                font-size: 1.375rem;
             }
 
-            .section {
-                padding: 4rem 0;
+            .hero-description {
+                font-size: 1.0625rem;
             }
 
             .feature-card {
-                padding: 1.75rem;
+                padding: var(--space-xl);
             }
 
-            .education-step {
-                padding: 1.75rem;
-            }
-
-            .about-stats {
-                grid-template-columns: 1fr;
-                gap: 1.5rem;
-                text-align: center;
-            }
-
-            .about-image-content {
-                padding: 1.5rem;
-            }
-
-            .about-image-content h4 {
-                font-size: 1.5rem;
-            }
-
-            .about-image-content p {
-                font-size: 1rem;
+            .stat-number {
+                font-size: 2rem;
             }
         }
 
-        /* Loading states and micro-interactions */
-        .btn:active {
-            transform: translateY(1px);
-        }
+        /* Print Styles */
+        @media print {
 
-        .feature-card:active {
-            transform: translateY(-4px);
-        }
-
-        /* Focus states */
-        .btn:focus,
-        .nav-links a:focus,
-        .mobile-menu:focus {
-            outline: 2px solid var(--primary-light);
-            outline-offset: 4px;
-        }
-
-        /* High contrast mode support */
-        @media (prefers-contrast: high) {
-            :root {
-                --text-secondary: #374151;
-                --border-light: #d1d5db;
-            }
-
-            .feature-card,
-            .education-step {
-                border: 2px solid var(--border-light);
+            .navbar,
+            .mobile-toggle,
+            .hero-actions,
+            .cta-section,
+            .footer {
+                display: none;
             }
         }
 
-        /* Reduced motion support */
+        /* Reduced Motion */
         @media (prefers-reduced-motion: reduce) {
 
             *,
@@ -966,7 +1183,15 @@
                 animation-duration: 0.01ms !important;
                 animation-iteration-count: 1 !important;
                 transition-duration: 0.01ms !important;
-                scroll-behavior: auto !important;
+            }
+        }
+
+        /* High Contrast Mode */
+        @media (prefers-contrast: high) {
+
+            .feature-card,
+            .testimonial-card {
+                border: 2px solid var(--gray-400);
             }
         }
     </style>
@@ -977,10 +1202,10 @@
     <nav class="navbar" id="navbar">
         <div class="nav-container">
             <a href="#home" class="logo">
-                <i class="fas fa-home"></i>
-                Hauser NG
+                <img src="/img/logo.png" alt="Hauser NG Logo" class="logo-img">
             </a>
-            <ul class="nav-links" id="nav-links">
+
+            <ul class="nav-menu" id="navMenu">
                 <li><a href="index.html">Home</a></li>
                 <li><a href="#about">About</a></li>
                 <li><a href="#bidding">Bidding</a></li>
@@ -988,11 +1213,12 @@
                 <li><a href="real_estate_subscription.html">Pricing</a></li>
                 <li><a href="vacancies.html">Vacancies</a></li>
                 <li><a href="login.html">Login</a></li>
-                <li><a href="signup.html" class="btn-nav">Get Started</a></li>
-                <li><a href="app/app.html" class="btn-nav">Get our Mobile App</a></li>
+                <li><a href="signup.html" class="btn btn-primary">Get Started</a></li>
+                <li><a href="app/app.html" class="btn btn-outline">Get our Mobile App</a></li>
                 <li><a href="https://cust.fillout.com/eu">Support</a></li>
             </ul>
-            <button class="mobile-menu" id="mobile-menu" aria-label="Toggle navigation menu">
+
+            <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle menu">
                 <span></span>
                 <span></span>
                 <span></span>
@@ -1000,37 +1226,177 @@
         </div>
     </nav>
 
-
-
-
     <!-- Hero Section -->
     <section class="hero" id="home">
-        <div class="hero-content">
-            <div class="hero-badge">
-                <i class="fas fa-rocket"></i>
-                Nigeria's #1 Property Platform
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <i class="fas fa-rocket"></i>
+                    <span>Nigeria's #1 Property Platform</span>
+                </div>
+                <h1 class="hero-title">
+                    Transform Your <span class="highlight">Property Business</span>
+                </h1>
+                <p class="hero-description">
+                    Connect with quality tenants through Nigeria's premier property listing platform. List your
+                    properties, reach more customers, and grow your rental business effortlessly with our advanced tools
+                    and analytics.
+                </p>
+                <div class="hero-actions">
+                    <a href="signup.html" class="btn btn-primary">
+                        Start Listing Today
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                    <a href="#about" class="btn btn-secondary">
+                        <i class="fas fa-play-circle"></i>
+                        Watch Demo
+                    </a>
+                </div>
+
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">10K+</span>
+                        <span class="stat-label">Active Listings</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">2K+</span>
+                        <span class="stat-label">Verified Agents</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">50K+</span>
+                        <span class="stat-label">Monthly Visitors</span>
+                    </div>
+                </div>
             </div>
-            <h1>Transform Your Property Business</h1>
-            <p>Connect with quality tenants through Nigeria's premier property listing platform. List your properties,
-                reach more customers, and grow your rental business effortlessly with our advanced tools and analytics.
-            </p>
-            <div class="cta-buttons">
-                <a href="signup.html" class="btn btn-primary">
-                    Start Listing Today
-                    <i class="fas fa-arrow-right"></i>
-                </a>
-                <a href="#about" class="btn btn-secondary">
-                    <i class="fas fa-play"></i>
-                    Watch Demo
-                </a>
+
+            <div class="hero-visual">
+                <div class="hero-image">
+                    <div class="hero-image-content">
+                        <div style="position: relative; width: 100%; max-width: 280px; margin: 0 auto 2rem;">
+                            <!-- Dashboard Analytics Illustration -->
+                            <svg viewBox="0 0 280 200" style="width: 100%; height: auto;">
+                                <!-- Main Dashboard -->
+                                <rect x="10" y="10" width="260" height="180" rx="12" fill="rgba(255, 255, 255, 0.1)"
+                                    stroke="rgba(255, 255, 255, 0.2)" stroke-width="2" />
+
+                                <!-- Header Cards -->
+                                <rect x="25" y="25" width="75" height="40" rx="6" fill="rgba(255, 255, 255, 0.15)" />
+                                <rect x="110" y="25" width="75" height="40" rx="6" fill="rgba(255, 255, 255, 0.15)" />
+                                <rect x="195" y="25" width="60" height="40" rx="6" fill="rgba(255, 255, 255, 0.15)" />
+
+                                <!-- Trend Arrow Up -->
+                                <polyline points="35,45 45,35 55,40 65,30 75,35 85,28" fill="none" stroke="white"
+                                    stroke-width="2.5" stroke-linecap="round" />
+                                <polygon points="85,28 80,32 82,36" fill="white" />
+
+                                <!-- Graph Bars -->
+                                <rect x="25" y="120" width="20" height="45" rx="3" fill="rgba(255, 255, 255, 0.8)" />
+                                <rect x="55" y="100" width="20" height="65" rx="3" fill="rgba(255, 255, 255, 0.9)" />
+                                <rect x="85" y="85" width="20" height="80" rx="3" fill="white" />
+                                <rect x="115" y="95" width="20" height="70" rx="3" fill="rgba(255, 255, 255, 0.85)" />
+                                <rect x="145" y="110" width="20" height="55" rx="3" fill="rgba(255, 255, 255, 0.8)" />
+
+                                <!-- Line Graph Overlay -->
+                                <polyline points="180,140 200,120 220,125 240,110 255,105" fill="none" stroke="white"
+                                    stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+                                <circle cx="180" cy="140" r="4" fill="white" />
+                                <circle cx="200" cy="120" r="4" fill="white" />
+                                <circle cx="220" cy="125" r="4" fill="white" />
+                                <circle cx="240" cy="110" r="4" fill="white" />
+                                <circle cx="255" cy="105" r="4" fill="white" />
+                            </svg>
+                        </div>
+                        <h3 style="color: white; margin-bottom: 1rem;">Modern Property Management</h3>
+                        <p style="color: rgba(255, 255, 255, 0.9); margin-bottom: 0;">
+                            Streamlined tools designed for the Nigerian market
+                        </p>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
+    <!-- Features Section -->
+    <section class="section features" id="features">
+        <div class="container">
+            <div class="section-header fade-in">
+                <div class="section-badge">Why Choose Us</div>
+                <h2 class="section-title">Powerful Features for Modern Agents</h2>
+                <p class="section-description">
+                    Discover the advantages that set us apart in the Nigerian property market with tools built for
+                    success.
+                </p>
+            </div>
 
+            <div class="features-grid">
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <i class="fas fa-eye"></i>
+                    </div>
+                    <h3 class="feature-title">Maximum Visibility</h3>
+                    <p class="feature-description">
+                        Get your properties seen by thousands of potential tenants across Nigeria with our advanced
+                        listing optimization and targeted promotion tools.
+                    </p>
+                </div>
 
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <i class="fas fa-mobile-screen-button"></i>
+                    </div>
+                    <h3 class="feature-title">Mobile-First Design</h3>
+                    <p class="feature-description">
+                        Over 80% of Nigerian property searches happen on mobile. Our platform is optimized for the
+                        devices your customers actually use daily.
+                    </p>
+                </div>
 
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <i class="fas fa-piggy-bank"></i>
+                    </div>
+                    <h3 class="feature-title">Cost-Effective Marketing</h3>
+                    <p class="feature-description">
+                        Replace expensive traditional advertising with targeted digital marketing that reaches the right
+                        tenants at the right time, reducing costs by 60%.
+                    </p>
+                </div>
 
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <h3 class="feature-title">Quick Setup</h3>
+                    <p class="feature-description">
+                        List your first property in under 5 minutes. Our streamlined process gets you online and
+                        attracting qualified tenants immediately.
+                    </p>
+                </div>
+
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <i class="fas fa-user-shield"></i>
+                    </div>
+                    <h3 class="feature-title">Quality Leads</h3>
+                    <p class="feature-description">
+                        Our advanced verification system ensures you connect with serious, qualified tenants who are
+                        ready to rent, not just browsing casually.
+                    </p>
+                </div>
+
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-pie"></i>
+                    </div>
+                    <h3 class="feature-title">Analytics Dashboard</h3>
+                    <p class="feature-description">
+                        Track your listing performance, understand market trends, and make data-driven decisions to
+                        optimize your rental business growth.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- About Section -->
     <section class="section about" id="about">
@@ -1041,8 +1407,8 @@
                 <p class="section-description">Revolutionizing the Nigerian property market with innovative digital
                     solutions that actually work for local professionals.</p>
             </div>
-            <div class="about-grid">
-                <div class="about-content fade-in">
+            <div class="platform-grid">
+                <div class="platform-content fade-in">
                     <h3>Built for Nigerian Property Professionals</h3>
                     <p>Hauser NG is Nigeria's leading online property listing platform, designed specifically for agents
                         and landlords who want to maximize their property visibility and connect with serious tenants.
@@ -1051,7 +1417,7 @@
                         market, providing you with tools that actually work in our local context.</p>
                     <p>Whether you're managing a single property or a large portfolio, Hauser NG gives you the digital
                         presence and professional tools you need to succeed in today's competitive market.</p>
-                    <div class="about-stats">
+                    <div class="hero-stats" style="margin-top: var(--space-3xl);">
                         <div class="stat-item">
                             <span class="stat-number">10K+</span>
                             <span class="stat-label">Active Listings</span>
@@ -1064,81 +1430,62 @@
                             <span class="stat-number">50K+</span>
                             <span class="stat-label">Monthly Visitors</span>
                         </div>
-                        <div class="stat-item">
-                            <span class="stat-number">95%</span>
-                            <span class="stat-label">Success Rate</span>
-                        </div>
+                    </div>
+                    <div class="stat-item" style="margin-top: var(--space-lg);">
+                        <span class="stat-number">95%</span>
+                        <span class="stat-label">Success Rate</span>
                     </div>
                 </div>
-                <div class="about-image fade-in">
-                    <div class="about-image-container">
-                        <div class="about-image-content">
-                            <h4>Modern Property Management</h4>
-                            <p>Streamlined tools designed for the Nigerian market</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+                <div class="platform-visual fade-in">
+                    <div class="platform-image"
+                        style="background: linear-gradient(135deg, var(--accent-orange) 0%, var(--accent-orange-dark) 100%);">
+                        <div style="text-align: center; color: white;">
+                            <div style="position: relative; width: 100%; max-width: 300px; margin: 0 auto;">
+                                <!-- Analytics Dashboard Illustration -->
+                                <svg viewBox="0 0 300 250" style="width: 100%; height: auto;">
+                                    <!-- Background -->
+                                    <rect x="20" y="20" width="260" height="180" rx="12" fill="rgba(255, 255, 255, 0.1)"
+                                        stroke="rgba(255, 255, 255, 0.3)" stroke-width="2" />
 
-    <!-- Features Section -->
-    <section class="section features">
-        <div class="container">
-            <div class="section-header fade-in">
-                <div class="section-badge">Why Choose Us</div>
-                <h2 class="section-title">Powerful Features for Modern Agents</h2>
-                <p class="section-description">Discover the advantages that set us apart in the Nigerian property market
-                    with tools built for success.</p>
-            </div>
-            <div class="features-grid">
-                <div class="feature-card fade-in">
-                    <div class="feature-icon">
-                        <i class="fas fa-bullseye"></i>
+                                    <!-- Bar Chart -->
+                                    <rect x="50" y="120" width="30" height="50" rx="4"
+                                        fill="rgba(255, 255, 255, 0.9)" />
+                                    <rect x="95" y="90" width="30" height="80" rx="4" fill="rgba(255, 255, 255, 0.9)" />
+                                    <rect x="140" y="70" width="30" height="100" rx="4"
+                                        fill="rgba(255, 255, 255, 0.9)" />
+                                    <rect x="185" y="100" width="30" height="70" rx="4"
+                                        fill="rgba(255, 255, 255, 0.9)" />
+                                    <rect x="230" y="80" width="30" height="90" rx="4"
+                                        fill="rgba(255, 255, 255, 0.9)" />
+
+                                    <!-- Line Chart Overlay -->
+                                    <polyline points="65,140 110,110 155,85 200,115 245,95" fill="none"
+                                        stroke="rgba(255, 255, 255, 0.5)" stroke-width="3" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+
+                                    <!-- Data Points -->
+                                    <circle cx="65" cy="140" r="5" fill="white" />
+                                    <circle cx="110" cy="110" r="5" fill="white" />
+                                    <circle cx="155" cy="85" r="5" fill="white" />
+                                    <circle cx="200" cy="115" r="5" fill="white" />
+                                    <circle cx="245" cy="95" r="5" fill="white" />
+
+                                    <!-- Top Stats Cards -->
+                                    <rect x="40" y="35" width="70" height="25" rx="6"
+                                        fill="rgba(255, 255, 255, 0.15)" />
+                                    <rect x="120" y="35" width="70" height="25" rx="6"
+                                        fill="rgba(255, 255, 255, 0.15)" />
+                                    <rect x="200" y="35" width="70" height="25" rx="6"
+                                        fill="rgba(255, 255, 255, 0.15)" />
+                                </svg>
+                            </div>
+                            <h4 style="font-size: 1.75rem; margin-bottom: 0.75rem; color: white; margin-top: 1.5rem;">
+                                Modern Property Management</h4>
+                            <p
+                                style="opacity: 0.95; font-size: 1.125rem; line-height: 1.6; color: rgba(255, 255, 255, 0.9); margin-bottom: 0;">
+                                Streamlined tools designed for the Nigerian market</p>
+                        </div>
                     </div>
-                    <h3>Maximum Visibility</h3>
-                    <p>Get your properties seen by thousands of potential tenants across Nigeria with our advanced
-                        listing optimization and targeted promotion tools.</p>
-                </div>
-                <div class="feature-card fade-in">
-                    <div class="feature-icon">
-                        <i class="fas fa-mobile-alt"></i>
-                    </div>
-                    <h3>Mobile-First Design</h3>
-                    <p>Over 80% of Nigerian property searches happen on mobile. Our platform is optimized for the
-                        devices your customers actually use daily.</p>
-                </div>
-                <div class="feature-card fade-in">
-                    <div class="feature-icon">
-                        <i class="fas fa-coins"></i>
-                    </div>
-                    <h3>Cost-Effective Marketing</h3>
-                    <p>Replace expensive traditional advertising with targeted digital marketing that reaches the right
-                        tenants at the right time, reducing costs by 60%.</p>
-                </div>
-                <div class="feature-card fade-in">
-                    <div class="feature-icon">
-                        <i class="fas fa-bolt"></i>
-                    </div>
-                    <h3>Quick Setup</h3>
-                    <p>List your first property in under 5 minutes. Our streamlined process gets you online and
-                        attracting qualified tenants immediately.</p>
-                </div>
-                <div class="feature-card fade-in">
-                    <div class="feature-icon">
-                        <i class="fas fa-search"></i>
-                    </div>
-                    <h3>Quality Leads</h3>
-                    <p>Our advanced verification system ensures you connect with serious, qualified tenants who are
-                        ready to rent, not just browsing casually.</p>
-                </div>
-                <div class="feature-card fade-in">
-                    <div class="feature-icon">
-                        <i class="fas fa-chart-line"></i>
-                    </div>
-                    <h3>Analytics Dashboard</h3>
-                    <p>Track your listing performance, understand market trends, and make data-driven decisions to
-                        optimize your rental business growth.</p>
                 </div>
             </div>
         </div>
@@ -1153,44 +1500,89 @@
                 <p class="section-description">Experience a fair and transparent way to secure your next home or office.
                     Our platform enables real-time negotiation between property owners and prospective tenants.</p>
             </div>
-            <div class="about-grid">
-                <div class="about-image fade-in">
-                    <div class="about-image-container" style="background: var(--primary-dark);">
-                        <div class="about-image-content">
-                            <i class="fas fa-gavel"
-                                style="font-size: 4rem; margin-bottom: 1.5rem; color: var(--accent);"></i>
-                            <h4>Fair Market Value</h4>
-                            <p>Let the market decide the best price through transparent bidding.</p>
+            <div class="platform-grid">
+                <div class="platform-visual fade-in">
+                    <div class="platform-image" style="background: var(--primary);">
+                        <div style="text-align: center; color: white;">
+                            <div style="position: relative; width: 100%; max-width: 250px; margin: 0 auto 2rem;">
+                                <!-- Bidding/Auction Illustration -->
+                                <svg viewBox="0 0 250 200" style="width: 100%; height: auto;">
+                                    <!-- Gavel -->
+                                    <g transform="translate(100, 80) rotate(-25)">
+                                        <rect x="-8" y="-60" width="16" height="70" rx="4" fill="#ff6b35" />
+                                        <ellipse cx="0" cy="-65" rx="22" ry="18" fill="#ff8555" />
+                                        <rect x="-6" y="10" width="12" height="30" rx="3" fill="#d97706" />
+                                    </g>
+
+                                    <!-- Auction Block -->
+                                    <rect x="130" y="140" width="80" height="15" rx="3"
+                                        fill="rgba(255, 255, 255, 0.2)" />
+                                    <rect x="135" y="125" width="70" height="15" rx="3"
+                                        fill="rgba(255, 255, 255, 0.3)" />
+
+                                    <!-- Price Tags/Bids -->
+                                    <g opacity="0.9">
+                                        <!-- Bid 1 -->
+                                        <rect x="20" y="40" width="60" height="30" rx="6" fill="rgba(255, 107, 53, 0.3)"
+                                            stroke="#ff6b35" stroke-width="2" />
+                                        <text x="50" y="60" text-anchor="middle" fill="white" font-size="14"
+                                            font-weight="bold">₦500K</text>
+
+                                        <!-- Bid 2 -->
+                                        <rect x="165" y="20" width="60" height="30" rx="6"
+                                            fill="rgba(255, 107, 53, 0.5)" stroke="#ff6b35" stroke-width="2" />
+                                        <text x="195" y="40" text-anchor="middle" fill="white" font-size="14"
+                                            font-weight="bold">₦600K</text>
+
+                                        <!-- Bid 3 - Winning -->
+                                        <rect x="95" y="5" width="65" height="32" rx="6" fill="#ff6b35" stroke="#ff8555"
+                                            stroke-width="2.5" />
+                                        <text x="127.5" y="26" text-anchor="middle" fill="white" font-size="15"
+                                            font-weight="bold">₦750K</text>
+                                    </g>
+
+                                    <!-- Notification Icons -->
+                                    <circle cx="165" cy="100" r="8" fill="#10b981" />
+                                    <path d="M 162 100 L 165 103 L 170 96" fill="none" stroke="white" stroke-width="2"
+                                        stroke-linecap="round" />
+                                </svg>
+                            </div>
+                            <h4 style="font-size: 1.75rem; margin-bottom: 0.75rem; color: white;">Fair Market Value</h4>
+                            <p style="color: rgba(255, 255, 255, 0.9); margin-bottom: 0;">Let the market decide the best
+                                price through transparent bidding.</p>
                         </div>
                     </div>
                 </div>
-                <div class="about-content fade-in">
+                <div class="platform-content fade-in">
                     <h3>How Bidding Works</h3>
                     <p>Our bidding system is designed to provide equal opportunities for everyone. Prospective tenants
                         can place offers, and owners can review and accept the best match.</p>
-                    <ul class="feature-checklist" style="list-style: none; margin-top: 2rem;">
-                        <li style="display: flex; gap: 1rem; margin-bottom: 1.5rem;">
-                            <i class="fas fa-check-circle" style="color: var(--accent); font-size: 1.25rem;"></i>
-                            <div>
-                                <strong>Real-Time Updates</strong>
-                                <p style="margin-bottom: 0; color: var(--text-secondary);">Get instant notifications
-                                    when a new bid is placed or an offer is accepted.</p>
+                    <ul class="feature-list">
+                        <li class="feature-list-item">
+                            <div class="feature-list-icon">
+                                <i class="fas fa-bell"></i>
+                            </div>
+                            <div class="feature-list-content">
+                                <h4>Real-Time Updates</h4>
+                                <p>Get instant notifications when a new bid is placed or an offer is accepted.</p>
                             </div>
                         </li>
-                        <li style="display: flex; gap: 1rem; margin-bottom: 1.5rem;">
-                            <i class="fas fa-check-circle" style="color: var(--accent); font-size: 1.25rem;"></i>
-                            <div>
-                                <strong>Verified Bidders</strong>
-                                <p style="margin-bottom: 0; color: var(--text-secondary);">We ensure all participants
-                                    are verified to maintain marketplace integrity.</p>
+                        <li class="feature-list-item">
+                            <div class="feature-list-icon">
+                                <i class="fas fa-user-check"></i>
+                            </div>
+                            <div class="feature-list-content">
+                                <h4>Verified Bidders</h4>
+                                <p>We ensure all participants are verified to maintain marketplace integrity.</p>
                             </div>
                         </li>
-                        <li style="display: flex; gap: 1rem; margin-bottom: 1.5rem;">
-                            <i class="fas fa-check-circle" style="color: var(--accent); font-size: 1.25rem;"></i>
-                            <div>
-                                <strong>Direct Negotiation</strong>
-                                <p style="margin-bottom: 0; color: var(--text-secondary);">Skip the middleman and
-                                    communicate directly with property managers.</p>
+                        <li class="feature-list-item">
+                            <div class="feature-list-icon">
+                                <i class="fas fa-comments"></i>
+                            </div>
+                            <div class="feature-list-content">
+                                <h4>Direct Negotiation</h4>
+                                <p>Skip the middleman and communicate directly with property managers.</p>
                             </div>
                         </li>
                     </ul>
@@ -1200,7 +1592,7 @@
     </section>
 
     <!-- SaaS Business Section -->
-    <section class="section saas-launch" id="launch" style="background: var(--bg-light);">
+    <section class="section saas-launch" id="launch" style="background: var(--gray-50);">
         <div class="container">
             <div class="section-header fade-in">
                 <div class="section-badge">Your Business, Powered by Hauser</div>
@@ -1208,115 +1600,332 @@
                 <p class="section-description">Hauser isn't just a listing platform—it's a complete SaaS infrastructure
                     that allows agents and landlords to start and scale their own real estate ventures profitably.</p>
             </div>
-            <div class="about-grid" style="grid-template-columns: 1fr 1fr; gap: 4rem;">
-                <div class="about-content fade-in">
+            <div class="platform-grid" style="gap: var(--space-4xl);">
+                <div class="platform-content fade-in">
                     <h3>Business in a Box</h3>
                     <p>We provide the digital foundation you need to professionalize your real estate operations from
                         day one.</p>
-                    <div class="features-list" style="margin-top: 2rem;">
-                        <div class="feature-item"
-                            style="margin-bottom: 2rem; display: flex; gap: 1.5rem; align-items: flex-start;">
-                            <div
-                                style="background: var(--primary-dark); color: white; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                    <ul class="feature-list" style="margin-top: var(--space-2xl);">
+                        <li class="feature-list-item">
+                            <div class="feature-list-icon" style="background: var(--primary); color: white;">
                                 <i class="fas fa-rocket"></i>
                             </div>
-                            <div>
-                                <h4 style="margin-bottom: 0.5rem; font-size: 1.25rem;">Instant Deployment</h4>
-                                <p style="font-size: 1rem; color: var(--text-secondary);">Set up your professional
-                                    agency presence in minutes. No technical skills required to start listing and
-                                    attracting clients.</p>
+                            <div class="feature-list-content">
+                                <h4>Instant Deployment</h4>
+                                <p>Set up your professional agency presence in minutes. No technical skills required to
+                                    start listing and attracting clients.</p>
                             </div>
-                        </div>
-                        <div class="feature-item"
-                            style="margin-bottom: 2rem; display: flex; gap: 1.5rem; align-items: flex-start;">
-                            <div
-                                style="background: var(--accent); color: white; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                        </li>
+                        <li class="feature-list-item">
+                            <div class="feature-list-icon" style="background: var(--accent-orange); color: white;">
                                 <i class="fas fa-tools"></i>
                             </div>
-                            <div>
-                                <h4 style="margin-bottom: 0.5rem; font-size: 1.25rem;">Admin Control Center</h4>
-                                <p style="font-size: 1rem; color: var(--text-secondary);">Manage listings, track
-                                    inquiries, and handle offers through a powerful dashboard designed for business
-                                    owners.</p>
+                            <div class="feature-list-content">
+                                <h4>Admin Control Center</h4>
+                                <p>Manage listings, track inquiries, and handle offers through a powerful dashboard
+                                    designed for business owners.</p>
                             </div>
-                        </div>
-                        <div class="feature-item"
-                            style="margin-bottom: 2rem; display: flex; gap: 1.5rem; align-items: flex-start;">
-                            <div
-                                style="background: var(--primary-dark); color: white; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                        </li>
+                        <li class="feature-list-item">
+                            <div class="feature-list-icon" style="background: var(--primary); color: white;">
                                 <i class="fas fa-users"></i>
                             </div>
-                            <div>
-                                <h4 style="margin-bottom: 0.5rem; font-size: 1.25rem;">CRM & Lead Management</h4>
-                                <p style="font-size: 1rem; color: var(--text-secondary);">Keep track of every lead and
-                                    prospect. Our built-in tools help you convert visitors into loyal tenants or buyers.
-                                </p>
+                            <div class="feature-list-content">
+                                <h4>CRM & Lead Management</h4>
+                                <p>Keep track of every lead and prospect. Our built-in tools help you convert visitors
+                                    into loyal tenants or buyers.</p>
                             </div>
-                        </div>
-                    </div>
+                        </li>
+                    </ul>
                 </div>
-                <div class="about-image fade-in">
-                    <div class="about-image-container"
-                        style="background: white; border: 1px solid var(--border-light); padding: 2rem; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;">
-                        <div style="font-size: 5rem; color: var(--primary-dark); margin-bottom: 2rem;">
-                            <i class="fas fa-briefcase"></i>
+                <div class="platform-visual fade-in">
+                    <div class="platform-image"
+                        style="background: white; border: 1px solid var(--gray-200); padding: var(--space-3xl);">
+                        <div
+                            style="text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                            <div style="position: relative; width: 100%; max-width: 220px; margin-bottom: 2rem;">
+                                <!-- Business Growth Illustration -->
+                                <svg viewBox="0 0 220 180" style="width: 100%; height: auto;">
+                                    <!-- Briefcase -->
+                                    <rect x="50" y="80" width="120" height="85" rx="8" fill="#1a1a1a" />
+                                    <rect x="50" y="75" width="120" height="10" rx="4" fill="#2d2d2d" />
+                                    <rect x="95" y="65" width="30" height="15" rx="3" fill="#2d2d2d" />
+
+                                    <!-- Briefcase Details -->
+                                    <rect x="65" y="95" width="90" height="3" rx="1.5" fill="rgba(255, 107, 53, 0.3)" />
+                                    <rect x="65" y="105" width="70" height="3" rx="1.5"
+                                        fill="rgba(255, 107, 53, 0.3)" />
+                                    <rect x="65" y="115" width="80" height="3" rx="1.5"
+                                        fill="rgba(255, 107, 53, 0.3)" />
+
+                                    <!-- Lock/Badge -->
+                                    <circle cx="110" cy="140" r="15" fill="#ff6b35" />
+                                    <path d="M 105 140 L 108 143 L 115 134" fill="none" stroke="white"
+                                        stroke-width="2.5" stroke-linecap="round" />
+
+                                    <!-- Growth Arrow -->
+                                    <g opacity="0.9">
+                                        <polyline points="30,140 30,50 60,50" fill="none" stroke="#ff6b35"
+                                            stroke-width="4" stroke-linecap="round" />
+                                        <polygon points="60,50 52,47 52,53" fill="#ff6b35" />
+                                    </g>
+
+                                    <!-- Bar Chart Growth -->
+                                    <rect x="160" y="120" width="12" height="25" rx="2" fill="#ff6b35" opacity="0.4" />
+                                    <rect x="175" y="105" width="12" height="40" rx="2" fill="#ff6b35" opacity="0.6" />
+                                    <rect x="190" y="85" width="12" height="60" rx="2" fill="#ff6b35" opacity="0.9" />
+
+                                    <!-- Stars/Success Indicators -->
+                                    <circle cx="180" cy="25" r="3" fill="#ff6b35" opacity="0.6" />
+                                    <circle cx="195" cy="35" r="2.5" fill="#ff6b35" opacity="0.5" />
+                                    <circle cx="170" cy="15" r="2" fill="#ff6b35" opacity="0.4" />
+
+                                    <!-- Building Icons (Portfolio) -->
+                                    <rect x="15" y="90" width="8" height="12" rx="1" fill="#6b7280" opacity="0.3" />
+                                    <rect x="15" y="105" width="8" height="12" rx="1" fill="#6b7280" opacity="0.4" />
+                                    <rect x="15" y="120" width="8" height="12" rx="1" fill="#6b7280" opacity="0.5" />
+                                </svg>
+                            </div>
+                            <h3 style="color: var(--primary); margin-bottom: var(--space-md);">Scale Without Limits</h3>
+                            <p style="color: var(--gray-600); margin-bottom: var(--space-2xl);">From your first property
+                                to a multi-city portfolio, Hauser grows with your ambition.</p>
+                            <a href="signup.html" class="btn btn-primary" style="width: 100%;">Get Started for Free</a>
                         </div>
-                        <h3 style="color: var(--primary-dark);">Scale Without Limits</h3>
-                        <p style="color: var(--text-secondary);">From your first property to a multi-city portfolio,
-                            Hauser grows with your ambition.</p>
-                        <a href="signup.html" class="btn btn-primary" style="margin-top: 2rem; width: 100%;">Get Started
-                            for Free</a>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Education Section -->
-    <section class="section education">
+    <!-- How It Works Section -->
+    <section class="section how-it-works" id="how-it-works">
         <div class="container">
             <div class="section-header fade-in">
                 <div class="section-badge">Success Guide</div>
                 <h2 class="section-title">How to Succeed on Hauser NG</h2>
-                <p class="section-description">Master these proven strategies to maximize your property visibility and
-                    attract quality tenants consistently.</p>
+                <p class="section-description">
+                    Master these proven strategies to maximize your property visibility and attract quality tenants
+                    consistently.
+                </p>
             </div>
-            <div class="education-grid">
-                <div class="education-step fade-in">
-                    <div class="step-number">1</div>
-                    <h3>Create Compelling Listings</h3>
-                    <p>Use high-quality photos, detailed descriptions, and highlight unique features. Properties with
-                        professional photos get 3x more inquiries and rent 40% faster.</p>
+
+            <div class="steps-container">
+                <div class="step-card fade-in">
+                    <div class="step-number">
+                        <i class="fas fa-camera" style="font-size: 1.5rem;"></i>
+                    </div>
+                    <h3 class="step-title">Create Compelling Listings</h3>
+                    <p class="step-description">
+                        Use high-quality photos, detailed descriptions, and highlight unique features. Properties with
+                        professional photos get 3x more inquiries and rent 40% faster.
+                    </p>
                 </div>
-                <div class="education-step fade-in">
-                    <div class="step-number">2</div>
-                    <h3>Price Competitively</h3>
-                    <p>Research similar properties in your area. Use our market insights and pricing tools to set rates
-                        that attract tenants while maximizing your returns.</p>
+
+                <div class="step-card fade-in">
+                    <div class="step-number">
+                        <i class="fas fa-tag" style="font-size: 1.5rem;"></i>
+                    </div>
+                    <h3 class="step-title">Price Competitively</h3>
+                    <p class="step-description">
+                        Research similar properties in your area. Use our market insights and pricing tools to set rates
+                        that attract tenants while maximizing your returns.
+                    </p>
                 </div>
-                <div class="education-step fade-in">
-                    <div class="step-number">3</div>
-                    <h3>Respond Quickly</h3>
-                    <p>Fast response times build trust and increase conversion rates. Aim to respond to inquiries within
-                        2 hours for 85% higher booking rates.</p>
+
+                <div class="step-card fade-in">
+                    <div class="step-number">
+                        <i class="fas fa-clock" style="font-size: 1.5rem;"></i>
+                    </div>
+                    <h3 class="step-title">Respond Quickly</h3>
+                    <p class="step-description">
+                        Fast response times build trust and increase conversion rates. Aim to respond to inquiries
+                        within 2 hours for 85% higher booking rates.
+                    </p>
                 </div>
-                <div class="education-step fade-in">
-                    <div class="step-number">4</div>
-                    <h3>Keep Information Updated</h3>
-                    <p>Regular updates signal active management to both tenants and our algorithm, improving your
-                        listing's visibility in search results by up to 200%.</p>
+
+                <div class="step-card fade-in">
+                    <div class="step-number">
+                        <i class="fas fa-sync" style="font-size: 1.5rem;"></i>
+                    </div>
+                    <h3 class="step-title">Keep Information Updated</h3>
+                    <p class="step-description">
+                        Regular updates signal active management to both tenants and our algorithm, improving your
+                        listing's visibility in search results by up to 200%.
+                    </p>
                 </div>
-                <div class="education-step fade-in">
-                    <div class="step-number">5</div>
-                    <h3>Build Your Profile</h3>
-                    <p>Complete your agent profile with credentials and testimonials. Verified profiles get 40% more
-                        tenant trust and generate higher-quality inquiries.</p>
+
+                <div class="step-card fade-in">
+                    <div class="step-number">
+                        <i class="fas fa-star" style="font-size: 1.5rem;"></i>
+                    </div>
+                    <h3 class="step-title">Build Your Profile</h3>
+                    <p class="step-description">
+                        Complete your agent profile with credentials and testimonials. Verified profiles get 40% more
+                        tenant trust and generate higher-quality inquiries.
+                    </p>
                 </div>
-                <div class="education-step fade-in">
-                    <div class="step-number">6</div>
-                    <h3>Use Premium Features</h3>
-                    <p>Boost your listings with featured placement, virtual tours, and priority support to stand out in
-                        a competitive market and close deals faster.</p>
+
+                <div class="step-card fade-in">
+                    <div class="step-number">
+                        <i class="fas fa-crown" style="font-size: 1.5rem;"></i>
+                    </div>
+                    <h3 class="step-title">Use Premium Features</h3>
+                    <p class="step-description">
+                        Boost your listings with featured placement, virtual tours, and priority support to stand out in
+                        a competitive market and close deals faster.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Teaser -->
+    <section class="section pricing-teaser">
+        <div class="container">
+            <div class="section-header fade-in">
+                <div class="section-badge">Flexible Plans</div>
+                <h2 class="section-title">Choose Your Growth Path</h2>
+                <p class="section-description">
+                    Start free and scale as you grow. No hidden fees, no long-term contracts.
+                </p>
+            </div>
+
+            <div class="pricing-cards">
+                <div class="pricing-card fade-in">
+                    <div class="pricing-card-header">
+                        <div style="margin-bottom: var(--space-lg);">
+                            <i class="fas fa-seedling" style="font-size: 2rem; color: rgba(255, 255, 255, 0.8);"></i>
+                        </div>
+                        <h3 class="pricing-card-name">Starter</h3>
+                        <div class="pricing-card-price">
+                            Free
+                        </div>
+                    </div>
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> Up to 3 active listings</li>
+                        <li><i class="fas fa-check"></i> Basic analytics</li>
+                        <li><i class="fas fa-check"></i> Email support</li>
+                        <li><i class="fas fa-check"></i> Mobile app access</li>
+                    </ul>
+                    <a href="signup.html" class="btn btn-outline" style="width: 100%;">Get Started</a>
+                </div>
+
+                <div class="pricing-card featured fade-in">
+                    <div class="pricing-card-header">
+                        <div style="margin-bottom: var(--space-lg);">
+                            <i class="fas fa-gem" style="font-size: 2rem;"></i>
+                        </div>
+                        <h3 class="pricing-card-name">Professional</h3>
+                        <div class="pricing-card-price">
+                            ₦15,000<small>/month</small>
+                        </div>
+                    </div>
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> Unlimited listings</li>
+                        <li><i class="fas fa-check"></i> Advanced analytics</li>
+                        <li><i class="fas fa-check"></i> Priority support</li>
+                        <li><i class="fas fa-check"></i> Featured listings</li>
+                        <li><i class="fas fa-check"></i> CRM tools</li>
+                    </ul>
+                    <a href="real_estate_subscription.html" class="btn btn-white" style="width: 100%;">Start Trial</a>
+                </div>
+
+                <div class="pricing-card fade-in">
+                    <div class="pricing-card-header">
+                        <div style="margin-bottom: var(--space-lg);">
+                            <i class="fas fa-building" style="font-size: 2rem; color: rgba(255, 255, 255, 0.8);"></i>
+                        </div>
+                        <h3 class="pricing-card-name">Enterprise</h3>
+                        <div class="pricing-card-price">
+                            Custom
+                        </div>
+                    </div>
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> Everything in Pro</li>
+                        <li><i class="fas fa-check"></i> White-label solution</li>
+                        <li><i class="fas fa-check"></i> API access</li>
+                        <li><i class="fas fa-check"></i> Dedicated account manager</li>
+                        <li><i class="fas fa-check"></i> Custom integrations</li>
+                    </ul>
+                    <a href="https://cust.fillout.com/eu" class="btn btn-outline" style="width: 100%;">Contact Sales</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="section testimonials">
+        <div class="container">
+            <div class="section-header fade-in">
+                <div class="section-badge">Success Stories</div>
+                <h2 class="section-title">Loved by Property Professionals</h2>
+                <p class="section-description">
+                    Join thousands of agents and landlords who have transformed their business with Hauser NG.
+                </p>
+            </div>
+
+            <div class="testimonials-grid">
+                <div class="testimonial-card fade-in">
+                    <div class="testimonial-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="testimonial-content">
+                        "Hauser NG has completely transformed how I manage my properties. I've reduced vacancy time by
+                        60% and my listings get 5x more views than before."
+                    </p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">AM</div>
+                        <div class="testimonial-info">
+                            <h4>Adebayo Martins</h4>
+                            <p>Property Manager, Lagos</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card fade-in">
+                    <div class="testimonial-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="testimonial-content">
+                        "The bidding system is genius! It brings transparency to negotiations and helps me get the best
+                        value for my properties. Best investment I've made."
+                    </p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">CO</div>
+                        <div class="testimonial-info">
+                            <h4>Chidinma Okoro</h4>
+                            <p>Real Estate Agent, Abuja</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card fade-in">
+                    <div class="testimonial-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="testimonial-content">
+                        "As a landlord managing multiple properties, the analytics dashboard gives me insights I never
+                        had before. I can make smarter pricing decisions now."
+                    </p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">EU</div>
+                        <div class="testimonial-info">
+                            <h4>Emmanuel Uche</h4>
+                            <p>Property Owner, Port Harcourt</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1328,14 +1937,16 @@
             <div class="cta-content fade-in">
                 <div class="section-badge">Ready to Get Started?</div>
                 <h2 class="section-title">Join Thousands of Successful Agents</h2>
-                <p class="section-description">Start listing your properties today and connect with quality tenants
-                    across Nigeria. No setup fees, no long-term contracts.</p>
-                <div class="cta-buttons">
-                    <a href="signup.html" class="btn btn-primary">
+                <p class="section-description">
+                    Start listing your properties today and connect with quality tenants across Nigeria. No setup fees,
+                    no long-term contracts.
+                </p>
+                <div class="cta-actions">
+                    <a href="signup.html" class="btn btn-white">
                         Start Free Trial
                         <i class="fas fa-arrow-right"></i>
                     </a>
-                    <a href="real_estate_subscription.html" class="btn btn-secondary">
+                    <a href="real_estate_subscription.html" class="btn btn-outline">
                         View Pricing
                     </a>
                 </div>
@@ -1346,14 +1957,17 @@
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <div class="footer-content">
-                <div class="footer-logo">
-                    <i class="fas fa-home"></i>
-                    Hauser NG
+            <div style="text-align: center; margin-bottom: var(--space-3xl);">
+                <div
+                    style="margin-bottom: var(--space-lg); display: flex; align-items: center; justify-content: center;">
+                    <img src="logo.png" alt="Hauser NG Logo"
+                        style="height: 60px; width: auto; filter: brightness(0) invert(1);">
                 </div>
-                <p>Nigeria's premier property listing platform</p>
-                <p>Email: pixelpro548@gmail.com</p>
+                <p style="opacity: 0.8; margin-bottom: var(--space-md); color: #cbd5e1;">Nigeria's premier property
+                    listing platform</p>
+                <p style="opacity: 0.8; margin-bottom: 0; color: #cbd5e1;">Email: pixelpro548@gmail.com</p>
             </div>
+
             <div class="footer-bottom">
                 <p>&copy; 2025 Hauser NG. All rights reserved. Built for Nigerian property professionals.</p>
             </div>
@@ -1361,97 +1975,69 @@
     </footer>
 
     <script>
-        // Enhanced mobile menu toggle with animation
-        const mobileMenu = document.getElementById('mobile-menu');
-        const navLinks = document.getElementById('nav-links');
+        // Mobile Menu Toggle
+        const mobileToggle = document.getElementById('mobileToggle');
+        const navMenu = document.getElementById('navMenu');
 
-        mobileMenu.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
-            mobileMenu.classList.toggle('active');
-            document.body.style.overflow = navLinks.classList.contains('active') ? 'hidden' : '';
-
-            // Animate hamburger menu
-            const spans = mobileMenu.querySelectorAll('span');
-            if (mobileMenu.classList.contains('active')) {
-                spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
-                spans[1].style.opacity = '0';
-                spans[2].style.transform = 'rotate(-45deg) translate(7px, -6px)';
-            } else {
-                spans[0].style.transform = 'none';
-                spans[1].style.opacity = '1';
-                spans[2].style.transform = 'none';
-            }
+        mobileToggle.addEventListener('click', () => {
+            mobileToggle.classList.toggle('active');
+            navMenu.classList.toggle('active');
+            document.body.style.overflow = navMenu.classList.contains('active') ? 'hidden' : '';
         });
 
-        // Close mobile menu when clicking outside
+        // Close menu when clicking outside
         document.addEventListener('click', (e) => {
-            if (!navLinks.contains(e.target) && !mobileMenu.contains(e.target) && navLinks.classList.contains('active')) {
-                navLinks.classList.remove('active');
-                mobileMenu.classList.remove('active');
+            if (!navMenu.contains(e.target) && !mobileToggle.contains(e.target) && navMenu.classList.contains('active')) {
+                mobileToggle.classList.remove('active');
+                navMenu.classList.remove('active');
                 document.body.style.overflow = '';
-
-                const spans = mobileMenu.querySelectorAll('span');
-                spans[0].style.transform = 'none';
-                spans[1].style.opacity = '1';
-                spans[2].style.transform = 'none';
             }
         });
 
-        // Enhanced navbar scroll effect
+        // Close menu when clicking a link
+        navMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                if (navMenu.classList.contains('active')) {
+                    mobileToggle.classList.remove('active');
+                    navMenu.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            });
+        });
+
+        // Navbar Scroll Effect
         const navbar = document.getElementById('navbar');
-        let lastScrollY = window.scrollY;
+        let lastScroll = 0;
 
         window.addEventListener('scroll', () => {
-            const currentScrollY = window.scrollY;
+            const currentScroll = window.pageYOffset;
 
-            if (currentScrollY > 100) {
+            if (currentScroll > 100) {
                 navbar.classList.add('scrolled');
             } else {
                 navbar.classList.remove('scrolled');
             }
 
-            // Hide navbar on scroll down, show on scroll up
-            if (currentScrollY > lastScrollY && currentScrollY > 200 && !navLinks.classList.contains('active')) {
-                navbar.style.transform = 'translateY(-100%)';
-                navbar.style.transition = 'transform 0.3s ease';
-            } else {
-                navbar.style.transform = 'translateY(0)';
-            }
-
-            lastScrollY = currentScrollY;
+            lastScroll = currentScroll;
         });
 
-        // Smooth scrolling for navigation links
+        // Smooth Scroll
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
                 const target = document.querySelector(this.getAttribute('href'));
                 if (target) {
-                    const headerOffset = 80;
-                    const elementPosition = target.getBoundingClientRect().top + window.pageYOffset;
-                    const offsetPosition = elementPosition - headerOffset;
-
+                    const offset = 80;
+                    const targetPosition = target.offsetTop - offset;
                     window.scrollTo({
-                        top: offsetPosition,
+                        top: targetPosition,
                         behavior: 'smooth'
                     });
-                }
-                // Close mobile menu if open
-                if (navLinks.classList.contains('active')) {
-                    navLinks.classList.remove('active');
-                    mobileMenu.classList.remove('active');
-                    document.body.style.overflow = '';
-
-                    // Reset hamburger menu
-                    const spans = mobileMenu.querySelectorAll('span');
-                    spans[0].style.transform = 'none';
-                    spans[1].style.opacity = '1';
-                    spans[2].style.transform = 'none';
                 }
             });
         });
 
-        // Enhanced scroll animations with Intersection Observer
+        // Intersection Observer for Fade-in Animations
         const observerOptions = {
             threshold: 0.1,
             rootMargin: '0px 0px -50px 0px'
@@ -1465,81 +2051,18 @@
             });
         }, observerOptions);
 
-        // Observe all fade-in elements
         document.querySelectorAll('.fade-in').forEach(el => {
             observer.observe(el);
         });
 
-        // Enhanced card interactions
-        document.querySelectorAll('.feature-card, .education-step').forEach(card => {
-            card.addEventListener('mouseenter', function () {
-                this.style.transform = 'translateY(-8px)';
-                this.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
-            });
-
-            card.addEventListener('mouseleave', function () {
-                this.style.transform = 'translateY(0)';
-            });
-        });
-
-        // Add loading states for buttons
-        document.querySelectorAll('.btn-primary, .btn-secondary').forEach(btn => {
-            btn.addEventListener('click', function (e) {
-                if (this.href && !this.href.startsWith('#')) {
-                    this.style.opacity = '0.8';
-                    this.innerHTML = this.innerHTML.replace(/<i.*><\/i>/, '') + ' <i class="fas fa-spinner fa-spin"></i>';
-                    this.style.pointerEvents = 'none';
-                }
-            });
-        });
-
-        // Performance optimization: Lazy load background images
-        const lazyBackgrounds = document.querySelectorAll('[data-bg]');
-        if ('IntersectionObserver' in window) {
-            const imageObserver = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.style.backgroundImage = `url(${entry.target.dataset.bg})`;
-                        entry.target.classList.add('loaded');
-                        imageObserver.unobserve(entry.target);
-                    }
-                });
-            });
-
-            lazyBackgrounds.forEach(bg => imageObserver.observe(bg));
-        }
-
-        // Add focus management for accessibility
-        document.addEventListener('keydown', function (e) {
-            if (e.key === 'Escape' && navLinks.classList.contains('active')) {
-                navLinks.classList.remove('active');
-                mobileMenu.classList.remove('active');
-                mobileMenu.focus();
+        // Escape key to close mobile menu
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && navMenu.classList.contains('active')) {
+                mobileToggle.classList.remove('active');
+                navMenu.classList.remove('active');
                 document.body.style.overflow = '';
             }
         });
-
-        // Preload critical resources
-        if ('linkRelList' in document.createElement('link')) {
-            const preloadLink = document.createElement('link');
-            preloadLink.rel = 'preload';
-            preloadLink.href = 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap';
-            preloadLink.as = 'style';
-            document.head.appendChild(preloadLink);
-        }
-
-        // Touch device detection for hover effects
-        let isTouchDevice = false;
-        try {
-            document.createEvent('TouchEvent');
-            isTouchDevice = true;
-        } catch (e) {
-            isTouchDevice = false;
-        }
-
-        if (isTouchDevice) {
-            document.body.classList.add('touch-device');
-        }
     </script>
 </body>
 
