@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <title>Hauser NG - Nigeria's Premier Property Management Platform</title>
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#ffffff">
@@ -126,22 +126,22 @@
         }
 
         h1 {
-            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-size: clamp(2rem, 5vw + 1rem, 4rem);
             font-weight: 800;
         }
 
         h2 {
-            font-size: clamp(2rem, 4vw, 3rem);
+            font-size: clamp(1.75rem, 4vw + 0.5rem, 3rem);
             font-weight: 700;
         }
 
         h3 {
-            font-size: clamp(1.5rem, 3vw, 2rem);
+            font-size: clamp(1.375rem, 3vw + 0.25rem, 2rem);
             font-weight: 600;
         }
 
         h4 {
-            font-size: clamp(1.25rem, 2.5vw, 1.5rem);
+            font-size: clamp(1.125rem, 2.5vw, 1.5rem);
         }
 
         h5 {
@@ -159,7 +159,7 @@
 
         /* Navigation */
         .navbar {
-
+            position: sticky;
             top: 0;
             left: 0;
             right: 0;
@@ -179,10 +179,11 @@
         .nav-container {
             max-width: 1400px;
             margin: 0 auto;
-            padding: var(--space-lg) var(--space-2xl);
+            padding: var(--space-md) var(--space-lg);
             display: flex;
             justify-content: space-between;
             align-items: center;
+            min-height: 60px;
         }
 
         .logo {
@@ -195,6 +196,7 @@
             color: var(--primary);
             text-decoration: none;
             transition: transform var(--transition-fast);
+            z-index: 1001;
         }
 
         .logo:hover {
@@ -202,7 +204,7 @@
         }
 
         .logo-img {
-            height: 140px;
+            height: clamp(80px, 15vw, 140px);
             width: auto;
             display: block;
         }
@@ -210,7 +212,7 @@
         .nav-menu {
             display: flex;
             list-style: none;
-            gap: var(--space-2xl);
+            gap: var(--space-xl);
             align-items: center;
         }
 
@@ -303,6 +305,7 @@
             border: none;
             cursor: pointer;
             padding: var(--space-sm);
+            z-index: 1001;
         }
 
         .mobile-toggle span {
@@ -331,7 +334,7 @@
             min-height: 100vh;
             display: flex;
             align-items: center;
-            padding: var(--space-5xl) var(--space-2xl) var(--space-4xl);
+            padding: clamp(3rem, 10vh, 8rem) var(--space-lg) clamp(2rem, 8vh, 6rem);
             background: linear-gradient(135deg, #fafafa 0%, #ffffff 50%, #fff5f0 100%);
             overflow: hidden;
         }
@@ -381,8 +384,9 @@
             margin: 0 auto;
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: var(--space-4xl);
+            gap: clamp(2rem, 5vw, 4rem);
             align-items: center;
+            width: 100%;
         }
 
         .hero-content {
@@ -409,7 +413,7 @@
             background: linear-gradient(135deg, rgba(255, 107, 53, 0.1) 0%, rgba(255, 133, 85, 0.1) 100%);
             border: 1px solid rgba(255, 107, 53, 0.2);
             border-radius: var(--radius-full);
-            font-size: 0.875rem;
+            font-size: clamp(0.8125rem, 2vw, 0.875rem);
             font-weight: 600;
             color: var(--accent-orange);
             margin-bottom: var(--space-xl);
@@ -428,7 +432,7 @@
         }
 
         .hero-description {
-            font-size: 1.25rem;
+            font-size: clamp(1rem, 2vw, 1.25rem);
             line-height: 1.7;
             color: var(--gray-600);
             margin-bottom: var(--space-2xl);
@@ -468,7 +472,7 @@
         }
 
         .hero-image-content {
-            padding: var(--space-3xl);
+            padding: clamp(1.5rem, 5vw, 3rem);
             color: var(--white);
             display: flex;
             flex-direction: column;
@@ -478,8 +482,8 @@
 
         .hero-stats {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: var(--space-2xl);
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: var(--space-xl);
             margin-top: var(--space-3xl);
         }
 
@@ -490,7 +494,7 @@
         .stat-number {
             display: block;
             font-family: var(--font-display);
-            font-size: 2.5rem;
+            font-size: clamp(1.75rem, 4vw, 2.5rem);
             font-weight: 800;
             color: var(--accent-orange);
             line-height: 1;
@@ -498,14 +502,14 @@
         }
 
         .stat-label {
-            font-size: 0.875rem;
+            font-size: clamp(0.8125rem, 1.5vw, 0.875rem);
             color: var(--gray-600);
             font-weight: 500;
         }
 
         /* Section Styles */
         .section {
-            padding: var(--space-5xl) var(--space-2xl);
+            padding: clamp(3rem, 10vh, 8rem) var(--space-lg);
             position: relative;
         }
 
@@ -517,7 +521,7 @@
         .section-header {
             text-align: center;
             max-width: 800px;
-            margin: 0 auto var(--space-4xl);
+            margin: 0 auto clamp(2rem, 6vh, 4rem);
         }
 
         .section-badge {
@@ -526,7 +530,7 @@
             background: rgba(255, 107, 53, 0.1);
             border: 1px solid rgba(255, 107, 53, 0.2);
             border-radius: var(--radius-full);
-            font-size: 0.875rem;
+            font-size: clamp(0.8125rem, 2vw, 0.875rem);
             font-weight: 600;
             color: var(--accent-orange);
             margin-bottom: var(--space-lg);
@@ -539,7 +543,7 @@
         }
 
         .section-description {
-            font-size: 1.125rem;
+            font-size: clamp(1rem, 2vw, 1.125rem);
             line-height: 1.7;
             color: var(--gray-600);
         }
@@ -551,13 +555,13 @@
 
         .features-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: var(--space-2xl);
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+            gap: clamp(1.5rem, 3vw, 2rem);
         }
 
         .feature-card {
             background: var(--white);
-            padding: var(--space-2xl);
+            padding: clamp(1.5rem, 3vw, 2rem);
             border-radius: var(--radius-xl);
             border: 1px solid var(--gray-200);
             transition: all var(--transition-base);
@@ -589,14 +593,14 @@
         }
 
         .feature-icon {
-            width: 64px;
-            height: 64px;
+            width: clamp(56px, 10vw, 64px);
+            height: clamp(56px, 10vw, 64px);
             background: linear-gradient(135deg, rgba(255, 107, 53, 0.1) 0%, rgba(255, 133, 85, 0.1) 100%);
             border-radius: var(--radius-lg);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.75rem;
+            font-size: clamp(1.5rem, 3vw, 1.75rem);
             color: var(--accent-orange);
             margin-bottom: var(--space-lg);
             transition: all var(--transition-spring);
@@ -610,12 +614,13 @@
 
         .feature-title {
             margin-bottom: var(--space-md);
-            font-size: 1.375rem;
+            font-size: clamp(1.125rem, 2.5vw, 1.375rem);
         }
 
         .feature-description {
             color: var(--gray-600);
             line-height: 1.7;
+            font-size: clamp(0.9375rem, 2vw, 1rem);
         }
 
         /* How It Works Section */
@@ -625,9 +630,9 @@
 
         .steps-container {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: var(--space-3xl);
-            margin-top: var(--space-4xl);
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr));
+            gap: clamp(2rem, 4vw, 3rem);
+            margin-top: clamp(2rem, 6vh, 4rem);
             position: relative;
         }
 
@@ -649,8 +654,8 @@
         }
 
         .step-number {
-            width: 80px;
-            height: 80px;
+            width: clamp(70px, 12vw, 80px);
+            height: clamp(70px, 12vw, 80px);
             margin: 0 auto var(--space-lg);
             background: linear-gradient(135deg, var(--accent-orange) 0%, var(--accent-orange-light) 100%);
             border-radius: 50%;
@@ -658,7 +663,7 @@
             align-items: center;
             justify-content: center;
             font-family: var(--font-display);
-            font-size: 2rem;
+            font-size: clamp(1.5rem, 3vw, 2rem);
             font-weight: 800;
             color: var(--white);
             box-shadow: var(--shadow-orange);
@@ -676,12 +681,13 @@
 
         .step-title {
             margin-bottom: var(--space-md);
-            font-size: 1.25rem;
+            font-size: clamp(1.0625rem, 2.5vw, 1.25rem);
         }
 
         .step-description {
             color: var(--gray-600);
             line-height: 1.7;
+            font-size: clamp(0.9375rem, 2vw, 1rem);
         }
 
         /* Platform Features */
@@ -704,12 +710,17 @@
         .platform-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: var(--space-4xl);
+            gap: clamp(2rem, 5vw, 4rem);
             align-items: center;
         }
 
         .platform-content h3 {
             margin-bottom: var(--space-xl);
+            font-size: clamp(1.375rem, 3vw, 2rem);
+        }
+
+        .platform-content p {
+            font-size: clamp(0.9375rem, 2vw, 1rem);
         }
 
         .feature-list {
@@ -724,8 +735,8 @@
         }
 
         .feature-list-icon {
-            width: 48px;
-            height: 48px;
+            width: clamp(40px, 8vw, 48px);
+            height: clamp(40px, 8vw, 48px);
             flex-shrink: 0;
             background: linear-gradient(135deg, rgba(255, 107, 53, 0.1) 0%, rgba(255, 133, 85, 0.1) 100%);
             border-radius: var(--radius-md);
@@ -733,17 +744,18 @@
             align-items: center;
             justify-content: center;
             color: var(--accent-orange);
-            font-size: 1.25rem;
+            font-size: clamp(1rem, 2.5vw, 1.25rem);
         }
 
         .feature-list-content h4 {
             margin-bottom: var(--space-sm);
-            font-size: 1.125rem;
+            font-size: clamp(1rem, 2vw, 1.125rem);
         }
 
         .feature-list-content p {
             margin-bottom: 0;
             color: var(--gray-600);
+            font-size: clamp(0.9375rem, 2vw, 1rem);
         }
 
         .platform-visual {
@@ -753,9 +765,9 @@
         .platform-image {
             background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
             border-radius: var(--radius-2xl);
-            padding: var(--space-3xl);
+            padding: clamp(1.5rem, 5vw, 3rem);
             box-shadow: var(--shadow-2xl);
-            min-height: 400px;
+            min-height: clamp(300px, 50vw, 400px);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -785,16 +797,16 @@
 
         .pricing-cards {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: var(--space-2xl);
-            margin-top: var(--space-4xl);
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+            gap: clamp(1.5rem, 3vw, 2rem);
+            margin-top: clamp(2rem, 6vh, 4rem);
         }
 
         .pricing-card {
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: var(--radius-xl);
-            padding: var(--space-2xl);
+            padding: clamp(1.5rem, 3vw, 2rem);
             text-align: left;
             transition: all var(--transition-base);
         }
@@ -815,19 +827,19 @@
         }
 
         .pricing-card-name {
-            font-size: 1.25rem;
+            font-size: clamp(1.125rem, 2.5vw, 1.25rem);
             margin-bottom: var(--space-sm);
         }
 
         .pricing-card-price {
             font-family: var(--font-display);
-            font-size: 2.5rem;
+            font-size: clamp(2rem, 4vw, 2.5rem);
             font-weight: 800;
             color: var(--white);
         }
 
         .pricing-card-price small {
-            font-size: 1rem;
+            font-size: clamp(0.875rem, 2vw, 1rem);
             font-weight: 500;
             opacity: 0.8;
         }
@@ -843,10 +855,12 @@
             gap: var(--space-md);
             margin-bottom: var(--space-md);
             color: rgba(255, 255, 255, 0.9);
+            font-size: clamp(0.9375rem, 2vw, 1rem);
         }
 
         .pricing-features i {
             color: var(--accent-orange-light);
+            flex-shrink: 0;
         }
 
         .pricing-card.featured .pricing-features i {
@@ -860,14 +874,14 @@
 
         .testimonials-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: var(--space-2xl);
-            margin-top: var(--space-4xl);
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+            gap: clamp(1.5rem, 3vw, 2rem);
+            margin-top: clamp(2rem, 6vh, 4rem);
         }
 
         .testimonial-card {
             background: var(--white);
-            padding: var(--space-2xl);
+            padding: clamp(1.5rem, 3vw, 2rem);
             border-radius: var(--radius-xl);
             border: 1px solid var(--gray-200);
             transition: all var(--transition-base);
@@ -880,7 +894,7 @@
 
         .testimonial-content {
             margin-bottom: var(--space-xl);
-            font-size: 1.0625rem;
+            font-size: clamp(0.9375rem, 2vw, 1.0625rem);
             line-height: 1.7;
             color: var(--gray-700);
         }
@@ -892,8 +906,9 @@
         }
 
         .testimonial-avatar {
-            width: 56px;
-            height: 56px;
+            width: clamp(48px, 10vw, 56px);
+            height: clamp(48px, 10vw, 56px);
+            flex-shrink: 0;
             border-radius: 50%;
             background: linear-gradient(135deg, var(--accent-orange) 0%, var(--accent-orange-light) 100%);
             display: flex;
@@ -901,24 +916,25 @@
             justify-content: center;
             color: var(--white);
             font-family: var(--font-display);
-            font-size: 1.25rem;
+            font-size: clamp(1rem, 2.5vw, 1.25rem);
             font-weight: 700;
         }
 
         .testimonial-info h4 {
             margin-bottom: var(--space-xs);
-            font-size: 1rem;
+            font-size: clamp(0.9375rem, 2vw, 1rem);
         }
 
         .testimonial-info p {
             margin-bottom: 0;
-            font-size: 0.875rem;
+            font-size: clamp(0.8125rem, 1.8vw, 0.875rem);
             color: var(--gray-500);
         }
 
         .testimonial-rating {
             color: var(--accent-orange);
             margin-bottom: var(--space-md);
+            font-size: clamp(0.875rem, 2vw, 1rem);
         }
 
         /* CTA Section */
@@ -977,18 +993,18 @@
         .footer {
             background: var(--primary);
             color: rgba(255, 255, 255, 0.8);
-            padding: var(--space-4xl) var(--space-2xl) var(--space-2xl);
+            padding: clamp(2rem, 6vh, 4rem) var(--space-lg) clamp(1.5rem, 4vh, 2rem);
         }
 
         .footer-bottom {
-            padding-top: var(--space-2xl);
+            padding-top: var(--space-xl);
             border-top: 1px solid rgba(255, 255, 255, 0.1);
             text-align: center;
         }
 
         .footer-bottom p {
             margin-bottom: 0;
-            font-size: 0.875rem;
+            font-size: clamp(0.8125rem, 1.8vw, 0.875rem);
             opacity: 0.6;
             color: #9ca3af;
         }
@@ -1006,21 +1022,77 @@
         }
 
         /* Responsive Design */
-        @media (max-width: 1200px) {
+
+        /* Tablet Landscape */
+        @media (max-width: 1024px) {
+            .nav-container {
+                padding: var(--space-md) var(--space-lg);
+            }
+
+            .nav-menu {
+                gap: var(--space-lg);
+            }
+
             .hero-container {
-                gap: var(--space-3xl);
+                gap: var(--space-2xl);
             }
 
             .platform-grid {
-                gap: var(--space-3xl);
-            }
-
-            .footer-grid {
-                grid-template-columns: 2fr 1fr 1fr;
+                gap: var(--space-2xl);
             }
         }
 
-        @media (max-width: 992px) {
+        /* Tablet Portrait */
+        @media (max-width: 768px) {
+            .nav-menu {
+                position: fixed;
+                top: clamp(60px, 10vh, 90px);
+                left: 0;
+                right: 0;
+                background: rgba(255, 255, 255, 0.98);
+                backdrop-filter: blur(20px);
+                flex-direction: column;
+                padding: var(--space-xl) var(--space-lg);
+                gap: var(--space-md);
+                transform: translateY(-100%);
+                transition: transform var(--transition-base);
+                box-shadow: var(--shadow-xl);
+                opacity: 0;
+                visibility: hidden;
+                max-height: calc(100vh - clamp(60px, 10vh, 90px));
+                overflow-y: auto;
+                justify-content: flex-start;
+                z-index: 999;
+            }
+
+            .nav-menu.active {
+                transform: translateY(0);
+                opacity: 1;
+                visibility: visible;
+            }
+
+            .nav-menu li {
+                width: 100%;
+            }
+
+            .nav-menu a {
+                display: block;
+                padding: var(--space-md);
+                width: 100%;
+                text-align: left;
+                border-bottom: 1px solid var(--gray-100);
+            }
+
+            .nav-menu a.btn {
+                text-align: center;
+                border: none;
+                margin-top: var(--space-sm);
+            }
+
+            .mobile-toggle {
+                display: flex;
+            }
+
             .hero-container {
                 grid-template-columns: 1fr;
                 text-align: center;
@@ -1054,49 +1126,41 @@
             .steps-container::before {
                 display: none;
             }
+
+            .hero-stats {
+                grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            }
         }
 
-        @media (max-width: 768px) {
+        /* Mobile */
+        @media (max-width: 480px) {
+            :root {
+                --space-lg: 1rem;
+                --space-xl: 1.5rem;
+                --space-2xl: 2rem;
+                --space-3xl: 3rem;
+            }
+
             .nav-container {
-                padding: var(--space-lg);
+                padding: var(--space-sm) var(--space-md);
             }
 
-            .nav-menu {
-                position: fixed;
-                top: 73px;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                background: rgba(255, 255, 255, 0.98);
-                backdrop-filter: blur(20px);
-                flex-direction: column;
-                padding: var(--space-2xl);
-                gap: var(--space-lg);
-                transform: translateX(100%);
-                transition: transform var(--transition-base);
-                box-shadow: var(--shadow-xl);
-                overflow-y: auto;
-            }
-
-            .nav-menu.active {
-                transform: translateX(0);
-            }
-
-            .mobile-toggle {
-                display: flex;
+            .logo-img {
+                height: 80px;
             }
 
             .section {
-                padding: var(--space-4xl) var(--space-lg);
+                padding: clamp(2.5rem, 8vh, 4rem) var(--space-md);
             }
 
             .hero {
-                padding: var(--space-4xl) var(--space-lg) var(--space-3xl);
+                padding: clamp(2.5rem, 8vh, 5rem) var(--space-md) clamp(2rem, 6vh, 3rem);
                 min-height: auto;
             }
 
             .hero-stats {
                 grid-template-columns: 1fr;
+                gap: var(--space-lg);
             }
 
             .features-grid {
@@ -1105,7 +1169,7 @@
 
             .steps-container {
                 grid-template-columns: 1fr;
-                gap: var(--space-2xl);
+                gap: var(--space-xl);
             }
 
             .testimonials-grid {
@@ -1116,16 +1180,6 @@
                 grid-template-columns: 1fr;
             }
 
-            .footer-grid {
-                grid-template-columns: 1fr;
-                gap: var(--space-2xl);
-            }
-
-            .footer-bottom {
-                flex-direction: column;
-                text-align: center;
-            }
-
             .cta-actions {
                 flex-direction: column;
                 align-items: stretch;
@@ -1133,32 +1187,76 @@
 
             .btn {
                 width: 100%;
-            }
-        }
-
-        @media (max-width: 480px) {
-            h1 {
-                font-size: 2.25rem;
-            }
-
-            h2 {
-                font-size: 1.75rem;
-            }
-
-            h3 {
-                font-size: 1.375rem;
-            }
-
-            .hero-description {
-                font-size: 1.0625rem;
+                justify-content: center;
             }
 
             .feature-card {
-                padding: var(--space-xl);
+                padding: var(--space-lg);
             }
 
-            .stat-number {
-                font-size: 2rem;
+            .hero-actions {
+                width: 100%;
+            }
+
+            .hero-actions .btn {
+                flex: 1;
+                min-width: 0;
+            }
+
+            .hero-badge {
+                font-size: 0.8125rem;
+                padding: var(--space-xs) var(--space-md);
+            }
+
+            .section-badge {
+                font-size: 0.75rem;
+                padding: var(--space-xs) var(--space-md);
+            }
+        }
+
+        /* Extra Small Mobile */
+        @media (max-width: 360px) {
+            .nav-container {
+                padding: var(--space-xs) var(--space-sm);
+            }
+
+            .logo-img {
+                height: 70px;
+            }
+
+            .btn {
+                padding: var(--space-sm) var(--space-lg);
+                font-size: 0.875rem;
+            }
+        }
+
+        /* Landscape Mobile */
+        @media (max-width: 896px) and (orientation: landscape) {
+            .hero {
+                min-height: auto;
+                padding: var(--space-3xl) var(--space-lg) var(--space-2xl);
+            }
+
+            .section {
+                padding: var(--space-3xl) var(--space-lg);
+            }
+        }
+
+        /* Large Desktop */
+        @media (min-width: 1440px) {
+
+            .nav-container,
+            .container {
+                max-width: 1440px;
+            }
+        }
+
+        /* Ultra Wide */
+        @media (min-width: 1920px) {
+
+            .nav-container,
+            .container {
+                max-width: 1600px;
             }
         }
 
@@ -1171,6 +1269,11 @@
             .cta-section,
             .footer {
                 display: none;
+            }
+
+            .hero,
+            .section {
+                padding: 1rem;
             }
         }
 
@@ -1192,6 +1295,28 @@
             .feature-card,
             .testimonial-card {
                 border: 2px solid var(--gray-400);
+            }
+        }
+
+        /* Touch Device Optimizations */
+        @media (hover: none) and (pointer: coarse) {
+            .btn {
+                min-height: 44px;
+                min-width: 44px;
+            }
+
+            .nav-menu a {
+                padding: var(--space-md) 0;
+            }
+
+            .feature-card:hover,
+            .testimonial-card:hover {
+                transform: none;
+            }
+
+            .feature-card:active,
+            .testimonial-card:active {
+                transform: scale(0.98);
             }
         }
     </style>
@@ -1417,7 +1542,7 @@
                         market, providing you with tools that actually work in our local context.</p>
                     <p>Whether you're managing a single property or a large portfolio, Hauser NG gives you the digital
                         presence and professional tools you need to succeed in today's competitive market.</p>
-                    <div class="hero-stats" style="margin-top: var(--space-3xl);">
+                    <div class="hero-stats" style="margin-top: var(--space-2xl);">
                         <div class="stat-item">
                             <span class="stat-number">10K+</span>
                             <span class="stat-label">Active Listings</span>
@@ -1600,12 +1725,12 @@
                 <p class="section-description">Hauser isn't just a listing platform—it's a complete SaaS infrastructure
                     that allows agents and landlords to start and scale their own real estate ventures profitably.</p>
             </div>
-            <div class="platform-grid" style="gap: var(--space-4xl);">
+            <div class="platform-grid" style="gap: clamp(2rem, 5vw, 4rem);">
                 <div class="platform-content fade-in">
                     <h3>Business in a Box</h3>
                     <p>We provide the digital foundation you need to professionalize your real estate operations from
                         day one.</p>
-                    <ul class="feature-list" style="margin-top: var(--space-2xl);">
+                    <ul class="feature-list" style="margin-top: var(--space-xl);">
                         <li class="feature-list-item">
                             <div class="feature-list-icon" style="background: var(--primary); color: white;">
                                 <i class="fas fa-rocket"></i>
@@ -1640,7 +1765,7 @@
                 </div>
                 <div class="platform-visual fade-in">
                     <div class="platform-image"
-                        style="background: white; border: 1px solid var(--gray-200); padding: var(--space-3xl);">
+                        style="background: white; border: 1px solid var(--gray-200); padding: clamp(1.5rem, 5vw, 3rem);">
                         <div
                             style="text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center;">
                             <div style="position: relative; width: 100%; max-width: 220px; margin-bottom: 2rem;">
@@ -1687,7 +1812,7 @@
                                 </svg>
                             </div>
                             <h3 style="color: var(--primary); margin-bottom: var(--space-md);">Scale Without Limits</h3>
-                            <p style="color: var(--gray-600); margin-bottom: var(--space-2xl);">From your first property
+                            <p style="color: var(--gray-600); margin-bottom: var(--space-xl);">From your first property
                                 to a multi-city portfolio, Hauser grows with your ambition.</p>
                             <a href="signup.html" class="btn btn-primary" style="width: 100%;">Get Started for Free</a>
                         </div>
@@ -1802,7 +1927,7 @@
                         </div>
                     </div>
                     <ul class="pricing-features">
-                        <li><i class="fas fa-check"></i> Up to 3 active listings</li>
+                        <li><i class="fas fa-check"></i> Up to 2 active listings</li>
                         <li><i class="fas fa-check"></i> Basic analytics</li>
                         <li><i class="fas fa-check"></i> Email support</li>
                         <li><i class="fas fa-check"></i> Mobile app access</li>
@@ -1957,11 +2082,11 @@
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <div style="text-align: center; margin-bottom: var(--space-3xl);">
+            <div style="text-align: center; margin-bottom: var(--space-2xl);">
                 <div
                     style="margin-bottom: var(--space-lg); display: flex; align-items: center; justify-content: center;">
-                    <img src="logo.png" alt="Hauser NG Logo"
-                        style="height: 60px; width: auto; filter: brightness(0) invert(1);">
+                    <img src="/img/logo.png" alt="Hauser NG Logo"
+                        style="height: clamp(70px, 12vw, 90px); width: auto; filter: brightness(0) invert(1);">
                 </div>
                 <p style="opacity: 0.8; margin-bottom: var(--space-md); color: #cbd5e1;">Nigeria's premier property
                     listing platform</p>
@@ -1978,11 +2103,21 @@
         // Mobile Menu Toggle
         const mobileToggle = document.getElementById('mobileToggle');
         const navMenu = document.getElementById('navMenu');
+        const navbar = document.getElementById('navbar');
 
-        mobileToggle.addEventListener('click', () => {
+        mobileToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
             mobileToggle.classList.toggle('active');
             navMenu.classList.toggle('active');
-            document.body.style.overflow = navMenu.classList.contains('active') ? 'hidden' : '';
+
+            // Prevent body scroll when menu is open
+            if (navMenu.classList.contains('active')) {
+                document.body.style.overflow = 'hidden';
+                document.body.style.paddingRight = '0px'; // Prevent layout shift
+            } else {
+                document.body.style.overflow = '';
+                document.body.style.paddingRight = '';
+            }
         });
 
         // Close menu when clicking outside
@@ -1991,6 +2126,7 @@
                 mobileToggle.classList.remove('active');
                 navMenu.classList.remove('active');
                 document.body.style.overflow = '';
+                document.body.style.paddingRight = '';
             }
         });
 
@@ -2001,12 +2137,12 @@
                     mobileToggle.classList.remove('active');
                     navMenu.classList.remove('active');
                     document.body.style.overflow = '';
+                    document.body.style.paddingRight = '';
                 }
             });
         });
 
         // Navbar Scroll Effect
-        const navbar = document.getElementById('navbar');
         let lastScroll = 0;
 
         window.addEventListener('scroll', () => {
@@ -2061,6 +2197,7 @@
                 mobileToggle.classList.remove('active');
                 navMenu.classList.remove('active');
                 document.body.style.overflow = '';
+                document.body.style.paddingRight = '';
             }
         });
     </script>

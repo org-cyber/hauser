@@ -799,20 +799,20 @@
 
       // Minimal guard
       if (!title || !location || !state || !createdBy || !phoneNumber || !priceRaw || Number.isNaN(price) || price <= 0) {
-        statusEl.textContent = "⚠️ Please fill all required fields with valid values.";
+        statusEl.textContent = " Please fill all required fields with valid values.";
         statusEl.className = "status-message status-error";
         return;
       }
 
       if (!files.length) {
-        statusEl.textContent = "⚠️ Please select at least one image or video.";
+        statusEl.textContent = " Please select at least one image or video.";
         statusEl.className = "status-message status-error";
         return;
       }
 
       const user = await getCurrentUserOnce(auth);
       if (!user) {
-        statusEl.textContent = "⚠️ You must be logged in to submit a listing.";
+        statusEl.textContent = " You must be logged in to submit a listing.";
         statusEl.className = "status-message status-error";
         return;
       }
@@ -839,7 +839,7 @@
         if (!isPremium) {
           const currentCount = Number((userSnap && userSnap.exists() && userSnap.data().listingsCount) || 0);
           if (currentCount >= 2) {
-            statusEl.textContent = "⚠️ Free accounts are limited to 2 listings. Upgrade to premium to add more.";
+            statusEl.textContent = " Free accounts are limited to 2 listings. Upgrade to premium to add more.";
             statusEl.className = "status-message status-error";
             setLoading(false);
             return;
@@ -921,10 +921,11 @@
 
         // success UI
         progressEl.style.width = "100%";
-        statusEl.textContent = "✅ Property listed successfully!";
+        statusEl.textContent = " Property listed successfully!";
         statusEl.className = "status-message status-success";
         form.reset();
         fileLabel.textContent = "Select files or drag & drop here";
+        window.location.href = "dashboard.html";
 
         setTimeout(() => {
           progressEl.style.width = "0%";
@@ -935,10 +936,10 @@
         console.error(err);
         // friendly handling for transaction limit error
         if (err && err.message === "LIMIT_REACHED") {
-          statusEl.textContent = "⚠️ Free accounts are limited to 2 listings. Upgrade to premium to add more.";
+          statusEl.textContent = " Free accounts are limited to 2 listings. Upgrade to premium to add more.";
           statusEl.className = "status-message status-error";
         } else {
-          statusEl.textContent = "❌ " + (err?.message || "Something went wrong while uploading.");
+          statusEl.textContent = " " + (err?.message || "Something went wrong while uploading.");
           statusEl.className = "status-message status-error";
         }
         progressEl.style.width = "0%";

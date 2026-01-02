@@ -684,6 +684,11 @@
         padding: 1.25rem;
       }
     }
+
+    .logoup {
+      height: 100px;
+      width: auto;
+    }
   </style>
 </head>
 
@@ -692,8 +697,7 @@
   <header class="navbar">
     <div class="navbar-container">
       <div class="logo-section">
-        <div class="logo-icon">🏠</div>
-        <h1 class="logo-text">Hauser NG</h1>
+        <img src="/img/logo.png" alt="Hauser NG Logo" class="logoup">
       </div>
 
       <button class="menu-toggle" onclick="toggleMenu()">
@@ -776,7 +780,7 @@
       <!-- Profile Section -->
       <section class="section">
         <div class="section-header">
-          <div class="section-icon">👤</div>
+          <div class="section-icon"></div>
           <div>
             <h3 class="section-title">Agent Profile</h3>
             <p class="section-subtitle">Your account details</p>
@@ -809,7 +813,7 @@
       <!-- Properties Section -->
       <section class="section">
         <div class="section-header">
-          <div class="section-icon">🏘️</div>
+          <div class="section-icon"></div>
           <div>
             <h3 class="section-title">Property Listings</h3>
             <p class="section-subtitle">Your active properties</p>
@@ -855,7 +859,7 @@
         const lastViewed = localStorage.getItem('lastNotificationView_' + user.uid);
         if (lastViewed) {
           hasClickedNotifications = true;
-          console.log('📝 User has viewed notifications before');
+          //console.log('📝 User has viewed notifications before');
         }
 
         loadUserProfile(user.uid);
@@ -1014,7 +1018,7 @@
       const badge = document.getElementById("notificationBadge");
       const btn = document.getElementById("notificationBtn");
 
-      console.log('🔔 Setting up notification listener for UID:', uid);
+      // console.log('🔔 Setting up notification listener for UID:', uid);
 
       // Check localStorage to see if user has already viewed notifications
       const lastViewedTime = localStorage.getItem('lastNotificationView_' + uid);
@@ -1025,7 +1029,7 @@
         .where("status", "==", "unread")
         .onSnapshot((snapshot) => {
           const count = snapshot.size;
-          console.log('🔔 Unread bids (notifications):', count);
+          //console.log('🔔 Unread bids (notifications):', count);
 
           // Only show animations if user hasn't clicked the button this session
           if (!hasClickedNotifications) {
@@ -1037,7 +1041,7 @@
           }
         }, error => {
           console.error('❌ Bid listener error:', error);
-          console.log('💡 Trying fallback without compound query...');
+          //   console.log('💡 Trying fallback without compound query...');
 
           // Fallback: Listen to all bids for this user and filter client-side
           notificationListenerUnsubscribe = db.collection("bids")
@@ -1048,7 +1052,7 @@
                 return data.status === 'unread';
               }).length;
 
-              console.log('🔔 Fallback method - Unread count:', unreadCount);
+              // console.log('🔔 Fallback method - Unread count:', unreadCount);
 
               if (!hasClickedNotifications) {
                 updateNotificationUI(unreadCount, badge, btn);
@@ -1137,7 +1141,7 @@
             });
           });
           await batch.commit();
-          console.log('✅ Marked', snapshot.size, 'bids as read');
+          //console.log('✅ Marked', snapshot.size, 'bids as read');
         }
       } catch (error) {
         console.error('Error marking bids as read:', error);

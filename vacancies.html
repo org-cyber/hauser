@@ -176,7 +176,7 @@
     .nav-menu {
       display: flex;
       align-items: center;
-      gap: 1rem;
+      gap: 0.5rem;
       flex-wrap: wrap;
     }
 
@@ -857,7 +857,7 @@
       }
 
       .nav-menu {
-        gap: 0.75rem;
+        gap: 0.5rem;
       }
 
       .nav-link,
@@ -1130,6 +1130,11 @@
     .mb-4 {
       margin-bottom: 1rem;
     }
+
+    .logoup {
+      height: 100px;
+      width: auto;
+    }
   </style>
 </head>
 
@@ -1139,8 +1144,7 @@
   <header class="header">
     <div class="header-container">
       <div class="logo-section">
-        <div class="logo-img"></div>
-        <h1 class="logo-text">Hauser NG</h1>
+        <img src="/img/logo.png" alt="Hauser NG Logo" class="logoup">
       </div>
 
       <button class="menu-toggle" onclick="toggleMenu()">
