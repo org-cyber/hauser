@@ -1138,6 +1138,211 @@
             outline: 2px solid var(--primary-accent);
             outline-offset: 3px;
         }
+
+        /* Bid Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(8px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 1rem;
+            overflow-y: auto;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: rgba(37, 41, 56, 0.95);
+            backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: var(--radius-2xl);
+            padding: 2.5rem;
+            max-width: 500px;
+            width: 100%;
+            position: relative;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+            animation: modal-appear 0.3s ease-out;
+        }
+
+        @keyframes modal-appear {
+            from {
+                opacity: 0;
+                transform: scale(0.9) translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .modal h2 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+            font-family: 'Playfair Display', serif;
+        }
+
+        .listing-title {
+            font-size: 0.9375rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .listing-title strong {
+            color: var(--primary-accent);
+            font-weight: 600;
+        }
+
+        .close-modal-btn {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            width: 40px;
+            height: 40px;
+            border: none;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+            font-size: 1.75rem;
+            line-height: 1;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: var(--transition-fast);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .close-modal-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: rotate(90deg);
+        }
+
+        .modal input,
+        .modal textarea {
+            width: 100%;
+            padding: 0.875rem 1.25rem;
+            margin-bottom: 1rem;
+            background: rgba(26, 29, 41, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: var(--radius-md);
+            color: var(--text-primary);
+            font-size: 0.9375rem;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            transition: var(--transition-fast);
+        }
+
+        .modal input:focus,
+        .modal textarea:focus {
+            outline: none;
+            border-color: var(--primary-accent);
+            background: rgba(26, 29, 41, 0.8);
+        }
+
+        .modal input::placeholder,
+        .modal textarea::placeholder {
+            color: var(--text-muted);
+        }
+
+        .modal textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .radio-group {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .radio-option {
+            display: block;
+            cursor: pointer;
+        }
+
+        .radio-option input[type="radio"] {
+            display: none;
+        }
+
+        .radio-custom {
+            display: block;
+            padding: 0.875rem 1rem;
+            background: rgba(26, 29, 41, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: var(--radius-md);
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            font-weight: 500;
+            text-align: center;
+            transition: var(--transition-fast);
+        }
+
+        .radio-option input[type="radio"]:checked+.radio-custom {
+            background: rgba(212, 175, 55, 0.15);
+            border-color: var(--primary-accent);
+            color: var(--primary-accent);
+        }
+
+        .radio-custom:hover {
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .submit-btn,
+        .bid-btn {
+            width: 100%;
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, var(--primary-accent), var(--accent-hover));
+            color: #ffffff;
+            border: none;
+            border-radius: var(--radius-md);
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        .submit-btn:hover,
+        .bid-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
+        }
+
+        .submit-btn:active,
+        .bid-btn:active {
+            transform: translateY(0);
+        }
+
+        .bid-btn {
+            width: auto;
+            padding: 0.875rem 1.75rem;
+            font-size: 0.9375rem;
+        }
+
+        @media (max-width: 768px) {
+            .modal {
+                padding: 2rem 1.5rem;
+                margin: 1rem;
+            }
+
+            .modal h2 {
+                font-size: 1.5rem;
+            }
+
+            .radio-group {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 
@@ -1332,8 +1537,6 @@
             </form>
         </div>
     </div>
-
-
 
     <script>
         // Initialize Lucide Icons
@@ -1650,15 +1853,13 @@
                     <div class="property-footer">
                         <div class="property-price">${price}</div>
                         <button
-              class="bid-btn"
-              data-listing-id="${property.id}"
-              data-owner-uid="${property.uid}"
-              data-title="${property.title}"
-            >
-              Bid / Negotiate
-            </button>
-                            <i data-lucide="arrow-right"></i>
-                        </a>
+                            class="bid-btn"
+                            data-listing-id="${property.id}"
+                            data-owner-uid="${property.uid}"
+                            data-title="${property.title || 'Property'}"
+                        >
+                            Make Offer
+                        </button>
                     </div>
                 </div>
             `;
@@ -1698,8 +1899,6 @@
 
         document.addEventListener('DOMContentLoaded', loadAgencyPage);
 
-
-
         // Bid modal functionality
         let activeListing = null;
 
@@ -1731,6 +1930,12 @@
                 const amountField = document.getElementById("amount");
                 const childrenField = document.getElementById("children");
                 const messageField = document.getElementById("message");
+                const familyTypeRadio = document.querySelector('input[name="familyType"]:checked');
+
+                if (!familyTypeRadio) {
+                    alert("Please select a family type");
+                    return;
+                }
 
                 try {
                     // 1. Save the bid document
@@ -1741,7 +1946,7 @@
                         bidderName: nameField.value.trim(),
                         bidderPhone: phoneField.value.trim(),
                         bidAmount: Number(amountField.value),
-                        familyType: document.querySelector('input[name="familyType"]:checked').value,
+                        familyType: familyTypeRadio.value,
                         childrenCount: Number(childrenField.value || 0),
                         message: messageField.value.trim(),
                         read: false,
@@ -1773,7 +1978,6 @@
                 }
             });
         }
-
     </script>
 </body>
 
