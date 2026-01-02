@@ -1292,6 +1292,49 @@
         </div>
     </div>
 
+    <!-- Bid Modal -->
+    <div class="modal-overlay" id="bidModal">
+        <div class="modal">
+            <button class="close-modal-btn" type="button">×</button>
+            <h2>Make an Offer</h2>
+            <div class="listing-title">
+                Bidding for: <strong id="modalListingTitle"></strong>
+            </div>
+
+            <form id="bidForm">
+                <input type="text" id="name" placeholder="Full Name" required />
+                <input type="tel" id="phone" placeholder="Phone Number" required />
+                <input type="number" id="amount" placeholder="Offer Amount (₦)" required />
+
+                <div class="radio-group">
+                    <label class="radio-option">
+                        <input type="radio" name="familyType" value="husband_and_wife" required />
+                        <span class="radio-custom">Husband & Wife</span>
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="familyType" value="single_parent" />
+                        <span class="radio-custom">Single Parent</span>
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="familyType" value="couple" />
+                        <span class="radio-custom">Couple</span>
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="familyType" value="single" />
+                        <span class="radio-custom">Single</span>
+                    </label>
+                </div>
+
+                <input type="number" id="children" min="0" placeholder="Number of Children" />
+                <textarea id="message" rows="3" placeholder="Additional comments"></textarea>
+
+                <button type="submit" class="submit-btn">Submit Offer</button>
+            </form>
+        </div>
+    </div>
+
+
+
     <script>
         // Initialize Lucide Icons
         lucide.createIcons();
@@ -1606,8 +1649,14 @@
                     <p class="property-description">${description}</p>
                     <div class="property-footer">
                         <div class="property-price">${price}</div>
-                        <a href="property-details.html?id=${property.id}" class="view-btn">
-                            <span>View Details</span>
+                        <button
+              class="bid-btn"
+              data-listing-id="${property.id}"
+              data-owner-uid="${property.uid}"
+              data-title="${property.title}"
+            >
+              Bid / Negotiate
+            </button>
                             <i data-lucide="arrow-right"></i>
                         </a>
                     </div>
@@ -1648,6 +1697,83 @@
         }
 
         document.addEventListener('DOMContentLoaded', loadAgencyPage);
+
+
+
+        // Bid modal functionality
+        let activeListing = null;
+
+        document.addEventListener("click", (e) => {
+            const btn = e.target.closest(".bid-btn");
+            if (!btn) return;
+
+            activeListing = {
+                listingId: btn.dataset.listingId,
+                ownerUid: btn.dataset.ownerUid,
+                title: btn.dataset.title
+            };
+
+            document.getElementById("modalListingTitle").textContent = activeListing.title;
+            document.getElementById("bidModal").classList.add("active");
+        });
+
+        const bidForm = document.getElementById("bidForm");
+        const bidModal = document.getElementById("bidModal");
+
+        if (bidForm) {
+            bidForm.addEventListener("submit", async (e) => {
+                e.preventDefault();
+
+                if (!activeListing) return;
+
+                const nameField = document.getElementById("name");
+                const phoneField = document.getElementById("phone");
+                const amountField = document.getElementById("amount");
+                const childrenField = document.getElementById("children");
+                const messageField = document.getElementById("message");
+
+                try {
+                    // 1. Save the bid document
+                    await db.collection("bids").add({
+                        listingId: activeListing.listingId,
+                        listingOwnerUid: activeListing.ownerUid,
+                        listingTitle: activeListing.title,
+                        bidderName: nameField.value.trim(),
+                        bidderPhone: phoneField.value.trim(),
+                        bidAmount: Number(amountField.value),
+                        familyType: document.querySelector('input[name="familyType"]:checked').value,
+                        childrenCount: Number(childrenField.value || 0),
+                        message: messageField.value.trim(),
+                        read: false,
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+
+                    // 2. Increment bidsCount on the property atomically
+                    const propertyRef = db.collection('properties').doc(activeListing.listingId);
+                    await propertyRef.update({
+                        bidsCount: firebase.firestore.FieldValue.increment(1)
+                    });
+
+                    // Success feedback
+                    alert("Offer submitted successfully!");
+                    bidForm.reset();
+                    bidModal.classList.remove("active");
+
+                } catch (error) {
+                    console.error("Error submitting bid:", error);
+                    alert("Failed to submit offer. Please try again.");
+                }
+            });
+        }
+
+        if (bidModal) {
+            bidModal.addEventListener("click", (e) => {
+                if (e.target.id === "bidModal" || e.target.classList.contains("close-modal-btn")) {
+                    bidModal.classList.remove("active");
+                }
+            });
+        }
+
     </script>
 </body>
 
