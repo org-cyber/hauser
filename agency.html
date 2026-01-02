@@ -22,21 +22,21 @@
     <style>
         :root {
             /* Color Palette - Luxury Real Estate */
-            --primary-bg: #0a0e27;
-            --secondary-bg: #141835;
-            --card-bg: rgba(255, 255, 255, 0.05);
-            --card-bg-hover: rgba(255, 255, 255, 0.08);
-            --glass-bg: rgba(255, 255, 255, 0.03);
-            --glass-border: rgba(255, 255, 255, 0.1);
+            --primary-bg: #f8f9fa;
+            --secondary-bg: #ffffff;
+            --card-bg: rgba(255, 255, 255, 0.4);
+            --card-bg-hover: rgba(255, 255, 255, 0.6);
+            --glass-bg: rgba(255, 255, 255, 0.25);
+            --glass-border: rgba(255, 255, 255, 0.3);
             --primary-accent: #d4af37;
             --accent-hover: #f0c755;
-            --text-primary: #ffffff;
-            --text-secondary: #b8c5d6;
-            --text-muted: #6b7a90;
-            --border: rgba(255, 255, 255, 0.08);
-            --border-hover: rgba(255, 255, 255, 0.15);
+            --text-primary: #1a1a1a;
+            --text-secondary: #4a5568;
+            --text-muted: #718096;
+            --border: rgba(0, 0, 0, 0.08);
+            --border-hover: rgba(0, 0, 0, 0.12);
             --success: #34d399;
-            --overlay: rgba(10, 14, 39, 0.85);
+            --overlay: rgba(255, 255, 255, 0.3);
 
             /* Shadows */
             --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
@@ -66,7 +66,7 @@
 
         body {
             font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: linear-gradient(135deg, #0a0e27 0%, #141835 50%, #1a1f3a 100%);
+            background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 50%, #f1f3f5 100%);
             background-attachment: fixed;
             color: var(--text-primary);
             line-height: 1.6;
@@ -84,8 +84,8 @@
             width: 100%;
             height: 100%;
             background:
-                radial-gradient(circle at 20% 30%, rgba(212, 175, 55, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 70%, rgba(52, 211, 153, 0.08) 0%, transparent 50%);
+                radial-gradient(circle at 20% 30%, rgba(212, 175, 55, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(52, 211, 153, 0.06) 0%, transparent 50%);
             pointer-events: none;
             z-index: 0;
         }
@@ -152,18 +152,18 @@
             top: 0;
             left: 0;
             right: 0;
-            background: rgba(10, 14, 39, 0.8);
+            background: rgba(255, 255, 255, 0.65);
             backdrop-filter: blur(20px) saturate(180%);
             -webkit-backdrop-filter: blur(20px) saturate(180%);
             border-bottom: 1px solid var(--border);
             z-index: 100;
             transition: var(--transition);
-            box-shadow: var(--shadow-md);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
         }
 
         .nav-bar.scrolled {
-            background: rgba(10, 14, 39, 0.95);
-            box-shadow: var(--shadow-lg);
+            background: rgba(255, 255, 255, 0.85);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
         }
 
         .nav-container {
@@ -180,7 +180,6 @@
             width: auto;
             max-width: 180px;
             object-fit: contain;
-            filter: brightness(1.1);
         }
 
         .nav-brand {
@@ -258,7 +257,7 @@
         .hero-overlay {
             position: absolute;
             inset: 0;
-            background: linear-gradient(135deg, rgba(10, 14, 39, 0.6), rgba(20, 24, 53, 0.8));
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.4), rgba(248, 249, 250, 0.6));
             z-index: 1;
         }
 
@@ -275,21 +274,21 @@
             width: 52px;
             height: 52px;
             border-radius: 50%;
-            background: var(--glass-bg);
+            background: rgba(255, 255, 255, 0.3);
             backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
+            border: 1px solid rgba(255, 255, 255, 0.4);
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
             transition: var(--transition-fast);
-            box-shadow: var(--shadow-glass);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             color: var(--text-primary);
         }
 
         .video-btn:hover {
-            background: var(--card-bg-hover);
-            border-color: var(--border-hover);
+            background: rgba(255, 255, 255, 0.5);
+            border-color: rgba(255, 255, 255, 0.6);
             transform: scale(1.05);
         }
 
@@ -302,7 +301,7 @@
             position: relative;
             z-index: 2;
             text-align: center;
-            color: white;
+            color: var(--text-primary);
             padding: 4rem 2rem;
             max-width: 1000px;
             margin: 0 auto;
@@ -350,9 +349,9 @@
             font-size: clamp(2.75rem, 6vw, 5rem);
             font-weight: 800;
             margin-bottom: 1.5rem;
-            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             letter-spacing: -0.03em;
-            background: linear-gradient(135deg, #ffffff 0%, #f0c755 100%);
+            background: linear-gradient(135deg, #1a1a1a 0%, #d4af37 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -373,7 +372,7 @@
             gap: 0.75rem;
             padding: 1.125rem 2.5rem;
             background: linear-gradient(135deg, var(--primary-accent), var(--accent-hover));
-            color: var(--primary-bg);
+            color: #ffffff;
             text-decoration: none;
             border-radius: var(--radius-lg);
             font-weight: 700;
@@ -424,12 +423,12 @@
         }
 
         .stats-container {
-            background: var(--glass-bg);
+            background: rgba(255, 255, 255, 0.3);
             backdrop-filter: blur(20px) saturate(180%);
-            border: 1px solid var(--glass-border);
+            border: 1px solid rgba(255, 255, 255, 0.4);
             border-radius: var(--radius-2xl);
             padding: 2.5rem;
-            box-shadow: var(--shadow-glass);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
             gap: 2.5rem;
@@ -482,18 +481,18 @@
         }
 
         .about-container {
-            background: var(--glass-bg);
+            background: rgba(255, 255, 255, 0.3);
             backdrop-filter: blur(20px) saturate(180%);
-            border: 1px solid var(--glass-border);
+            border: 1px solid rgba(255, 255, 255, 0.4);
             border-radius: var(--radius-2xl);
             padding: 4rem;
-            box-shadow: var(--shadow-glass);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
             transition: var(--transition);
         }
 
         .about-container:hover {
-            border-color: var(--border-hover);
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+            border-color: rgba(255, 255, 255, 0.6);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
         }
 
         .section-label {
@@ -541,9 +540,9 @@
         }
 
         .contact-card {
-            background: var(--glass-bg);
+            background: rgba(255, 255, 255, 0.3);
             backdrop-filter: blur(20px) saturate(180%);
-            border: 1px solid var(--glass-border);
+            border: 1px solid rgba(255, 255, 255, 0.4);
             border-radius: var(--radius-xl);
             padding: 2.5rem;
             text-align: center;
@@ -569,8 +568,8 @@
         }
 
         .contact-card:hover {
-            border-color: var(--border-hover);
-            box-shadow: var(--shadow-glass);
+            border-color: rgba(255, 255, 255, 0.6);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
             transform: translateY(-6px);
         }
 
@@ -581,7 +580,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background: var(--card-bg);
+            background: rgba(255, 255, 255, 0.4);
             border-radius: 50%;
             color: var(--primary-accent);
         }
@@ -646,20 +645,20 @@
         }
 
         .property-card {
-            background: var(--glass-bg);
+            background: rgba(255, 255, 255, 0.35);
             backdrop-filter: blur(20px) saturate(180%);
-            border: 1px solid var(--glass-border);
+            border: 1px solid rgba(255, 255, 255, 0.45);
             border-radius: var(--radius-xl);
             overflow: hidden;
-            box-shadow: var(--shadow-md);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
             transition: var(--transition);
             position: relative;
         }
 
         .property-card:hover {
             transform: translateY(-10px);
-            box-shadow: var(--shadow-glass);
-            border-color: var(--border-hover);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+            border-color: rgba(255, 255, 255, 0.65);
         }
 
         .property-badge {
@@ -667,15 +666,15 @@
             top: 1.25rem;
             right: 1.25rem;
             padding: 0.625rem 1.25rem;
-            background: var(--glass-bg);
+            background: rgba(255, 255, 255, 0.35);
             backdrop-filter: blur(12px);
-            border: 1px solid var(--glass-border);
+            border: 1px solid rgba(255, 255, 255, 0.45);
             border-radius: var(--radius-md);
             font-size: 0.8125rem;
             font-weight: 700;
             color: var(--primary-accent);
             z-index: 2;
-            box-shadow: var(--shadow-md);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
             text-transform: uppercase;
             letter-spacing: 0.05em;
         }
@@ -685,7 +684,7 @@
             width: 100%;
             height: 280px;
             overflow: hidden;
-            background: var(--secondary-bg);
+            background: #e9ecef;
         }
 
         .property-image,
@@ -706,7 +705,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background: rgba(0, 0, 0, 0.4);
+            background: rgba(255, 255, 255, 0.3);
             opacity: 0;
             transition: var(--transition);
         }
@@ -719,15 +718,15 @@
             width: 72px;
             height: 72px;
             border-radius: 50%;
-            background: var(--glass-bg);
+            background: rgba(255, 255, 255, 0.4);
             backdrop-filter: blur(20px);
-            border: 2px solid var(--glass-border);
+            border: 2px solid rgba(255, 255, 255, 0.6);
             display: flex;
             align-items: center;
             justify-content: center;
             color: var(--primary-accent);
             cursor: pointer;
-            box-shadow: var(--shadow-glass);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
             transition: var(--transition);
         }
 
@@ -801,7 +800,7 @@
         .view-btn {
             padding: 0.875rem 1.75rem;
             background: linear-gradient(135deg, var(--primary-accent), var(--accent-hover));
-            color: var(--primary-bg);
+            color: #ffffff;
             text-decoration: none;
             border-radius: var(--radius-md);
             font-weight: 700;
@@ -833,9 +832,9 @@
             grid-column: 1 / -1;
             text-align: center;
             padding: 6rem 2rem;
-            background: var(--glass-bg);
+            background: rgba(255, 255, 255, 0.3);
             backdrop-filter: blur(20px);
-            border: 2px dashed var(--border);
+            border: 2px dashed rgba(0, 0, 0, 0.1);
             border-radius: var(--radius-2xl);
         }
 
@@ -876,12 +875,12 @@
         .error-card {
             max-width: 550px;
             text-align: center;
-            background: var(--glass-bg);
+            background: rgba(255, 255, 255, 0.35);
             backdrop-filter: blur(20px) saturate(180%);
-            border: 1px solid var(--glass-border);
+            border: 1px solid rgba(255, 255, 255, 0.45);
             padding: 4rem 3rem;
             border-radius: var(--radius-2xl);
-            box-shadow: var(--shadow-glass);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
         }
 
         .error-icon {
@@ -911,7 +910,7 @@
             gap: 0.75rem;
             padding: 1.125rem 2.5rem;
             background: linear-gradient(135deg, var(--primary-accent), var(--accent-hover));
-            color: var(--primary-bg);
+            color: #ffffff;
             text-decoration: none;
             border-radius: var(--radius-lg);
             font-weight: 700;
@@ -931,7 +930,7 @@
 
         /* Footer */
         footer {
-            background: var(--glass-bg);
+            background: rgba(255, 255, 255, 0.3);
             backdrop-filter: blur(20px);
             border-top: 1px solid var(--border);
             padding: 4rem 2rem 2.5rem;
@@ -1568,7 +1567,7 @@
             const hasVideo = property.media?.some(m => m.type === 'video');
             const firstVideo = hasVideo ? property.media.find(m => m.type === 'video')?.url : null;
             const imageUrl = property.images?.[0] || property.media?.find(m => m.type === 'image')?.url ||
-                'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 280"%3E%3Crect fill="%23141835" width="400" height="280"/%3E%3Ctext x="50%25" y="50%25" text-anchor="middle" fill="%236b7a90" font-family="Plus Jakarta Sans" font-size="16" dy=".3em"%3ENo Image%3C/text%3E%3C/svg%3E';
+                'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 280"%3E%3Crect fill="%23e9ecef" width="400" height="280"/%3E%3Ctext x="50%25" y="50%25" text-anchor="middle" fill="%23718096" font-family="Plus Jakarta Sans" font-size="16" dy=".3em"%3ENo Image%3C/text%3E%3C/svg%3E';
 
             const price = property.price ? `₦${parseFloat(property.price).toLocaleString()}` : 'Contact for Price';
             const location = property.location || 'Location not specified';
