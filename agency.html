@@ -6,37 +6,57 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Loading Agency...</title>
 
+    <!-- Google Fonts - Modern Professional Fonts -->
     <link
-        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap"
         rel="stylesheet">
 
+    <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
 
+    <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore-compat.js"></script>
 
     <style>
         :root {
-            /* Modern Light Glass Palette */
-            --primary-navy: #0f172a;
-            --secondary-navy: #1e293b;
-            --accent-gold: #c5a059;
-            --accent-hover: #a38446;
+            /* Modern Light Glassmorphic Color Palette with Navy Accents */
+            --primary-bg: #f8f9fc;
+            --secondary-bg: #ffffff;
+            --card-bg: rgba(255, 255, 255, 0.7);
+            --card-bg-hover: rgba(255, 255, 255, 0.85);
+            --glass-bg: rgba(255, 255, 255, 0.65);
+            --glass-border: rgba(15, 35, 85, 0.12);
+            --primary-accent: #0f2355;
+            --accent-hover: #1a3a7d;
+            --accent-light: #e8eef8;
+            --text-primary: #0f2355;
+            --text-secondary: #4a5f8f;
+            --text-muted: #7a8cb8;
+            --border: rgba(15, 35, 85, 0.08);
+            --border-hover: rgba(15, 35, 85, 0.15);
+            --success: #10b981;
+            --overlay: rgba(248, 249, 252, 0.7);
 
-            --bg-main: #f8fafc;
-            --text-main: #0f172a;
-            --text-soft: #475569;
-            --text-muted: #94a3b8;
+            /* Shadows - Soft and Professional */
+            --shadow-sm: 0 1px 2px 0 rgba(15, 35, 85, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(15, 35, 85, 0.08), 0 2px 4px -2px rgba(15, 35, 85, 0.04);
+            --shadow-lg: 0 10px 15px -3px rgba(15, 35, 85, 0.1), 0 4px 6px -4px rgba(15, 35, 85, 0.05);
+            --shadow-xl: 0 20px 25px -5px rgba(15, 35, 85, 0.12), 0 8px 10px -6px rgba(15, 35, 85, 0.06);
+            --shadow-glass: 0 8px 32px 0 rgba(15, 35, 85, 0.08);
 
-            /* Glassmorphism Core */
-            --glass-bg: rgba(255, 255, 255, 0.7);
-            --glass-border: rgba(255, 255, 255, 0.8);
-            --glass-shadow: 0 8px 32px 0 rgba(15, 23, 42, 0.08);
+            /* Border Radius */
+            --radius-sm: 0.5rem;
+            --radius-md: 0.75rem;
+            --radius-lg: 1rem;
+            --radius-xl: 1.25rem;
+            --radius-2xl: 1.5rem;
 
-            --radius-lg: 1.25rem;
-            --radius-xl: 2rem;
-            --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            /* Transitions */
+            --transition-fast: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-slow: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         * {
@@ -46,36 +66,86 @@
         }
 
         body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: var(--bg-main);
-            background-image:
-                radial-gradient(at 0% 0%, rgba(197, 160, 89, 0.05) 0, transparent 50%),
-                radial-gradient(at 100% 100%, rgba(15, 23, 42, 0.03) 0, transparent 50%);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #f8f9fc 0%, #e8eef8 50%, #f0f4fc 100%);
             background-attachment: fixed;
-            color: var(--text-main);
-            overflow-x: hidden;
+            color: var(--text-primary);
             line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
         }
 
-        /* Loading State - Premium Feel */
-        .loading-container {
+        /* Animated Subtle Background Pattern */
+        body::before {
+            content: '';
             position: fixed;
-            inset: 0;
-            background: white;
-            z-index: 1000;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 20% 30%, rgba(15, 35, 85, 0.04) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(16, 185, 129, 0.03) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+            animation: subtleFloat 20s ease-in-out infinite;
+        }
+
+        @keyframes subtleFloat {
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+            color: var(--primary-accent);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Glass Morphism Utility */
+        .glass {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--shadow-glass);
+        }
+
+        /* Loading State */
+        .loading-container {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            min-height: 100vh;
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
         }
 
         .loading-spinner {
-            width: 50px;
-            height: 50px;
-            border: 2px solid #e2e8f0;
-            border-top-color: var(--primary-navy);
+            width: 64px;
+            height: 64px;
+            border: 3px solid var(--border);
+            border-top-color: var(--primary-accent);
             border-radius: 50%;
-            animation: spin 1s infinite cubic-bezier(0.5, 0, 0.5, 1);
+            animation: spin 0.8s linear infinite;
         }
 
         @keyframes spin {
@@ -84,719 +154,1392 @@
             }
         }
 
-        /* Navigation - Floating Glass Pill */
+        .loading-text {
+            margin-top: 1.5rem;
+            color: var(--text-secondary);
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        /* Navigation Bar */
         .nav-bar {
             position: fixed;
-            top: 1.5rem;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 90%;
-            max-width: 1200px;
-            background: var(--glass-bg);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid var(--glass-border);
-            border-radius: 100px;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border-bottom: 1px solid var(--border);
             z-index: 100;
             transition: var(--transition);
-            box-shadow: var(--glass-shadow);
+            box-shadow: 0 1px 3px rgba(15, 35, 85, 0.05);
         }
 
         .nav-bar.scrolled {
-            top: 0;
-            width: 100%;
-            max-width: 100%;
-            border-radius: 0;
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 4px 12px rgba(15, 35, 85, 0.08);
         }
 
         .nav-container {
-            padding: 0.75rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1.25rem 2rem;
             display: flex;
             align-items: center;
             justify-content: space-between;
         }
 
-        .nav-brand {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.5rem;
-            font-weight: 800;
-            color: var(--primary-navy);
-            letter-spacing: -0.5px;
+        .nav-logo {
+            height: 45px;
+            width: auto;
+            max-width: 180px;
+            object-fit: contain;
+            filter: brightness(0.3);
         }
 
-        .nav-logo {
-            height: 35px;
-            width: auto;
-            object-fit: contain;
+        .nav-brand {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-accent);
+            font-family: 'Playfair Display', serif;
+            letter-spacing: -0.02em;
         }
 
         .nav-contact {
             display: flex;
-            gap: 1rem;
+            gap: 2rem;
+            align-items: center;
         }
 
         .nav-contact-item {
-            color: var(--text-soft);
-            text-decoration: none;
-            font-size: 0.85rem;
-            font-weight: 600;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.625rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9375rem;
+            font-weight: 500;
+            transition: var(--transition-fast);
             padding: 0.5rem 1rem;
-            border-radius: 50px;
-            transition: var(--transition);
+            border-radius: var(--radius-md);
         }
 
         .nav-contact-item:hover {
-            background: white;
-            color: var(--accent-gold);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            color: var(--primary-accent);
+            background: var(--accent-light);
+            transform: translateY(-1px);
         }
 
-        /* Hero Section - Refined & Minimal */
-        .hero-section {
-            height: 90vh;
+        .nav-contact-item i {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 75vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding-top: 80px;
-            margin: 0 1.5rem;
-        }
-
-        .hero-card {
-            width: 100%;
-            max-width: 1300px;
-            height: 80vh;
-            border-radius: var(--radius-xl);
+            padding: 8rem 2rem 4rem;
             position: relative;
             overflow: hidden;
-            background: #e2e8f0;
-            box-shadow: 0 20px 50px rgba(15, 23, 42, 0.1);
         }
 
-        .hero-media-container {
+        .hero::before {
+            content: '';
             position: absolute;
-            inset: 0;
-            z-index: 0;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                radial-gradient(circle at 30% 20%, rgba(15, 35, 85, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 70% 80%, rgba(16, 185, 129, 0.04) 0%, transparent 50%);
+            animation: heroGradient 15s ease-in-out infinite;
         }
 
-        .hero-image,
-        .hero-video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+        @keyframes heroGradient {
 
-        .hero-overlay {
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(to right, rgba(255, 255, 255, 0.9) 20%, rgba(255, 255, 255, 0.2));
-            z-index: 1;
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.7;
+            }
         }
 
         .hero-content {
+            max-width: 900px;
+            text-align: center;
             position: relative;
-            z-index: 2;
-            padding: 4rem;
-            max-width: 700px;
-            animation: slideIn 1s ease-out;
+            z-index: 1;
+            animation: fadeInUp 0.8s ease-out;
         }
 
-        @keyframes slideIn {
+        @keyframes fadeInUp {
             from {
                 opacity: 0;
-                transform: translateX(-30px);
+                transform: translateY(30px);
             }
 
             to {
                 opacity: 1;
-                transform: translateX(0);
+                transform: translateY(0);
+            }
+        }
+
+        .hero-logo {
+            max-width: 200px;
+            height: auto;
+            margin: 0 auto 2rem;
+            filter: drop-shadow(0 4px 12px rgba(15, 35, 85, 0.1));
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-10px);
             }
         }
 
         .hero-title {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(2.5rem, 5vw, 4.5rem);
-            color: var(--primary-navy);
-            line-height: 1.1;
+            font-size: clamp(2.5rem, 5vw, 4rem);
             margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--primary-accent) 0%, #2a4a9f 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: fadeInUp 0.8s ease-out 0.2s both;
         }
 
-        .hero-tagline {
-            font-size: 1.1rem;
-            color: var(--text-soft);
-            margin-bottom: 2.5rem;
-            border-left: 3px solid var(--accent-gold);
-            padding-left: 1.5rem;
+        .hero-subtitle {
+            font-size: clamp(1.125rem, 2vw, 1.375rem);
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            font-weight: 500;
+            animation: fadeInUp 0.8s ease-out 0.3s both;
         }
 
-        .hero-cta {
-            display: inline-flex;
-            align-items: center;
-            gap: 1rem;
-            padding: 1.25rem 2.5rem;
-            background: var(--primary-navy);
-            color: white;
-            text-decoration: none;
-            border-radius: 100px;
-            font-weight: 700;
-            transition: var(--transition);
+        .hero-description {
+            font-size: 1rem;
+            color: var(--text-muted);
+            line-height: 1.8;
+            max-width: 700px;
+            margin: 0 auto 2.5rem;
+            animation: fadeInUp 0.8s ease-out 0.4s both;
         }
 
-        .hero-cta:hover {
-            background: var(--accent-gold);
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(197, 160, 89, 0.3);
-        }
-
-        /* Stats Bar - Float Glass */
-        .stats-bar {
-            margin-top: -50px;
-            position: relative;
-            z-index: 10;
-            padding: 0 1.5rem;
-        }
-
-        .stats-container {
-            max-width: 1000px;
-            margin: 0 auto;
-            background: var(--glass-bg);
-            backdrop-filter: blur(12px);
-            border: 1px solid var(--glass-border);
-            border-radius: var(--radius-lg);
-            padding: 2rem;
+        .hero-stats {
             display: flex;
-            justify-content: space-around;
-            box-shadow: var(--glass-shadow);
+            gap: 3rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 3rem;
+            animation: fadeInUp 0.8s ease-out 0.5s both;
         }
 
         .stat-item {
             text-align: center;
+            padding: 1.5rem 2rem;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-md);
+            transition: var(--transition);
+            min-width: 140px;
         }
 
-        .stat-value {
-            font-family: 'Playfair Display', serif;
+        .stat-item:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+            background: var(--card-bg-hover);
+        }
+
+        .stat-number {
             font-size: 2.5rem;
-            color: var(--primary-navy);
+            font-weight: 700;
+            color: var(--primary-accent);
+            font-family: 'Playfair Display', serif;
             display: block;
+            line-height: 1;
         }
 
         .stat-label {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: var(--text-muted);
-            font-weight: 700;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+            font-weight: 500;
         }
 
-        /* Property Cards - Modern Minimalist */
-        .properties-section {
-            padding: 8rem 2rem;
+        /* Main Content */
+        .main-content {
+            display: none;
+            position: relative;
+            z-index: 1;
+        }
+
+        .main-content.show {
+            display: block;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Section Styles */
+        .section {
+            padding: 5rem 2rem;
             max-width: 1400px;
             margin: 0 auto;
         }
 
         .section-header {
             text-align: center;
-            margin-bottom: 5rem;
+            margin-bottom: 4rem;
+            animation: fadeInUp 0.8s ease-out;
         }
 
         .section-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 3rem;
+            font-size: clamp(2rem, 4vw, 3rem);
             margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
         }
 
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-accent), var(--success));
+            border-radius: 2px;
+        }
+
+        .section-subtitle {
+            font-size: 1.125rem;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 1.5rem auto 0;
+            line-height: 1.8;
+        }
+
+        /* Properties Grid */
         .properties-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 2.5rem;
+            gap: 2rem;
+            margin-top: 2rem;
         }
 
+        /* Property Card - Enhanced Glassmorphic Design */
         .property-card {
-            background: white;
-            border-radius: var(--radius-lg);
+            background: var(--card-bg);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-2xl);
             overflow: hidden;
             transition: var(--transition);
-            border: 1px solid #f1f5f9;
+            box-shadow: var(--shadow-md);
             position: relative;
+            display: flex;
+            flex-direction: column;
         }
 
         .property-card:hover {
-            transform: translateY(-12px);
-            box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.1);
-        }
-
-        .property-image-container {
-            height: 280px;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .property-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.6s ease;
-        }
-
-        .property-card:hover .property-image {
-            transform: scale(1.1);
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-xl);
+            background: var(--card-bg-hover);
+            border-color: var(--border-hover);
         }
 
         .property-badge {
             position: absolute;
-            top: 1rem;
-            left: 1rem;
-            background: var(--primary-navy);
+            top: 1.25rem;
+            right: 1.25rem;
+            background: var(--primary-accent);
             color: white;
             padding: 0.5rem 1rem;
-            border-radius: 50px;
+            border-radius: var(--radius-lg);
             font-size: 0.75rem;
-            font-weight: 700;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
             z-index: 2;
+            box-shadow: var(--shadow-md);
+            backdrop-filter: blur(10px);
+        }
+
+        .property-image-container {
+            position: relative;
+            width: 100%;
+            height: 280px;
+            overflow: hidden;
+            background: linear-gradient(135deg, var(--accent-light) 0%, #d0dff5 100%);
+        }
+
+        .property-image,
+        .property-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .property-card:hover .property-image,
+        .property-card:hover .property-video {
+            transform: scale(1.08);
+        }
+
+        .play-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(15, 35, 85, 0.2);
+            opacity: 1;
+            transition: var(--transition);
+        }
+
+        .property-card:hover .play-overlay {
+            background: rgba(15, 35, 85, 0.1);
+        }
+
+        .play-button {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .play-button:hover {
+            transform: scale(1.1);
+            background: white;
+        }
+
+        .play-button i {
+            width: 24px;
+            height: 24px;
+            color: var(--primary-accent);
         }
 
         .property-content {
-            padding: 2rem;
-        }
-
-        .property-price {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.75rem;
-            color: var(--accent-gold);
-            font-weight: 700;
-            margin-bottom: 0.5rem;
+            padding: 1.75rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: rgba(255, 255, 255, 0.5);
         }
 
         .property-title {
-            font-size: 1.25rem;
+            font-size: 1.375rem;
             margin-bottom: 0.75rem;
-            color: var(--primary-navy);
+            color: var(--primary-accent);
             font-weight: 700;
+            line-height: 1.3;
         }
 
         .property-location {
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            color: var(--text-soft);
-            font-size: 0.9rem;
+            color: var(--text-secondary);
+            font-size: 0.9375rem;
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        .property-location i {
+            width: 16px;
+            height: 16px;
+            color: var(--primary-accent);
+        }
+
+        .property-description {
+            color: var(--text-secondary);
+            font-size: 0.9375rem;
+            line-height: 1.7;
             margin-bottom: 1.5rem;
+            flex: 1;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 1rem;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border);
+        }
+
+        .property-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .property-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-accent);
+            font-family: 'Playfair Display', serif;
         }
 
         .bid-btn {
-            width: 100%;
-            padding: 1rem;
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
-            border-radius: 12px;
-            color: var(--primary-navy);
-            font-weight: 700;
+            padding: 0.75rem 1.75rem;
+            background: var(--primary-accent);
+            color: white;
+            border: none;
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            font-size: 0.9375rem;
             cursor: pointer;
             transition: var(--transition);
+            white-space: nowrap;
+            box-shadow: var(--shadow-sm);
         }
 
         .bid-btn:hover {
-            background: var(--primary-navy);
-            color: white;
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
         }
 
-        /* Modal Redesign - Glass Light */
-        .modal-overlay {
-            background: rgba(15, 23, 42, 0.4);
-            backdrop-filter: blur(8px);
+        .bid-btn:active {
+            transform: translateY(0);
         }
 
-        .modal {
-            background: white;
-            border-radius: var(--radius-xl);
-            padding: 3rem;
-            border: none;
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
-        }
-
-        .modal h2 {
-            font-family: 'Playfair Display', serif;
-            margin-bottom: 2rem;
-        }
-
-        .modal input,
-        .modal textarea {
-            background: #f1f5f9;
-            border: 1px solid transparent;
-            padding: 1rem 1.5rem;
-            border-radius: 12px;
-            margin-bottom: 1rem;
-            width: 100%;
-            font-family: inherit;
-        }
-
-        .modal input:focus {
-            background: white;
-            border-color: var(--accent-gold);
-            outline: none;
-        }
-
-        .radio-custom {
-            background: #f1f5f9;
-            border-radius: 12px;
-            padding: 1rem;
-            display: block;
+        /* Empty State */
+        .empty-state {
+            grid-column: 1 / -1;
             text-align: center;
-            font-weight: 600;
-            font-size: 0.8rem;
-            cursor: pointer;
+            padding: 5rem 2rem;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-2xl);
+            box-shadow: var(--shadow-md);
+        }
+
+        .empty-icon {
+            width: 80px;
+            height: 80px;
+            color: var(--text-muted);
+            margin: 0 auto 1.5rem;
+            opacity: 0.5;
+        }
+
+        .empty-title {
+            font-size: 1.75rem;
+            color: var(--primary-accent);
+            margin-bottom: 0.75rem;
+        }
+
+        .empty-text {
+            font-size: 1.125rem;
+            color: var(--text-secondary);
+        }
+
+        /* Modal Styles */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(15, 35, 85, 0.4);
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: var(--transition);
+            padding: 1rem;
+        }
+
+        .modal.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .modal-content {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-2xl);
+            padding: 2.5rem;
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-xl);
+            transform: scale(0.95);
             transition: var(--transition);
         }
 
-        .radio-option input[type="radio"]:checked+.radio-custom {
-            background: var(--primary-navy);
-            color: white;
+        .modal.active .modal-content {
+            transform: scale(1);
+            animation: modalSlideIn 0.4s ease-out;
         }
 
-        .submit-btn {
-            background: var(--primary-navy);
-            color: white;
-            width: 100%;
-            padding: 1.25rem;
-            border-radius: 12px;
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px) scale(0.95);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .modal-title {
+            font-size: 1.75rem;
+            color: var(--primary-accent);
+        }
+
+        .close-modal-btn {
+            background: var(--accent-light);
             border: none;
-            font-weight: 800;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             cursor: pointer;
-            margin-top: 1rem;
+            transition: var(--transition);
+            color: var(--primary-accent);
         }
 
-        /* Responsive Fixes */
+        .close-modal-btn:hover {
+            background: var(--primary-accent);
+            color: white;
+            transform: rotate(90deg);
+        }
+
+        .close-modal-btn i {
+            width: 20px;
+            height: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--primary-accent);
+            font-size: 0.9375rem;
+        }
+
+        .form-input,
+        .form-textarea,
+        .form-select {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            font-size: 1rem;
+            color: var(--text-primary);
+            transition: var(--transition-fast);
+            font-family: 'Inter', sans-serif;
+        }
+
+        .form-input:focus,
+        .form-textarea:focus,
+        .form-select:focus {
+            outline: none;
+            border-color: var(--primary-accent);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(15, 35, 85, 0.1);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .radio-option {
+            flex: 1;
+            min-width: 140px;
+        }
+
+        .radio-option input[type="radio"] {
+            display: none;
+        }
+
+        .radio-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.875rem 1rem;
+            background: rgba(255, 255, 255, 0.8);
+            border: 2px solid var(--border);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+
+        .radio-option input[type="radio"]:checked+.radio-label {
+            background: var(--primary-accent);
+            border-color: var(--primary-accent);
+            color: white;
+            box-shadow: var(--shadow-md);
+        }
+
+        .radio-label:hover {
+            border-color: var(--primary-accent);
+            background: var(--accent-light);
+        }
+
+        .form-submit {
+            width: 100%;
+            padding: 1rem;
+            background: var(--primary-accent);
+            color: white;
+            border: none;
+            border-radius: var(--radius-md);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: var(--shadow-md);
+        }
+
+        .form-submit:hover {
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .form-submit:active {
+            transform: translateY(0);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid var(--glass-border);
+            padding: 3rem 2rem;
+            margin-top: 5rem;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+        }
+
+        .footer-section h3 {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            color: var(--primary-accent);
+        }
+
+        .footer-section p,
+        .footer-section a {
+            color: var(--text-secondary);
+            font-size: 0.9375rem;
+            line-height: 1.8;
+        }
+
+        .footer-section a {
+            text-decoration: none;
+            transition: var(--transition-fast);
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section a:hover {
+            color: var(--primary-accent);
+            transform: translateX(4px);
+        }
+
+        .footer-bottom {
+            max-width: 1400px;
+            margin: 3rem auto 0;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+
+        /* Error Container */
+        .error-container {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .error-container.show {
+            display: flex;
+        }
+
+        .error-icon {
+            width: 80px;
+            height: 80px;
+            color: #ef4444;
+            margin-bottom: 2rem;
+        }
+
+        .error-title {
+            font-size: 2rem;
+            color: var(--primary-accent);
+            margin-bottom: 1rem;
+        }
+
+        .error-message {
+            font-size: 1.125rem;
+            color: var(--text-secondary);
+            max-width: 500px;
+        }
+
+        /* Responsive Design */
         @media (max-width: 768px) {
-            .hero-content {
-                padding: 2rem;
-            }
-
-            .hero-card {
-                height: 70vh;
-            }
-
-            .stats-container {
+            .nav-container {
+                padding: 1rem;
                 flex-direction: column;
-                gap: 2rem;
+                gap: 1rem;
             }
 
             .nav-contact {
-                display: none;
+                flex-direction: column;
+                gap: 0.5rem;
+                width: 100%;
             }
+
+            .nav-contact-item {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .hero {
+                padding: 6rem 1.5rem 3rem;
+            }
+
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .hero-stats {
+                gap: 1rem;
+            }
+
+            .stat-item {
+                flex: 1;
+                min-width: 120px;
+                padding: 1rem;
+            }
+
+            .stat-number {
+                font-size: 2rem;
+            }
+
+            .section {
+                padding: 3rem 1.5rem;
+            }
+
+            .properties-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .modal-content {
+                padding: 1.5rem;
+            }
+
+            .radio-group {
+                flex-direction: column;
+            }
+
+            .radio-option {
+                min-width: 100%;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
+
+        /* Scroll Animations */
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-on-scroll {
+            opacity: 0;
+            animation: slideInUp 0.8s ease-out forwards;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--accent-light);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-accent);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-hover);
         }
     </style>
 </head>
 
 <body>
+    <!-- Loading Container -->
     <div id="loadingContainer" class="loading-container">
         <div class="loading-spinner"></div>
-        <div style="margin-top: 1rem; font-weight: 600; color: var(--primary-navy)">Refining the experience...</div>
+        <p class="loading-text">Loading agency information...</p>
     </div>
 
-    <div id="mainContent" style="display: none;">
+    <!-- Error Container -->
+    <div id="errorContainer" class="error-container">
+        <i data-lucide="alert-circle" class="error-icon"></i>
+        <h2 class="error-title">Agency Not Found</h2>
+        <p class="error-message">We couldn't find the agency you're looking for. Please check the URL and try again.</p>
+    </div>
+
+    <!-- Main Content -->
+    <div id="mainContent" class="main-content">
+        <!-- Navigation -->
         <nav class="nav-bar" id="navbar">
             <div class="nav-container">
-                <div>
-                    <img id="navLogo" class="nav-logo" alt="Logo" style="display: none;">
-                    <span id="navBrand" class="nav-brand">Agency</span>
-                </div>
+                <img id="navLogo" src="" alt="Agency Logo" class="nav-logo" style="display: none;">
+                <div id="navBrand" class="nav-brand"></div>
                 <div class="nav-contact">
-                    <a href="#" id="navPhone" class="nav-contact-item" style="display: none;">
-                        <i data-lucide="phone" size="16"></i>
-                        <span id="navPhoneText"></span>
+                    <a href="tel:" id="navPhone" class="nav-contact-item">
+                        <i data-lucide="phone"></i>
+                        <span></span>
                     </a>
-                    <a href="#" id="navEmail" class="nav-contact-item" style="display: none;">
-                        <i data-lucide="mail" size="16"></i>
-                        <span id="navEmailText"></span>
+                    <a href="mailto:" id="navEmail" class="nav-contact-item">
+                        <i data-lucide="mail"></i>
+                        <span></span>
                     </a>
                 </div>
             </div>
         </nav>
 
-        <section class="hero-section">
-            <div class="hero-card">
-                <div class="hero-media-container" id="heroMediaContainer">
-                    <img id="heroImage" class="hero-image" alt="Background" style="display: none;">
-                    <video id="heroVideo" class="hero-video" loop muted style="display: none;"></video>
-                    <div class="hero-overlay"></div>
-                </div>
-
-                <div class="hero-content">
-                    <h1 id="heroTitle" class="hero-title">Bespoke Living</h1>
-                    <p id="heroTagline" class="hero-tagline" style="display: none;"></p>
-                    <a href="#properties" class="hero-cta" id="heroCta">
-                        <span>Discover Listings</span>
-                        <i data-lucide="arrow-right"></i>
-                    </a>
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content">
+                <img id="heroLogo" src="" alt="Agency Logo" class="hero-logo" style="display: none;">
+                <h1 id="heroTitle" class="hero-title"></h1>
+                <p id="heroSubtitle" class="hero-subtitle"></p>
+                <p id="heroDescription" class="hero-description"></p>
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <span id="propertiesCount" class="stat-number">0</span>
+                        <span class="stat-label">Properties</span>
+                    </div>
+                    <div class="stat-item">
+                        <span id="bidsCount" class="stat-number">0</span>
+                        <span class="stat-label">Active Offers</span>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <div class="stats-bar" id="statsBar" style="display: none;">
-            <div class="stats-container">
-                <div class="stat-item">
-                    <span class="stat-value" id="propertyCount">0</span>
-                    <span class="stat-label">Listings</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-value">24/7</span>
-                    <span class="stat-label">Advisory</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-value">Top</span>
-                    <span class="stat-label">Tier Quality</span>
-                </div>
-            </div>
-        </div>
-
-        <section id="aboutSection" class="properties-section" style="display: none; padding-top: 5rem;">
-            <div style="background: white; padding: 4rem; border-radius: var(--radius-xl); border: 1px solid #f1f5f9;">
-                <div
-                    style="color: var(--accent-gold); font-weight: 800; font-size: 0.75rem; letter-spacing: 3px; margin-bottom: 1rem;">
-                    ESTABLISHED EXCELLENCE</div>
-                <h2 class="section-title" style="text-align: left; font-size: 2.5rem;">The Agency Philosophy</h2>
-                <p id="aboutText" style="font-size: 1.1rem; color: var(--text-soft); max-width: 800px; line-height: 2;">
-                </p>
-            </div>
-        </section>
-
-        <section class="properties-section" id="properties">
+        <!-- Properties Section -->
+        <section class="section">
             <div class="section-header">
-                <div
-                    style="color: var(--accent-gold); font-weight: 800; font-size: 0.75rem; letter-spacing: 3px; margin-bottom: 1rem;">
-                    CURATED SELECTION</div>
-                <h2 class="section-title">Available Estates</h2>
+                <h2 class="section-title">Featured Properties</h2>
+                <p class="section-subtitle">Discover our carefully curated selection of premium properties tailored to
+                    your needs</p>
             </div>
             <div id="propertiesGrid" class="properties-grid"></div>
         </section>
 
-        <footer style="padding: 4rem 2rem; border-top: 1px solid #e2e8f0; text-align: center;">
-            <div class="nav-brand" style="margin-bottom: 1rem;">
-                <span id="footerAgencyName">Agency</span>
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3 id="footerAgencyName"></h3>
+                    <p id="footerDescription"></p>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact Us</h3>
+                    <a href="tel:" id="footerPhone"></a>
+                    <a href="mailto:" id="footerEmail"></a>
+                </div>
+                <div class="footer-section">
+                    <h3>Location</h3>
+                    <p id="footerAddress"></p>
+                </div>
             </div>
-            <p style="color: var(--text-muted); font-size: 0.9rem;">
-                <span id="footerYear"></span> All Rights Reserved.
-                <span id="poweredBy" style="margin-left: 10px; opacity: 0.6;">Architecture by Hauser NG</span>
-            </p>
+            <div class="footer-bottom">
+                <p>&copy; <span id="footerYear"></span> <span id="footerCopyright"></span>. All rights reserved.</p>
+            </div>
         </footer>
     </div>
 
-    <div id="errorContainer" class="error-container" style="display:none; text-align:center; padding: 100px;">
-        <h1>Agency Not Found</h1>
-        <a href="/">Return Home</a>
-    </div>
-
-    <div class="modal-overlay" id="bidModal">
-        <div class="modal">
-            <button class="close-modal-btn"
-                style="position:absolute; top: 1.5rem; right: 1.5rem; background:none; border:none; font-size: 1.5rem; cursor:pointer;">×</button>
-            <h2 style="font-size: 1.5rem;">Private Acquisition Offer</h2>
-            <div style="margin-bottom: 2rem; color: var(--text-soft);">Property: <strong id="modalListingTitle"
-                    style="color: var(--primary-navy);"></strong></div>
-
+    <!-- Bid Modal -->
+    <div id="bidModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Make an Offer</h3>
+                <button class="close-modal-btn" aria-label="Close modal">
+                    <i data-lucide="x"></i>
+                </button>
+            </div>
+            <p
+                style="color: var(--text-secondary); margin-bottom: 1.5rem; background: rgba(255, 255, 255, 0.8); padding: 1rem; border-radius: var(--radius-md); border: 1px solid var(--border);">
+                Property: <strong id="modalListingTitle" style="color: var(--primary-accent);"></strong>
+            </p>
             <form id="bidForm">
-                <input type="text" id="name" placeholder="Legal Name" required />
-                <input type="tel" id="phone" placeholder="Contact Number" required />
-                <input type="number" id="amount" placeholder="Offer Amount (₦)" required />
-
-                <div class="radio-group"
-                    style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-bottom: 1rem;">
-                    <label class="radio-option"><input type="radio" name="familyType" value="husband_and_wife" required
-                            style="display:none" /><span class="radio-custom">Family</span></label>
-                    <label class="radio-option"><input type="radio" name="familyType" value="single"
-                            style="display:none" /><span class="radio-custom">Individual</span></label>
+                <div class="form-group">
+                    <label class="form-label" for="name">Full Name *</label>
+                    <input type="text" id="name" class="form-input" required placeholder="Enter your full name">
                 </div>
-
-                <input type="number" id="children" min="0" placeholder="Dependents/Children" />
-                <textarea id="message" rows="3" placeholder="Special requirements or notes"></textarea>
-
-                <button type="submit" class="submit-btn">Finalize Offer</button>
+                <div class="form-group">
+                    <label class="form-label" for="phone">Phone Number *</label>
+                    <input type="tel" id="phone" class="form-input" required placeholder="Enter your phone number">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="amount">Offer Amount (₦) *</label>
+                    <input type="number" id="amount" class="form-input" required min="0"
+                        placeholder="Enter your offer amount">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Family Type *</label>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" id="single" name="familyType" value="single" required>
+                            <label for="single" class="radio-label">Single</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="married" name="familyType" value="married">
+                            <label for="married" class="radio-label">Married</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="children">Number of Children</label>
+                    <input type="number" id="children" class="form-input" min="0" value="0" placeholder="0">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="message">Additional Message</label>
+                    <textarea id="message" class="form-textarea"
+                        placeholder="Add any additional information or questions..."></textarea>
+                </div>
+                <button type="submit" class="form-submit">Submit Offer</button>
             </form>
         </div>
     </div>
 
     <script>
-        // ALL ORIGINAL FIREBASE AND UI LOGIC PRESERVED BELOW
-        lucide.createIcons();
-
+        // Firebase Configuration and Initialization
         const firebaseConfig = {
-            apiKey: "AIzaSyAHqg_u1DwWUB9l1vuoYDLKjCJl5Xx7Pbo",
-            authDomain: "hauserng-77cc2.firebaseapp.com",
-            projectId: "hauserng-77cc2",
-            storageBucket: "hauserng-77cc2.appspot.com",
-            messagingSenderId: "613578175402",
-            appId: "1:613578175402:web:db7413f898987ac6a1f1d3"
+            apiKey: "AIzaSyALRz57_4jLU8TI36BzWnuQ1S-36bTwdbE",
+            authDomain: "propxlist.firebaseapp.com",
+            projectId: "propxlist",
+            storageBucket: "propxlist.firebasestorage.app",
+            messagingSenderId: "166089393341",
+            appId: "1:166089393341:web:3c17ec25c3dc6a7f5f068b",
+            measurementId: "G-DV9FZJVKRH"
         };
 
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
 
-        function getSlugFromURL() {
-            const path = window.location.pathname;
-            const slug = path.replace(/^\/|\/$/g, '').split('/')[0];
-            return slug || null;
+        // Get Agency UID from URL
+        function getAgencyUidFromUrl() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('uid');
         }
 
+        // Scroll Effect for Navbar
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Load Agency Page
         async function loadAgencyPage() {
-            const slug = getSlugFromURL();
-            if (!slug || ['index.html', 'login.html', 'signup.html'].includes(slug)) { showError(); return; }
+            const agencyUid = getAgencyUidFromUrl();
+
+            if (!agencyUid) {
+                showError();
+                return;
+            }
 
             try {
-                const workspaceSnapshot = await db.collection('workspaces').where('slug', '==', slug).limit(1).get();
-                if (workspaceSnapshot.empty) { showError(); return; }
+                const userDoc = await db.collection('users').doc(agencyUid).get();
 
-                const workspaceData = workspaceSnapshot.docs[0].data();
-                populateAgencyInfo(workspaceData);
+                if (!userDoc.exists) {
+                    showError();
+                    return;
+                }
 
-                const propertiesSnapshot = await db.collection('properties').where('uid', '==', workspaceData.ownerUid).get();
-                const properties = propertiesSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                const userData = userDoc.data();
+                renderAgencyInfo(userData);
+
+                const propertiesSnapshot = await db.collection('properties')
+                    .where('uid', '==', agencyUid)
+                    .orderBy('createdAt', 'desc')
+                    .get();
+
+                const properties = propertiesSnapshot.docs.map(doc => ({
+                    id: doc.id,
+                    ...doc.data()
+                }));
 
                 renderProperties(properties);
-                document.getElementById('propertyCount').textContent = properties.length;
-                if (properties.length > 0) document.getElementById('statsBar').style.display = 'block';
+
+                // Calculate total bids
+                let totalBids = 0;
+                properties.forEach(prop => {
+                    totalBids += prop.bidsCount || 0;
+                });
+
+                document.getElementById('propertiesCount').textContent = properties.length;
+                document.getElementById('bidsCount').textContent = totalBids;
 
                 document.getElementById('loadingContainer').style.display = 'none';
-                document.getElementById('mainContent').style.display = 'block';
-                lucide.createIcons();
+                document.getElementById('mainContent').classList.add('show');
 
+                lucide.createIcons();
             } catch (error) {
-                console.error(error);
+                console.error('Error loading agency:', error);
                 showError();
             }
         }
 
-        function populateAgencyInfo(data) {
-            document.title = `${data.agencyName || 'Agency'} | Portfolio`;
-            document.getElementById('heroTitle').textContent = data.agencyName || 'Bespoke Estates';
-            document.getElementById('navBrand').textContent = data.agencyName || 'Agency';
-            document.getElementById('footerAgencyName').textContent = data.agencyName || 'Agency';
+        function renderAgencyInfo(agency) {
+            const agencyName = agency.agencyName || agency.displayName || 'Real Estate Agency';
+            const description = agency.description || 'Your trusted real estate partner';
+            const phone = agency.phoneNumber || '';
+            const email = agency.email || '';
+            const address = agency.address || 'Location not specified';
 
-            if (data.logoUrl) {
-                const navLogo = document.getElementById('navLogo');
-                navLogo.src = data.logoUrl; navLogo.style.display = 'block';
-                document.getElementById('navBrand').style.display = 'none';
-            }
+            document.title = `${agencyName} - Real Estate`;
 
-            if (data.heroVideoUrl) {
-                const video = document.getElementById('heroVideo');
-                video.src = data.heroVideoUrl; video.style.display = 'block';
-                video.play();
-            } else if (data.heroImageUrl) {
-                const img = document.getElementById('heroImage');
-                img.src = data.heroImageUrl; img.style.display = 'block';
+            // Navigation
+            if (agency.agencyLogo) {
+                document.getElementById('navLogo').src = agency.agencyLogo;
+                document.getElementById('navLogo').style.display = 'block';
+            } else {
+                document.getElementById('navBrand').textContent = agencyName;
             }
 
-            if (data.heroTagline) {
-                document.getElementById('heroTagline').textContent = data.heroTagline;
-                document.getElementById('heroTagline').style.display = 'block';
+            if (phone) {
+                const phoneLink = document.getElementById('navPhone');
+                phoneLink.href = `tel:${phone}`;
+                phoneLink.querySelector('span').textContent = phone;
             }
 
-            if (data.about) {
-                document.getElementById('aboutText').textContent = data.about;
-                document.getElementById('aboutSection').style.display = 'block';
+            if (email) {
+                const emailLink = document.getElementById('navEmail');
+                emailLink.href = `mailto:${email}`;
+                emailLink.querySelector('span').textContent = email;
             }
 
-            if (data.phone) {
-                document.getElementById('navPhone').href = `tel:${data.phone}`;
-                document.getElementById('navPhoneText').textContent = data.phone;
-                document.getElementById('navPhone').style.display = 'flex';
+            // Hero Section
+            if (agency.agencyLogo) {
+                document.getElementById('heroLogo').src = agency.agencyLogo;
+                document.getElementById('heroLogo').style.display = 'block';
             }
-            if (data.email) {
-                document.getElementById('navEmail').href = `mailto:${data.email}`;
-                document.getElementById('navEmailText').textContent = data.email;
-                document.getElementById('navEmail').style.display = 'flex';
-            }
+            document.getElementById('heroTitle').textContent = agencyName;
+            document.getElementById('heroSubtitle').textContent = 'Premium Real Estate Services';
+            document.getElementById('heroDescription').textContent = description;
+
+            // Footer
+            document.getElementById('footerAgencyName').textContent = agencyName;
+            document.getElementById('footerDescription').textContent = description;
+            document.getElementById('footerPhone').textContent = phone;
+            document.getElementById('footerPhone').href = `tel:${phone}`;
+            document.getElementById('footerEmail').textContent = email;
+            document.getElementById('footerEmail').href = `mailto:${email}`;
+            document.getElementById('footerAddress').textContent = address;
+            document.getElementById('footerCopyright').textContent = agencyName;
             document.getElementById('footerYear').textContent = new Date().getFullYear();
         }
 
         function renderProperties(properties) {
             const grid = document.getElementById('propertiesGrid');
             grid.innerHTML = '';
-            properties.forEach(property => {
+
+            if (properties.length === 0) {
+                grid.innerHTML = `
+                    <div class="empty-state">
+                        <i data-lucide="building-2" class="empty-icon"></i>
+                        <h3 class="empty-title">No Properties Listed Yet</h3>
+                        <p class="empty-text">Check back soon for exciting new listings!</p>
+                    </div>
+                `;
+                lucide.createIcons();
+                return;
+            }
+
+            properties.forEach((property, index) => {
                 const card = createPropertyCard(property);
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(30px)';
                 grid.appendChild(card);
+
+                setTimeout(() => {
+                    card.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 100);
             });
+
             lucide.createIcons();
         }
 
         function createPropertyCard(property) {
             const card = document.createElement('div');
             card.className = 'property-card';
-            const imageUrl = property.images?.[0] || 'https://via.placeholder.com/400x300?text=Premium+Estate';
-            const price = property.price ? `₦${parseFloat(property.price).toLocaleString()}` : 'Contact';
+
+            const hasVideo = property.media?.some(m => m.type === 'video');
+            const firstVideo = hasVideo ? property.media.find(m => m.type === 'video')?.url : null;
+            const imageUrl = property.images?.[0] || property.media?.find(m => m.type === 'image')?.url ||
+                'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 280"%3E%3Crect fill="%23e8eef8" width="400" height="280"/%3E%3Ctext x="50%25" y="50%25" text-anchor="middle" fill="%237a8cb8" font-family="Inter" font-size="16" dy=".3em"%3ENo Image%3C/text%3E%3C/svg%3E';
+
+            const price = property.price ? `₦${parseFloat(property.price).toLocaleString()}` : 'Contact for Price';
+            const location = property.location || 'Location not specified';
+            const state = property.state ? `, ${property.state}` : '';
+            const description = property.description || 'No description available';
+            const propertyType = property.propertyType || property.type || 'Property';
 
             card.innerHTML = `
-                ${property.propertyType ? `<div class="property-badge">${property.propertyType}</div>` : ''}
+                ${propertyType !== 'Property' ? `<div class="property-badge">${propertyType}</div>` : ''}
                 <div class="property-image-container">
-                    <img src="${imageUrl}" class="property-image" loading="lazy">
+                    ${firstVideo ? `
+                        <video class="property-video" loop muted>
+                            <source src="${firstVideo}" type="video/mp4">
+                        </video>
+                        <div class="play-overlay">
+                            <button class="play-button" aria-label="Play video">
+                                <i data-lucide="play"></i>
+                            </button>
+                        </div>
+                    ` : `
+                        <img src="${imageUrl}" alt="${property.title || 'Property'}" class="property-image" loading="lazy">
+                    `}
                 </div>
                 <div class="property-content">
-                    <div class="property-price">${price}</div>
-                    <h3 class="property-title">${property.title || 'Untitled Estate'}</h3>
+                    <h3 class="property-title">${property.title || 'Untitled Property'}</h3>
                     <div class="property-location">
-                        <i data-lucide="map-pin" size="14"></i>
-                        <span>${property.location || 'Exquisite Location'}</span>
+                        <i data-lucide="map-pin"></i>
+                        <span>${location}${state}</span>
                     </div>
-                    <button class="bid-btn" 
-                        data-listing-id="${property.id}" 
-                        data-owner-uid="${property.uid}" 
-                        data-title="${property.title}">
-                        Make Acquisition Offer
-                    </button>
+                    <p class="property-description">${description}</p>
+                    <div class="property-footer">
+                        <div class="property-price">${price}</div>
+                        <button
+                            class="bid-btn"
+                            data-listing-id="${property.id}"
+                            data-owner-uid="${property.uid}"
+                            data-title="${property.title || 'Property'}"
+                        >
+                            Make Offer
+                        </button>
+                    </div>
                 </div>
             `;
+
+            if (firstVideo) {
+                const video = card.querySelector('.property-video');
+                const playBtn = card.querySelector('.play-button');
+
+                card.addEventListener('mouseenter', () => video.play());
+                card.addEventListener('mouseleave', () => {
+                    video.pause();
+                    video.currentTime = 0;
+                });
+
+                if (playBtn) {
+                    playBtn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        if (video.paused) {
+                            video.play();
+                        } else {
+                            video.pause();
+                        }
+                    });
+                }
+            }
+
             return card;
         }
 
         function showError() {
             document.getElementById('loadingContainer').style.display = 'none';
-            document.getElementById('errorContainer').style.display = 'block';
+            document.getElementById('mainContent').style.display = 'none';
+            document.getElementById('errorContainer').classList.add('show');
+            lucide.createIcons();
         }
 
-        // Modal Logic
+        document.addEventListener('DOMContentLoaded', loadAgencyPage);
+
+        // Bid modal functionality
         let activeListing = null;
+
         document.addEventListener("click", (e) => {
             const btn = e.target.closest(".bid-btn");
             if (!btn) return;
-            activeListing = { listingId: btn.dataset.listingId, ownerUid: btn.dataset.ownerUid, title: btn.dataset.title };
+
+            activeListing = {
+                listingId: btn.dataset.listingId,
+                ownerUid: btn.dataset.ownerUid,
+                title: btn.dataset.title
+            };
+
             document.getElementById("modalListingTitle").textContent = activeListing.title;
             document.getElementById("bidModal").classList.add("active");
-            document.getElementById("bidModal").style.display = 'flex';
         });
 
-        document.getElementById("bidModal").addEventListener("click", (e) => {
-            if (e.target.id === "bidModal" || e.target.classList.contains("close-modal-btn")) {
-                document.getElementById("bidModal").style.display = 'none';
-            }
-        });
+        const bidForm = document.getElementById("bidForm");
+        const bidModal = document.getElementById("bidModal");
 
-        document.getElementById("bidForm").addEventListener("submit", async (e) => {
-            e.preventDefault();
-            try {
-                await db.collection("bids").add({
-                    listingId: activeListing.listingId,
-                    listingOwnerUid: activeListing.ownerUid,
-                    listingTitle: activeListing.title,
-                    bidderName: document.getElementById("name").value,
-                    bidderPhone: document.getElementById("phone").value,
-                    bidAmount: Number(document.getElementById("amount").value),
-                    familyType: document.querySelector('input[name="familyType"]:checked').value,
-                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
-                });
-                alert("Offer sent to agency successfully.");
-                document.getElementById("bidModal").style.display = 'none';
-            } catch (err) { alert("Error submitting offer."); }
-        });
+        if (bidForm) {
+            bidForm.addEventListener("submit", async (e) => {
+                e.preventDefault();
 
-        window.addEventListener('scroll', () => {
-            document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
-        });
+                if (!activeListing) return;
 
-        document.addEventListener('DOMContentLoaded', loadAgencyPage);
+                const nameField = document.getElementById("name");
+                const phoneField = document.getElementById("phone");
+                const amountField = document.getElementById("amount");
+                const childrenField = document.getElementById("children");
+                const messageField = document.getElementById("message");
+                const familyTypeRadio = document.querySelector('input[name="familyType"]:checked');
+
+                if (!familyTypeRadio) {
+                    alert("Please select a family type");
+                    return;
+                }
+
+                try {
+                    // 1. Save the bid document
+                    await db.collection("bids").add({
+                        listingId: activeListing.listingId,
+                        listingOwnerUid: activeListing.ownerUid,
+                        listingTitle: activeListing.title,
+                        bidderName: nameField.value.trim(),
+                        bidderPhone: phoneField.value.trim(),
+                        bidAmount: Number(amountField.value),
+                        familyType: familyTypeRadio.value,
+                        childrenCount: Number(childrenField.value || 0),
+                        message: messageField.value.trim(),
+                        read: false,
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+
+                    // 2. Increment bidsCount on the property atomically
+                    const propertyRef = db.collection('properties').doc(activeListing.listingId);
+                    await propertyRef.update({
+                        bidsCount: firebase.firestore.FieldValue.increment(1)
+                    });
+
+                    // Success feedback
+                    alert("Offer submitted successfully!");
+                    bidForm.reset();
+                    bidModal.classList.remove("active");
+
+                } catch (error) {
+                    console.error("Error submitting bid:", error);
+                    alert("Failed to submit offer. Please try again.");
+                }
+            });
+        }
+
+        if (bidModal) {
+            bidModal.addEventListener("click", (e) => {
+                if (e.target.id === "bidModal" || e.target.classList.contains("close-modal-btn")) {
+                    bidModal.classList.remove("active");
+                }
+            });
+        }
     </script>
 </body>
 
