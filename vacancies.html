@@ -735,13 +735,49 @@
       box-shadow: var(--shadow-sm);
     }
 
+    .bid-btn2 {
+      width: 100%;
+      margin: 1rem 0 0.5rem 0;
+      padding: 0.8rem 1.25rem;
+      background: rgb(240, 74, 74);
+      color: white;
+      border: none;
+      border-radius: var(--radius);
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .fuck {
+      text-decoration: none;
+      color: white;
+    }
+
     .bid-btn:hover {
       background: var(--accent-dark);
       transform: translateY(-2px);
       box-shadow: var(--shadow-md), 0 0 15px var(--accent-glow);
     }
 
+    .bid-btn2:hover {
+      background: var(--accent-dark);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md), 0 0 15px var(--accent-glow);
+    }
+
     .bid-btn::before {
+      content: '\f3d1';
+      font-family: 'Font Awesome 6 Free';
+      font-weight: 900;
+    }
+
+    .bid-btn2::before {
       content: '\f3d1';
       font-family: 'Font Awesome 6 Free';
       font-weight: 900;
@@ -1433,6 +1469,15 @@
               data-title="${p.title}"
             >
               Bid / Negotiate
+            </button>
+              <button
+              class="bid-btn2"
+              data-listing-id="${p.id}"
+              data-owner-uid="${p.uid}"
+              data-title="${p.title}"
+            >
+          <a class="fuck" href="https://cust.fillout.com/t/bJuJAU1vYGus">
+              Flag/Report this Post</a>
             </button>
             <div class="detail-item">
               <span class="detail-label">Property ID:</span>
