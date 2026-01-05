@@ -63,6 +63,19 @@
       font-size: 15px;
     }
 
+    /* Add a loading state */
+    body.loading {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    /* Remove loading state when page is ready */
+    body.loaded {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+
     h1,
     h2,
     h3 {
@@ -689,10 +702,28 @@
       height: 100px;
       width: auto;
     }
+
+    /* Add this to your existing CSS */
+    /* Ensure the button is hidden when disabled */
+    /* Hide analytics button by default */
+    /* Hide all premium buttons by default */
+    #analyticsBtn,
+    #notificationBtn,
+    #brandingBtn {
+      display: none;
+    }
+
+    /* Show premium buttons only when needed */
+    #analyticsBtn.premium,
+    #notificationBtn.premium,
+    #brandingBtn.premium {
+      display: flex;
+    }
   </style>
 </head>
 
 <body>
+  <br>
   <!-- Navbar -->
   <header class="navbar">
     <div class="navbar-container">
@@ -723,7 +754,7 @@
           Add Property
         </a>
 
-        <a href="analytics.html" class="nav-button">
+        <a href="analytics.html" id="analyticsBtn" class="nav-button">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
               d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
@@ -731,7 +762,7 @@
           Analytics
         </a>
 
-        <a href="whitelistform.html" class="nav-button">
+        <a href="whitelistform.html" id="brandingBtn" class="nav-button">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
               d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
@@ -841,6 +872,17 @@
 
   <script>
     // Mobile menu toggle
+
+    // Add this to your page load function
+    document.body.classList.add("loading");
+
+    // When your JavaScript is ready
+    window.addEventListener("load", function () {
+      document.body.classList.remove("loading");
+      document.body.classList.add("loaded");
+    });
+
+
     function toggleMenu() {
       document.getElementById('navLinks').classList.toggle('active');
     }
@@ -898,14 +940,24 @@
     // Check if user can add properties
     function checkAddPropertyPermission(data) {
       const addLink = document.getElementById("addPropertyLink");
+      const notlink = document.getElementById("notificationBtn");
+      const analyticslink = document.getElementById("analyticsBtn");
+      const brandinglink = document.getElementById("brandingBtn");
       const plan = data.plan || "free";
       const listingsCount = data.listingsCount || 0;
 
+      // Show add property link unless user is on free plan with 2+ listings
       if (!(plan === "free" && listingsCount >= 2)) {
         addLink.style.display = "flex";
-      }
-    }
+      };
 
+
+      // Premium-only features
+      const isPremium = plan === "premium";
+      analyticslink.classList.toggle("premium", isPremium);
+      notlink.classList.toggle("premium", isPremium);
+      brandinglink.classList.toggle("premium", isPremium);
+    }
     // Load properties
     function loadListings(uid) {
       const list = document.getElementById('propertyList');
