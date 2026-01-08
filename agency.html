@@ -188,7 +188,492 @@
             font-family: 'Space Grotesk', sans-serif;
         }
 
-        /* Navigation Bar */
+        /* Dashboard Layout */
+        .dashboard-wrapper {
+            display: flex;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Sidebar Navigation */
+        .sidebar {
+            width: 280px;
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(25px) saturate(180%);
+            -webkit-backdrop-filter: blur(25px) saturate(180%);
+            border-right: 1px solid rgba(249, 115, 22, 0.2);
+            position: fixed;
+            left: 0;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 1000;
+            transition: var(--transition);
+            box-shadow: 4px 0 20px rgba(249, 115, 22, 0.1);
+        }
+
+        .sidebar.collapsed {
+            transform: translateX(-100%);
+        }
+
+        .sidebar-header {
+            padding: 2rem 1.5rem;
+            border-bottom: 1px solid rgba(249, 115, 22, 0.2);
+            background: rgba(255, 237, 213, 0.5);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .sidebar-logo-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .sidebar-logo {
+            max-height: 50px;
+            max-width: 100%;
+            object-fit: contain;
+        }
+
+        .sidebar-brand {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--charcoal);
+            font-family: 'Syne', sans-serif;
+        }
+
+        .sidebar-tagline {
+            font-size: 0.875rem;
+            color: var(--slate-600);
+            font-family: 'Space Grotesk', sans-serif;
+            line-height: 1.5;
+        }
+
+        .sidebar-nav {
+            padding: 1.5rem 0;
+        }
+
+        .nav-section {
+            margin-bottom: 2rem;
+            padding: 0 1.5rem;
+        }
+
+        .nav-section-title {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--slate-500);
+            margin-bottom: 1rem;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.875rem 1rem;
+            border-radius: var(--radius-lg);
+            color: var(--slate-700);
+            text-decoration: none;
+            font-weight: 500;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.9375rem;
+            transition: var(--transition-fast);
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-item:hover {
+            background: rgba(249, 115, 22, 0.1);
+            color: var(--primary);
+            transform: translateX(4px);
+        }
+
+        .nav-item.active {
+            background: var(--primary);
+            color: var(--white);
+            box-shadow: 0 4px 12px rgba(249, 115, 22, 0.3);
+        }
+
+        .nav-item i {
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
+        }
+
+        .sidebar-footer {
+            padding: 1.5rem;
+            border-top: 1px solid rgba(249, 115, 22, 0.2);
+            background: rgba(255, 237, 213, 0.5);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            margin-top: auto;
+        }
+
+        .sidebar-contact {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .sidebar-contact-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.625rem;
+            border-radius: var(--radius-md);
+            color: var(--slate-700);
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-family: 'Space Grotesk', sans-serif;
+            transition: var(--transition-fast);
+        }
+
+        .sidebar-contact-item:hover {
+            background: rgba(249, 115, 22, 0.1);
+            color: var(--primary);
+        }
+
+        .sidebar-contact-item i {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* Main Dashboard Content */
+        .dashboard-main {
+            flex: 1;
+            margin-left: 280px;
+            transition: margin-left var(--transition);
+        }
+
+        .dashboard-main.expanded {
+            margin-left: 0;
+        }
+
+        /* Top Dashboard Bar */
+        .dashboard-topbar {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border-bottom: 1px solid rgba(249, 115, 22, 0.2);
+            padding: 1.25rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(249, 115, 22, 0.1);
+        }
+
+        .topbar-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .menu-toggle {
+            display: none;
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius-md);
+            background: rgba(249, 115, 22, 0.1);
+            border: 1px solid rgba(249, 115, 22, 0.2);
+            cursor: pointer;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            transition: var(--transition);
+        }
+
+        .menu-toggle:hover {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        .menu-toggle i {
+            width: 20px;
+            height: 20px;
+        }
+
+        .topbar-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--charcoal);
+            font-family: 'Syne', sans-serif;
+        }
+
+        .topbar-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .topbar-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .action-button {
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius-md);
+            background: rgba(249, 115, 22, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(249, 115, 22, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--primary);
+            transition: var(--transition);
+        }
+
+        .action-button:hover {
+            background: var(--primary);
+            color: var(--white);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(249, 115, 22, 0.3);
+        }
+
+        .action-button i {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* Dashboard Content Area */
+        .dashboard-content {
+            padding: 2rem;
+        }
+
+        /* Dashboard Hero Card */
+        .dashboard-hero {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(25px) saturate(180%);
+            -webkit-backdrop-filter: blur(25px) saturate(180%);
+            border: 1px solid rgba(249, 115, 22, 0.2);
+            border-radius: var(--radius-2xl);
+            padding: 3rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 32px rgba(249, 115, 22, 0.15);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dashboard-hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(249, 115, 22, 0.15) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .hero-content-wrapper {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-welcome {
+            font-size: 0.875rem;
+            color: var(--slate-600);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.5rem;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .hero-agency-name {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 800;
+            margin-bottom: 1rem;
+            color: var(--charcoal);
+        }
+
+        .hero-description {
+            font-size: 1.125rem;
+            color: var(--slate-600);
+            max-width: 700px;
+            line-height: 1.8;
+            margin-bottom: 2rem;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .hero-cta-dashboard {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 2rem;
+            background: var(--primary);
+            color: var(--white);
+            text-decoration: none;
+            border-radius: var(--radius-xl);
+            font-weight: 600;
+            font-size: 1rem;
+            font-family: 'Space Grotesk', sans-serif;
+            transition: var(--transition);
+            box-shadow: 0 4px 20px rgba(249, 115, 22, 0.3);
+            border: 2px solid transparent;
+        }
+
+        .hero-cta-dashboard:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(249, 115, 22, 0.4);
+        }
+
+        .hero-cta-dashboard i {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* Stats Grid Dashboard */
+        .dashboard-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid rgba(249, 115, 22, 0.2);
+            border-radius: var(--radius-xl);
+            padding: 2rem;
+            box-shadow: 0 4px 20px rgba(249, 115, 22, 0.1);
+            transition: var(--transition);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(249, 115, 22, 0.2);
+            border-color: rgba(249, 115, 22, 0.4);
+        }
+
+        .stat-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .stat-card-icon {
+            width: 48px;
+            height: 48px;
+            background: rgba(249, 115, 22, 0.1);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+        }
+
+        .stat-card-icon i {
+            width: 24px;
+            height: 24px;
+        }
+
+        .stat-card-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            font-family: 'Syne', sans-serif;
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-card-label {
+            font-size: 0.9375rem;
+            color: var(--slate-600);
+            font-weight: 500;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        /* Dashboard Sections */
+        .dashboard-section {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid rgba(249, 115, 22, 0.2);
+            border-radius: var(--radius-2xl);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 32px rgba(249, 115, 22, 0.1);
+        }
+
+        .dashboard-section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(249, 115, 22, 0.2);
+        }
+
+        .section-header-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .section-icon-wrapper {
+            width: 48px;
+            height: 48px;
+            background: rgba(249, 115, 22, 0.1);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+        }
+
+        .section-icon-wrapper i {
+            width: 24px;
+            height: 24px;
+        }
+
+        .section-title-wrapper h2 {
+            font-size: 1.5rem;
+            margin-bottom: 0.25rem;
+            color: var(--charcoal);
+        }
+
+        .section-subtitle-wrapper {
+            font-size: 0.875rem;
+            color: var(--slate-600);
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        /* Overlay for mobile */
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(15, 23, 42, 0.5);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 999;
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .sidebar-overlay.active {
+            display: block;
+            opacity: 1;
+        }
+
         .nav-bar {
             position: fixed;
             top: 0;
@@ -272,15 +757,9 @@
             height: 18px;
         }
 
-        /* Hero Section */
+        /* Hero Section - Hidden in Dashboard */
         .hero-section {
-            position: relative;
-            min-height: 90vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            margin-top: 72px;
+            display: none;
         }
 
         .hero-media-container {
@@ -450,12 +929,9 @@
             transform: translateY(3px);
         }
 
-        /* Stats Bar */
+        /* Stats Bar - Hidden in Dashboard */
         .stats-bar {
-            padding: 0 2rem;
-            margin-top: -3.5rem;
-            position: relative;
-            z-index: 10;
+            display: none;
         }
 
         .stats-container {
@@ -517,11 +993,9 @@
             animation: fadeIn 0.6s ease-out;
         }
 
-        /* About Section */
+        /* About Section - Hidden in Dashboard */
         .about-section {
-            max-width: 1000px;
-            margin: 6rem auto;
-            padding: 0 2rem;
+            display: none;
         }
 
         .about-container {
@@ -572,11 +1046,9 @@
             border: 1px solid rgba(249, 115, 22, 0.15);
         }
 
-        /* Contact Section */
+        /* Contact Section - Hidden in Dashboard */
         .contact-section {
-            max-width: 1200px;
-            margin: 5rem auto;
-            padding: 0 2rem;
+            display: none;
         }
 
         .contact-grid {
@@ -645,16 +1117,16 @@
             color: var(--primary);
         }
 
-        /* Section Styles */
+        /* Section Styles - Adapted for Dashboard */
         .section {
-            padding: 5rem 2rem;
-            max-width: 1400px;
-            margin: 0 auto;
+            padding: 0;
+            max-width: none;
+            margin: 0;
         }
 
         .section-header {
-            text-align: center;
-            margin-bottom: 4rem;
+            display: none;
+            /* Using dashboard section header instead */
         }
 
         .section-title {
@@ -1208,184 +1680,140 @@
             font-family: 'Space Grotesk', sans-serif;
         }
 
-        /* Responsive Design */
+        /* Responsive Design - Dashboard */
         @media (max-width: 1200px) {
             .properties-grid {
-                grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            }
+
+            .dashboard-stats {
+                grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
             }
         }
 
         @media (max-width: 1024px) {
-            .stats-container {
-                grid-template-columns: repeat(3, 1fr);
-                padding: 2rem;
-                gap: 1.5rem;
+            .sidebar {
+                width: 260px;
+            }
+
+            .dashboard-main {
+                margin-left: 260px;
+            }
+
+            .dashboard-stats {
+                grid-template-columns: repeat(2, 1fr));
             }
         }
 
         @media (max-width: 768px) {
-            .nav-container {
-                padding: 0.875rem 1.5rem;
-                flex-direction: column;
-                gap: 1rem;
+            .sidebar {
+                transform: translateX(-100%);
+                width: 280px;
             }
 
-            .nav-logo {
-                height: 38px;
+            .sidebar.active {
+                transform: translateX(0);
             }
 
-            .nav-contact {
-                flex-direction: column;
-                gap: 0.75rem;
-                width: 100%;
+            .dashboard-main {
+                margin-left: 0;
             }
 
-            .nav-contact-item {
-                width: 100%;
-                justify-content: center;
+            .menu-toggle {
+                display: flex;
             }
 
-            .hero-section {
-                min-height: 75vh;
-                margin-top: 140px;
+            .topbar-title {
+                font-size: 1.25rem;
             }
 
-            .hero-content {
-                padding: 3rem 1.5rem;
-            }
-
-            .video-controls {
-                bottom: 1rem;
-                right: 1rem;
+            .topbar-actions {
                 gap: 0.5rem;
             }
 
-            .video-btn {
-                width: 44px;
-                height: 44px;
+            .action-button {
+                width: 36px;
+                height: 36px;
             }
 
-            .stats-bar {
-                margin-top: -2.5rem;
-                padding: 0 1.5rem;
-            }
-
-            .stats-container {
-                padding: 2rem 1.5rem;
-                gap: 1rem;
-                grid-template-columns: 1fr;
-            }
-
-            .stat-item::after {
-                display: none;
-            }
-
-            .stat-value {
-                font-size: 2rem;
-            }
-
-            .about-section,
-            .contact-section {
-                margin: 4rem auto;
-            }
-
-            .about-container {
-                padding: 2.5rem 2rem;
-            }
-
-            .about-text {
-                font-size: 1rem;
+            .dashboard-content {
                 padding: 1.5rem;
             }
 
-            .contact-grid {
-                grid-template-columns: 1fr;
-                gap: 1.5rem;
+            .dashboard-hero {
+                padding: 2rem;
             }
 
-            .section {
-                padding: 3rem 1.5rem;
+            .hero-agency-name {
+                font-size: 2rem;
+            }
+
+            .hero-description {
+                font-size: 1rem;
+            }
+
+            .dashboard-stats {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .stat-card {
+                padding: 1.5rem;
+            }
+
+            .stat-card-value {
+                font-size: 2rem;
+            }
+
+            .dashboard-section {
+                padding: 1.5rem;
             }
 
             .properties-grid {
                 grid-template-columns: 1fr;
                 gap: 1.5rem;
             }
-
-            .modal-content {
-                padding: 2rem 1.5rem;
-            }
-
-            .radio-group {
-                grid-template-columns: 1fr;
-            }
-
-            .back-to-top {
-                width: 50px;
-                height: 50px;
-                bottom: 2rem;
-                right: 2rem;
-            }
         }
 
         @media (max-width: 480px) {
-            .nav-container {
-                padding: 0.75rem 1rem;
+            .dashboard-topbar {
+                padding: 1rem;
             }
 
-            .hero-logo {
-                max-height: 80px;
-                max-width: 220px;
-                padding: 1rem 1.5rem;
+            .topbar-title {
+                font-size: 1.125rem;
             }
 
-            .hero-title {
-                font-size: 2rem;
+            .dashboard-content {
+                padding: 1rem;
             }
 
-            .hero-tagline {
-                font-size: 1rem;
-            }
-
-            .hero-cta {
-                padding: 0.875rem 1.75rem;
-                font-size: 0.9375rem;
-            }
-
-            .stats-container {
+            .dashboard-hero {
                 padding: 1.5rem;
-                gap: 1rem;
             }
 
-            .stat-value {
+            .hero-agency-name {
                 font-size: 1.75rem;
             }
 
-            .about-container {
-                padding: 2rem 1.5rem;
+            .stat-card {
+                padding: 1.25rem;
             }
 
-            .contact-card {
-                padding: 2rem 1.5rem;
+            .stat-card-value {
+                font-size: 1.75rem;
             }
 
-            .property-card {
-                border-radius: var(--radius-xl);
+            .dashboard-section {
+                padding: 1.25rem;
             }
 
             .property-image-container {
-                height: 240px;
+                height: 220px;
             }
 
             .property-content {
-                padding: 1.5rem;
-            }
-
-            .back-to-top {
-                width: 48px;
-                height: 48px;
-                bottom: 1.5rem;
-                right: 1.5rem;
+                padding: 1.25rem;
             }
         }
 
@@ -1444,136 +1872,179 @@
 
     <!-- Main Content -->
     <div id="mainContent" class="main-content">
-        <!-- Navigation -->
-        <nav class="nav-bar" id="navbar">
-            <div class="nav-container">
-                <div class="nav-logo-wrapper">
-                    <img id="navLogo" class="nav-logo" alt="Agency Logo" style="display: none;">
-                    <span id="navBrand" class="nav-brand">Agency</span>
+        <!-- Dashboard Wrapper -->
+        <div class="dashboard-wrapper">
+            <!-- Sidebar Navigation -->
+            <aside class="sidebar" id="sidebar">
+                <div class="sidebar-header">
+                    <div class="sidebar-logo-wrapper">
+                        <img id="sidebarLogo" class="sidebar-logo" alt="Agency Logo" style="display: none;">
+                        <span id="sidebarBrand" class="sidebar-brand">Agency</span>
+                    </div>
+                    <p id="sidebarTagline" class="sidebar-tagline" style="display: none;"></p>
                 </div>
-                <div class="nav-contact" id="navContact">
-                    <a href="#" id="navPhone" class="nav-contact-item" style="display: none;">
-                        <i data-lucide="phone"></i>
-                        <span id="navPhoneText"></span>
-                    </a>
-                    <a href="#" id="navEmail" class="nav-contact-item" style="display: none;">
-                        <i data-lucide="mail"></i>
-                        <span id="navEmailText"></span>
-                    </a>
-                </div>
-            </div>
-        </nav>
 
-        <!-- Hero Section -->
-        <section class="hero-section" id="heroSection">
-            <div class="hero-media-container" id="heroMediaContainer">
-                <img id="heroImage" class="hero-image" alt="Hero background" style="display: none;">
-                <video id="heroVideo" class="hero-video" loop muted style="display: none;">
-                    Your browser does not support the video tag.
-                </video>
-                <div class="hero-overlay"></div>
-            </div>
+                <nav class="sidebar-nav">
+                    <div class="nav-section">
+                        <div class="nav-section-title">Navigation</div>
+                        <a href="#dashboard" class="nav-item active">
+                            <i data-lucide="layout-dashboard"></i>
+                            <span>Dashboard</span>
+                        </a>
+                        <a href="#properties" class="nav-item">
+                            <i data-lucide="building-2"></i>
+                            <span>Properties</span>
+                        </a>
+                        <a href="#about" class="nav-item" id="aboutNavItem" style="display: none;">
+                            <i data-lucide="info"></i>
+                            <span>About Us</span>
+                        </a>
+                    </div>
 
-            <div class="video-controls" id="videoControls" style="display: none;">
-                <button class="video-btn" id="playPauseBtn" aria-label="Play/Pause video">
-                    <i data-lucide="play" id="playPauseIcon"></i>
-                </button>
-                <button class="video-btn" id="muteBtn" aria-label="Mute/Unmute video">
-                    <i data-lucide="volume-x" id="muteIcon"></i>
-                </button>
-            </div>
+                    <div class="nav-section">
+                        <div class="nav-section-title">Quick Actions</div>
+                        <a href="#properties" class="nav-item">
+                            <i data-lucide="search"></i>
+                            <span>Browse All</span>
+                        </a>
+                    </div>
+                </nav>
 
-            <div class="hero-content">
-                <div class="hero-logo-container" id="heroLogoContainer" style="display: none;">
-                    <img id="heroLogo" class="hero-logo" alt="Agency Logo">
+                <div class="sidebar-footer" id="sidebarFooter" style="display: none;">
+                    <div class="nav-section-title">Contact</div>
+                    <div class="sidebar-contact">
+                        <a href="#" id="sidebarPhone" class="sidebar-contact-item" style="display: none;">
+                            <i data-lucide="phone"></i>
+                            <span id="sidebarPhoneText"></span>
+                        </a>
+                        <a href="#" id="sidebarEmail" class="sidebar-contact-item" style="display: none;">
+                            <i data-lucide="mail"></i>
+                            <span id="sidebarEmailText"></span>
+                        </a>
+                    </div>
                 </div>
-                <h1 id="heroTitle" class="hero-title">Welcome</h1>
-                <p id="heroTagline" class="hero-tagline" style="display: none;"></p>
-                <a href="#properties" class="hero-cta" id="heroCta" style="display: none;">
-                    <span>Browse Properties</span>
-                    <i data-lucide="chevron-down"></i>
-                </a>
-            </div>
-        </section>
+            </aside>
 
-        <!-- Stats Bar -->
-        <div class="stats-bar" id="statsBar" style="display: none;">
-            <div class="stats-container">
-                <div class="stat-item">
-                    <span class="stat-value" id="propertyCount">0</span>
-                    <span class="stat-label">Properties</span>
+            <!-- Sidebar Overlay for Mobile -->
+            <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+            <!-- Main Dashboard Content -->
+            <main class="dashboard-main" id="dashboardMain">
+                <!-- Top Bar -->
+                <div class="dashboard-topbar">
+                    <div class="topbar-left">
+                        <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
+                            <i data-lucide="menu"></i>
+                        </button>
+                        <h1 class="topbar-title" id="topbarTitle">Dashboard</h1>
+                    </div>
+                    <div class="topbar-right">
+                        <div class="topbar-actions">
+                            <button class="action-button" id="scrollToTop" aria-label="Scroll to top">
+                                <i data-lucide="arrow-up"></i>
+                            </button>
+                        </div>
+                    </div>
                 </div>
-                <div class="stat-item">
-                    <span class="stat-value">24/7</span>
-                    <span class="stat-label">Support</span>
+
+                <!-- Dashboard Content -->
+                <div class="dashboard-content">
+                    <!-- Hero Card -->
+                    <div class="dashboard-hero" id="dashboardHero">
+                        <div class="hero-content-wrapper">
+                            <p class="hero-welcome">Welcome to</p>
+                            <h2 class="hero-agency-name" id="heroAgencyName">Our Agency</h2>
+                            <p class="hero-description" id="heroDescription">Discover your perfect property from our
+                                curated collection</p>
+                            <a href="#properties" class="hero-cta-dashboard">
+                                <span>View Properties</span>
+                                <i data-lucide="arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Stats Grid -->
+                    <div class="dashboard-stats" id="dashboardStats">
+                        <div class="stat-card">
+                            <div class="stat-card-header">
+                                <div class="stat-card-icon">
+                                    <i data-lucide="building-2"></i>
+                                </div>
+                            </div>
+                            <div class="stat-card-value" id="statsPropertyCount">0</div>
+                            <div class="stat-card-label">Total Properties</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-card-header">
+                                <div class="stat-card-icon">
+                                    <i data-lucide="clock"></i>
+                                </div>
+                            </div>
+                            <div class="stat-card-value">24/7</div>
+                            <div class="stat-card-label">Support Available</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-card-header">
+                                <div class="stat-card-icon">
+                                    <i data-lucide="shield-check"></i>
+                                </div>
+                            </div>
+                            <div class="stat-card-value">100%</div>
+                            <div class="stat-card-label">Verified Listings</div>
+                        </div>
+                    </div>
+
+                    <!-- About Section Dashboard -->
+                    <div class="dashboard-section" id="aboutDashboardSection" style="display: none;">
+                        <div class="dashboard-section-header">
+                            <div class="section-header-left">
+                                <div class="section-icon-wrapper">
+                                    <i data-lucide="info"></i>
+                                </div>
+                                <div class="section-title-wrapper">
+                                    <h2>About Us</h2>
+                                    <p class="section-subtitle-wrapper">Learn more about our agency</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="aboutDashboardText"
+                            style="font-size: 1.0625rem; line-height: 1.8; color: var(--slate-600);"></div>
+                    </div>
+
+                    <!-- Properties Section -->
+                    <div class="dashboard-section" id="properties">
+                        <div class="dashboard-section-header">
+                            <div class="section-header-left">
+                                <div class="section-icon-wrapper">
+                                    <i data-lucide="building-2"></i>
+                                </div>
+                                <div class="section-title-wrapper">
+                                    <h2>Available Properties</h2>
+                                    <p class="section-subtitle-wrapper">Browse our exclusive property listings</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="propertiesGrid" class="properties-grid"></div>
+                    </div>
                 </div>
-                <div class="stat-item">
-                    <span class="stat-value">100%</span>
-                    <span class="stat-label">Verified</span>
-                </div>
-            </div>
+
+                <!-- Footer -->
+                <footer class="footer">
+                    <div class="footer-content">
+                        <p class="footer-text">
+                            <span id="footerYear"></span> &copy; <span id="footerAgencyName">Agency</span>. All rights
+                            reserved.
+                        </p>
+                        <p class="footer-text">
+                            Powered by <span class="footer-brand">Hauser NG</span>
+                        </p>
+                    </div>
+                </footer>
+            </main>
         </div>
 
-        <!-- About Section -->
-        <section id="aboutSection" class="about-section" style="display: none;">
-            <div class="about-container">
-                <span class="section-label">
-                    <i data-lucide="info" style="width: 14px; height: 14px;"></i>
-                    About Us
-                </span>
-                <h2 class="about-title">Who We Are</h2>
-                <p id="aboutText" class="about-text"></p>
-            </div>
-        </section>
-
-        <!-- Contact Section -->
-        <section id="contactSection" class="contact-section" style="display: none;">
-            <div class="contact-grid">
-                <div class="contact-card" id="phoneCard" style="display: none;">
-                    <div class="contact-icon">
-                        <i data-lucide="phone"></i>
-                    </div>
-                    <div class="contact-label">Call Us</div>
-                    <a id="phoneLink" class="contact-link" href=""></a>
-                </div>
-                <div class="contact-card" id="emailCard" style="display: none;">
-                    <div class="contact-icon">
-                        <i data-lucide="mail"></i>
-                    </div>
-                    <div class="contact-label">Email Us</div>
-                    <a id="emailLink" class="contact-link" href=""></a>
-                </div>
-            </div>
-        </section>
-
-        <!-- Properties Section -->
-        <section class="section" id="properties">
-            <div class="section-header">
-                <span class="section-label">
-                    <i data-lucide="building-2" style="width: 14px; height: 14px;"></i>
-                    Our Listings
-                </span>
-                <h2 class="section-title">Available Properties</h2>
-                <p class="section-subtitle">Discover your perfect space from our curated selection of premium properties
-                </p>
-            </div>
-            <div id="propertiesGrid" class="properties-grid"></div>
-        </section>
-
-        <!-- Footer -->
-        <footer class="footer">
-            <div class="footer-content">
-                <p class="footer-text">
-                    <span id="footerYear"></span> &copy; <span id="footerAgencyName">Agency</span>. All rights reserved.
-                </p>
-                <p class="footer-text">
-                    Powered by <span class="footer-brand">Hauser NG</span>
-                </p>
-            </div>
-        </footer>
-
-        <!-- Back to Top Button -->
-        <button class="back-to-top" id="backToTop" aria-label="Back to top">
+        <!-- Back to Top Button (Hidden - Using topbar button instead) -->
+        <button class="back-to-top" id="backToTop" aria-label="Back to top" style="display: none;">
             <i data-lucide="arrow-up"></i>
         </button>
     </div>
@@ -1652,59 +2123,73 @@
             return slug || null;
         }
 
-        // Video controls
-        function setupVideoControls() {
-            const video = document.getElementById('heroVideo');
-            const playPauseBtn = document.getElementById('playPauseBtn');
-            const muteBtn = document.getElementById('muteBtn');
-            const playPauseIcon = document.getElementById('playPauseIcon');
-            const muteIcon = document.getElementById('muteIcon');
+        // Dashboard Menu Toggle
+        function setupDashboardMenu() {
+            const menuToggle = document.getElementById('menuToggle');
+            const sidebar = document.getElementById('sidebar');
+            const sidebarOverlay = document.getElementById('sidebarOverlay');
+            const dashboardMain = document.getElementById('dashboardMain');
 
-            if (!video || video.style.display === 'none') return;
-
-            playPauseBtn.addEventListener('click', () => {
-                if (video.paused) {
-                    video.play();
-                    playPauseIcon.setAttribute('data-lucide', 'pause');
-                } else {
-                    video.pause();
-                    playPauseIcon.setAttribute('data-lucide', 'play');
-                }
-                lucide.createIcons();
-            });
-
-            muteBtn.addEventListener('click', () => {
-                video.muted = !video.muted;
-                muteIcon.setAttribute('data-lucide', video.muted ? 'volume-x' : 'volume-2');
-                lucide.createIcons();
-            });
-        }
-
-        // Back to top button
-        function setupBackToTop() {
-            const backToTop = document.getElementById('backToTop');
-
-            window.addEventListener('scroll', () => {
-                if (window.pageYOffset > 500) {
-                    backToTop.classList.add('show');
-                } else {
-                    backToTop.classList.remove('show');
-                }
-            });
-
-            backToTop.addEventListener('click', () => {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            });
-        }
-
-        // Scroll Effect for Navbar
-        window.addEventListener('scroll', () => {
-            const navbar = document.getElementById('navbar');
-            if (window.scrollY > 50) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.remove('scrolled');
+            if (menuToggle) {
+                menuToggle.addEventListener('click', () => {
+                    sidebar.classList.toggle('active');
+                    sidebarOverlay.classList.toggle('active');
+                    dashboardMain.classList.toggle('expanded');
+                });
             }
+
+            if (sidebarOverlay) {
+                sidebarOverlay.addEventListener('click', () => {
+                    sidebar.classList.remove('active');
+                    sidebarOverlay.classList.remove('active');
+                    dashboardMain.classList.remove('expanded');
+                });
+            }
+
+            // Smooth scroll for navigation
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => {
+                item.addEventListener('click', (e) => {
+                    const href = item.getAttribute('href');
+                    if (href && href.startsWith('#')) {
+                        e.preventDefault();
+                        const target = document.querySelector(href);
+                        if (target) {
+                            target.scrollIntoView({ behavior: 'smooth' });
+                            // Close mobile menu if open
+                            if (window.innerWidth <= 768) {
+                                sidebar.classList.remove('active');
+                                sidebarOverlay.classList.remove('active');
+                            }
+                        }
+                    }
+                });
+            });
+
+            // Scroll to top button in topbar
+            const scrollToTop = document.getElementById('scrollToTop');
+            if (scrollToTop) {
+                scrollToTop.addEventListener('click', () => {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
+            }
+        }
+
+        // Video controls (kept for backwards compatibility but not used in dashboard)
+        function setupVideoControls() {
+            // Disabled in dashboard layout
+            return;
+        }
+
+        // Back to top button (using topbar button instead)
+        function setupBackToTop() {
+            // Disabled in dashboard layout - using topbar button
+            return;
+        }
+
+        // Scroll Effect - Not needed for dashboard
+        window.addEventListener('scroll', () => {
+            // Dashboard doesn't need scroll effects on navbar
         });
 
         // Load Agency Page
@@ -1755,17 +2240,14 @@
                     totalBids += prop.bidsCount || 0;
                 });
 
-                document.getElementById('propertyCount').textContent = properties.length;
-                if (properties.length > 0) {
-                    document.getElementById('statsBar').style.display = 'block';
-                }
+                document.getElementById('statsPropertyCount').textContent = properties.length;
+                document.getElementById('dashboardStats').style.display = 'grid';
 
                 document.getElementById('loadingContainer').style.display = 'none';
                 document.getElementById('mainContent').classList.add('show');
 
                 lucide.createIcons();
-                setupVideoControls();
-                setupBackToTop();
+                setupDashboardMenu();
             } catch (error) {
                 console.error('Error loading agency:', error);
                 showError();
@@ -1780,70 +2262,54 @@
 
             document.title = `${agencyName} - Hauser NG`;
 
+            // Sidebar
             if (data.logoUrl) {
-                document.getElementById('navLogo').src = data.logoUrl;
-                document.getElementById('navLogo').style.display = 'block';
-                document.getElementById('navBrand').style.display = 'none';
+                document.getElementById('sidebarLogo').src = data.logoUrl;
+                document.getElementById('sidebarLogo').style.display = 'block';
+                document.getElementById('sidebarBrand').style.display = 'none';
             } else {
-                document.getElementById('navBrand').textContent = agencyName;
-            }
-
-            if (phone) {
-                document.getElementById('navPhone').href = `tel:${phone}`;
-                document.getElementById('navPhoneText').textContent = phone;
-                document.getElementById('navPhone').style.display = 'flex';
-            }
-
-            if (email) {
-                document.getElementById('navEmail').href = `mailto:${email}`;
-                document.getElementById('navEmailText').textContent = email;
-                document.getElementById('navEmail').style.display = 'flex';
-            }
-
-            document.getElementById('heroTitle').textContent = agencyName;
-
-            if (data.logoUrl) {
-                document.getElementById('heroLogo').src = data.logoUrl;
-                document.getElementById('heroLogoContainer').style.display = 'block';
-            }
-
-            if (data.heroVideoUrl) {
-                const video = document.getElementById('heroVideo');
-                video.src = data.heroVideoUrl;
-                video.style.display = 'block';
-                document.getElementById('videoControls').style.display = 'flex';
-            } else if (data.heroImageUrl) {
-                const img = document.getElementById('heroImage');
-                img.src = data.heroImageUrl;
-                img.style.display = 'block';
+                document.getElementById('sidebarBrand').textContent = agencyName;
             }
 
             if (data.heroTagline) {
-                document.getElementById('heroTagline').textContent = data.heroTagline;
-                document.getElementById('heroTagline').style.display = 'block';
+                document.getElementById('sidebarTagline').textContent = data.heroTagline;
+                document.getElementById('sidebarTagline').style.display = 'block';
             }
 
-            document.getElementById('heroCta').style.display = 'inline-flex';
-
-            if (data.about) {
-                document.getElementById('aboutText').textContent = data.about;
-                document.getElementById('aboutSection').style.display = 'block';
-            }
-
+            // Sidebar Contact
             if (phone || email) {
+                const sidebarFooter = document.getElementById('sidebarFooter');
+                sidebarFooter.style.display = 'block';
+
                 if (phone) {
-                    document.getElementById('phoneLink').textContent = phone;
-                    document.getElementById('phoneLink').href = `tel:${phone}`;
-                    document.getElementById('phoneCard').style.display = 'block';
+                    document.getElementById('sidebarPhone').href = `tel:${phone}`;
+                    document.getElementById('sidebarPhoneText').textContent = phone;
+                    document.getElementById('sidebarPhone').style.display = 'flex';
                 }
+
                 if (email) {
-                    document.getElementById('emailLink').textContent = email;
-                    document.getElementById('emailLink').href = `mailto:${email}`;
-                    document.getElementById('emailCard').style.display = 'block';
+                    document.getElementById('sidebarEmail').href = `mailto:${email}`;
+                    document.getElementById('sidebarEmailText').textContent = email;
+                    document.getElementById('sidebarEmail').style.display = 'flex';
                 }
-                document.getElementById('contactSection').style.display = 'block';
             }
 
+            // Dashboard Hero
+            document.getElementById('heroAgencyName').textContent = agencyName;
+            document.getElementById('topbarTitle').textContent = agencyName;
+
+            if (data.heroTagline || data.about) {
+                document.getElementById('heroDescription').textContent = data.heroTagline || data.about.substring(0, 150) + '...';
+            }
+
+            // About Section Dashboard
+            if (data.about) {
+                document.getElementById('aboutDashboardText').textContent = data.about;
+                document.getElementById('aboutDashboardSection').style.display = 'block';
+                document.getElementById('aboutNavItem').style.display = 'flex';
+            }
+
+            // Footer
             document.getElementById('footerAgencyName').textContent = agencyName;
             document.getElementById('footerYear').textContent = new Date().getFullYear();
         }
