@@ -46,6 +46,8 @@
       --radius-lg: 0.75rem;
       --radius-xl: 1rem;
       --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      --sidebar-width: 280px;
+      --header-height: 64px;
     }
 
     * {
@@ -63,18 +65,15 @@
       font-size: 15px;
     }
 
-    /* Add a loading state */
     body.loading {
       opacity: 0.5;
       pointer-events: none;
     }
 
-    /* Remove loading state when page is ready */
     body.loaded {
       opacity: 1;
       pointer-events: auto;
     }
-
 
     h1,
     h2,
@@ -84,24 +83,39 @@
       letter-spacing: -0.025em;
     }
 
-    /* Navbar */
-    .navbar {
-      background: var(--card-bg);
-      border-bottom: 1px solid var(--border-light);
-      box-shadow: var(--shadow-sm);
-      padding: 0;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
+    /* Layout Container */
+    .dashboard-layout {
+      display: flex;
+      min-height: 100vh;
     }
 
-    .navbar-container {
-      max-width: 1400px;
-      margin: 0 auto;
+    /* Sidebar */
+    .sidebar {
+      width: var(--sidebar-width);
+      background: var(--card-bg);
+      border-right: 1px solid var(--border-light);
+      position: fixed;
+      left: 0;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+      z-index: 1000;
+      transition: transform 0.3s ease;
+      box-shadow: var(--shadow-md);
+    }
+
+    .sidebar.closed {
+      transform: translateX(-100%);
+    }
+
+    /* Sidebar Header */
+    .sidebar-header {
       padding: 1rem 1.5rem;
+      border-bottom: 1px solid var(--border-light);
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      justify-content: space-between;
+      background: linear-gradient(135deg, rgba(234, 88, 12, 0.05), rgba(249, 115, 22, 0.05));
     }
 
     .logo-section {
@@ -123,78 +137,78 @@
     }
 
     .logo-text {
-      font-size: 1.5rem;
+      font-size: 1.25rem;
       font-weight: 700;
       color: var(--slate-800);
     }
 
-    .menu-toggle {
+    .sidebar-toggle {
       display: none;
-      flex-direction: column;
-      gap: 4px;
+      background: none;
+      border: none;
       cursor: pointer;
       padding: 0.5rem;
-      background: transparent;
-      border: none;
+      color: var(--slate-600);
     }
 
-    .menu-toggle span {
+    .sidebar-toggle svg {
       width: 24px;
-      height: 2px;
-      background: var(--primary-orange);
-      border-radius: 2px;
-      transition: var(--transition);
+      height: 24px;
     }
 
-    .nav-links {
+    /* Sidebar Navigation */
+    .sidebar-nav {
+      padding: 1rem 0;
+    }
+
+    .nav-section {
+      margin-bottom: 1.5rem;
+    }
+
+    .nav-section-title {
+      padding: 0.5rem 1.5rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--slate-500);
+    }
+
+    .nav-item {
       display: flex;
       align-items: center;
       gap: 0.75rem;
-      flex-wrap: wrap;
-    }
-
-    /* Nav Button Base Styles */
-    .nav-button {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.5rem 1rem;
-      background: var(--card-bg);
-      border: 1px solid var(--border-light);
-      border-radius: var(--radius-md);
+      padding: 0.75rem 1.5rem;
       color: var(--slate-700);
       text-decoration: none;
-      font-size: 0.9375rem;
-      font-weight: 500;
-      cursor: pointer;
       transition: var(--transition);
       position: relative;
-      box-shadow: var(--shadow-sm);
+      font-weight: 500;
     }
 
-    .nav-button:hover {
+    .nav-item:hover {
       background: var(--slate-100);
-      border-color: var(--primary-orange);
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-md);
+      color: var(--primary-orange);
     }
 
-    .nav-button svg {
-      width: 18px;
-      height: 18px;
+    .nav-item.active {
+      background: linear-gradient(90deg, rgba(234, 88, 12, 0.1), transparent);
+      color: var(--primary-orange);
+      border-right: 3px solid var(--primary-orange);
+    }
+
+    .nav-item svg {
+      width: 20px;
+      height: 20px;
       flex-shrink: 0;
     }
 
-    /* Notification Button - DYNAMIC STATES */
-    .notification-btn {
-      position: relative;
+    .nav-item-text {
+      flex: 1;
     }
 
-    /* Badge */
-    .notification-badge {
-      position: absolute;
-      top: -6px;
-      right: -6px;
+    /* Notification Badge on Nav Item */
+    .nav-badge {
       background: var(--error-red);
       color: white;
       font-size: 0.7rem;
@@ -207,10 +221,9 @@
       justify-content: center;
       padding: 0 6px;
       box-shadow: 0 2px 8px rgba(239, 68, 68, 0.4);
-      z-index: 10;
     }
 
-    .notification-badge.show {
+    .nav-badge.show {
       display: flex;
       animation: badgePop 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     }
@@ -229,27 +242,24 @@
       }
     }
 
-    /* Active Notification State - Pulsing Border & Glow */
-    .notification-btn.has-unread {
-      border-color: var(--error-red);
+    /* Notification Item with Animation */
+    .nav-item.notification-item.has-unread {
       animation: notificationPulse 2s ease-in-out infinite;
-      box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
     }
 
     @keyframes notificationPulse {
 
       0%,
       100% {
-        box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1), var(--shadow-sm);
+        background: linear-gradient(90deg, rgba(239, 68, 68, 0.05), transparent);
       }
 
       50% {
-        box-shadow: 0 0 0 6px rgba(239, 68, 68, 0.2), var(--shadow-md);
+        background: linear-gradient(90deg, rgba(239, 68, 68, 0.1), transparent);
       }
     }
 
-    /* Bell Icon Animation */
-    .notification-btn.has-unread .bell-icon {
+    .nav-item.notification-item.has-unread .bell-icon {
       animation: bellRing 1s ease-in-out infinite;
       transform-origin: center top;
     }
@@ -277,75 +287,181 @@
       }
     }
 
-    /* Badge Pulse */
-    .notification-btn.has-unread .notification-badge {
-      animation: badgePulse 1.5s ease-in-out infinite;
+    /* Premium Badge */
+    .premium-badge {
+      background: linear-gradient(135deg, #fbbf24, #f59e0b);
+      color: white;
+      font-size: 0.65rem;
+      font-weight: 700;
+      padding: 0.15rem 0.5rem;
+      border-radius: 0.25rem;
+      text-transform: uppercase;
+      letter-spacing: 0.025em;
     }
 
-    @keyframes badgePulse {
-
-      0%,
-      100% {
-        transform: scale(1);
-      }
-
-      50% {
-        transform: scale(1.1);
-      }
+    /* Main Content Area */
+    .main-content {
+      flex: 1;
+      margin-left: var(--sidebar-width);
+      min-height: 100vh;
+      transition: margin-left 0.3s ease;
     }
 
-    /* Main Container */
-    .main-container {
-      max-width: 1400px;
-      margin: 0 auto;
-      padding: 2rem 1.5rem;
+    .main-content.expanded {
+      margin-left: 0;
     }
 
-    /* Welcome Section */
-    .welcome-section {
-      margin-bottom: 2rem;
-      padding: 2rem;
+    /* Top Header */
+    .top-header {
       background: var(--card-bg);
-      border-radius: var(--radius-xl);
-      box-shadow: var(--shadow-md);
-      border: 1px solid var(--border-light);
+      border-bottom: 1px solid var(--border-light);
+      padding: 0.75rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: var(--shadow-sm);
+      height: var(--header-height);
     }
 
-    .welcome-title {
-      font-size: clamp(1.75rem, 4vw, 2.5rem);
-      margin-bottom: 0.5rem;
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0.5rem;
+      color: var(--slate-600);
+    }
+
+    .mobile-menu-btn svg {
+      width: 24px;
+      height: 24px;
+    }
+
+    .header-title {
+      font-size: 1.25rem;
+      font-weight: 700;
       color: var(--slate-800);
     }
 
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .user-profile-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: var(--slate-100);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .user-profile-btn:hover {
+      background: var(--slate-200);
+      transform: translateY(-1px);
+    }
+
+    .user-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary-orange), var(--secondary-orange));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 600;
+      font-size: 0.875rem;
+    }
+
+    .user-name {
+      font-weight: 600;
+      color: var(--slate-800);
+    }
+
+    /* Content Container */
+    .content-container {
+      padding: 2rem 1.5rem;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    /* Welcome Banner */
+    .welcome-banner {
+      background: linear-gradient(135deg, var(--primary-orange), var(--secondary-orange));
+      color: white;
+      padding: 2rem;
+      border-radius: var(--radius-xl);
+      margin-bottom: 2rem;
+      box-shadow: var(--shadow-lg);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .welcome-banner::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -10%;
+      width: 300px;
+      height: 300px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+    }
+
+    .welcome-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .welcome-title {
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      margin-bottom: 0.5rem;
+    }
+
     .welcome-subtitle {
-      font-size: 1.0625rem;
-      color: var(--slate-600);
+      font-size: 1rem;
+      opacity: 0.95;
       margin-bottom: 1rem;
     }
 
-    .plan-warning {
-      padding: 1rem;
-      background: rgba(234, 88, 12, 0.1);
-      border-left: 4px solid var(--primary-orange);
+    .plan-notice {
+      display: inline-block;
+      padding: 0.5rem 1rem;
+      background: rgba(255, 255, 255, 0.2);
       border-radius: var(--radius-md);
-      color: var(--slate-700);
-      font-size: 0.9375rem;
+      font-size: 0.875rem;
+      backdrop-filter: blur(10px);
     }
 
     /* Dashboard Grid */
     .dashboard-grid {
       display: grid;
-      grid-template-columns: 350px 1fr;
-      gap: 2rem;
+      grid-template-columns: 320px 1fr;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
     }
 
     /* Section Cards */
-    .section {
+    .section-card {
       background: var(--card-bg);
       border-radius: var(--radius-xl);
-      padding: 2rem;
+      padding: 1.5rem;
       box-shadow: var(--shadow-md);
       border: 1px solid var(--border-light);
+      transition: var(--transition);
+    }
+
+    .section-card:hover {
+      box-shadow: var(--shadow-lg);
     }
 
     .section-header {
@@ -353,27 +469,28 @@
       align-items: center;
       gap: 1rem;
       margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border-light);
     }
 
     .section-icon {
-      width: 48px;
-      height: 48px;
+      width: 40px;
+      height: 40px;
       background: linear-gradient(135deg, var(--primary-orange), var(--secondary-orange));
-      border-radius: var(--radius-lg);
+      border-radius: var(--radius-md);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.5rem;
-      box-shadow: var(--shadow-sm);
+      font-size: 1.25rem;
     }
 
     .section-title {
-      font-size: 1.25rem;
-      margin-bottom: 0.25rem;
+      font-size: 1.125rem;
+      margin-bottom: 0.125rem;
     }
 
     .section-subtitle {
-      font-size: 0.875rem;
+      font-size: 0.8125rem;
       color: var(--slate-500);
     }
 
@@ -381,7 +498,7 @@
     .profile-fields {
       display: flex;
       flex-direction: column;
-      gap: 1rem;
+      gap: 0.875rem;
     }
 
     .profile-field {
@@ -389,10 +506,16 @@
       background: var(--slate-100);
       border-radius: var(--radius-md);
       border: 1px solid var(--border-light);
+      transition: var(--transition);
+    }
+
+    .profile-field:hover {
+      background: var(--slate-50);
+      border-color: var(--primary-orange);
     }
 
     .field-label {
-      font-size: 0.8125rem;
+      font-size: 0.75rem;
       font-weight: 600;
       color: var(--slate-600);
       margin-bottom: 0.25rem;
@@ -401,7 +524,7 @@
     }
 
     .field-value {
-      font-size: 1rem;
+      font-size: 0.9375rem;
       color: var(--slate-800);
       font-weight: 500;
     }
@@ -533,6 +656,12 @@
       border: 2px dashed var(--border-light);
     }
 
+    .empty-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      opacity: 0.5;
+    }
+
     .empty-title {
       font-size: 1.25rem;
       font-weight: 600;
@@ -608,282 +737,362 @@
       }
     }
 
+    /* Overlay for mobile sidebar */
+    .sidebar-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 999;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .sidebar-overlay.active {
+      display: block;
+      opacity: 1;
+    }
+
     /* Responsive Design */
-    @media (max-width: 1024px) {
+    @media (max-width: 1200px) {
       .dashboard-grid {
-        grid-template-columns: 300px 1fr;
-        gap: 1.5rem;
+        grid-template-columns: 280px 1fr;
       }
     }
 
-    @media (max-width: 900px) {
+    @media (max-width: 992px) {
+      :root {
+        --sidebar-width: 260px;
+      }
+
       .dashboard-grid {
         grid-template-columns: 1fr;
       }
     }
 
     @media (max-width: 768px) {
-      .navbar-container {
-        flex-wrap: wrap;
+      .sidebar {
+        transform: translateX(-100%);
       }
 
-      .menu-toggle {
-        display: flex;
-        order: 3;
+      .sidebar.open {
+        transform: translateX(0);
       }
 
-      .nav-links {
-        width: 100%;
-        order: 4;
-        flex-direction: column;
-        align-items: stretch;
-        max-height: 0;
-        overflow: hidden;
-        transition: max-height 0.3s ease;
+      .main-content {
+        margin-left: 0;
       }
 
-      .nav-links.active {
-        max-height: 600px;
-        margin-top: 1rem;
-        padding-top: 1rem;
-        border-top: 1px solid var(--border-light);
+      .mobile-menu-btn {
+        display: block;
       }
 
-      .nav-button {
-        width: 100%;
-        justify-content: space-between;
+      .sidebar-toggle {
+        display: block;
       }
 
-      .main-container {
+      .header-title {
+        font-size: 1.125rem;
+      }
+
+      .user-name {
+        display: none;
+      }
+
+      .content-container {
         padding: 1.5rem 1rem;
       }
 
-      .welcome-section {
+      .welcome-banner {
         padding: 1.5rem;
       }
 
-      .section {
-        padding: 1.5rem;
-      }
-
-      .property-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .logo-icon {
-        width: 36px;
-        height: 36px;
-        font-size: 1.25rem;
-      }
-
-      .logo-text {
-        font-size: 1.25rem;
-      }
-
-      .nav-button {
-        font-size: 0.875rem;
-        padding: 0.5rem 0.875rem;
-      }
-
-      .section-icon {
-        width: 40px;
-        height: 40px;
-        font-size: 1.25rem;
+      .section-card {
+        padding: 1.25rem;
       }
 
       .property-card {
         padding: 1.25rem;
       }
+
+      .property-footer {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .delete-btn {
+        width: 100%;
+        justify-content: center;
+      }
     }
 
-    .logoup {
-      height: 100px;
-      width: auto;
+    @media (max-width: 480px) {
+      .logo-text {
+        font-size: 1rem;
+      }
+
+      .welcome-title {
+        font-size: 1.5rem;
+      }
+
+      .section-icon {
+        width: 36px;
+        height: 36px;
+        font-size: 1.125rem;
+      }
     }
 
-    /* Add this to your existing CSS */
-    /* Ensure the button is hidden when disabled */
-    /* Hide analytics button by default */
-    /* Hide all premium buttons by default */
-    #analyticsBtn,
-    #notificationBtn {
+    /* Hide premium items by default */
+    .nav-item.premium-only {
       display: none;
     }
 
-    /* Show premium buttons only when needed */
-    #analyticsBtn.premium,
-    #notificationBtn.premium {
+    .nav-item.premium-only.show {
       display: flex;
+    }
+
+    /* Logo Image */
+    .logo-img {
+      height: 40px;
+      width: auto;
     }
   </style>
 </head>
 
 <body>
-  <br>
-  <!-- Navbar -->
-  <header class="navbar">
-    <div class="navbar-container">
-      <div class="logo-section">
-        <img src="/img/logo.png" alt="Hauser NG Logo" class="logoup">
+  <!-- Sidebar Overlay -->
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <!-- Dashboard Layout -->
+  <div class="dashboard-layout">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="logo-section">
+          <img src="/img/logo.png" alt="Hauser NG" class="logo-img">
+        </div>
+        <button class="sidebar-toggle" onclick="toggleSidebar()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
       </div>
 
-      <button class="menu-toggle" onclick="toggleMenu()">
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
+      <nav class="sidebar-nav">
+        <div class="nav-section">
+          <div class="nav-section-title">Main</div>
+          <a href="agent-dashboard-improved.html" class="nav-item active">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+              <polyline points="9 22 9 12 15 12 15 22" />
+            </svg>
+            <span class="nav-item-text">Dashboard</span>
+          </a>
 
-      <nav class="nav-links" id="navLinks">
-        <a href="notifications.html" id="notificationBtn" class="nav-button notification-btn">
-          <svg class="bell-icon" viewBox="0 0 448 512" fill="currentColor">
-            <path
-              d="M224 0c-17.7 0-32 14.3-32 32V49.9C119.5 61.4 64 124.2 64 200v33.4c0 45.4-15.5 89.5-43.8 124.9L5.3 377c-5.8 7.2-6.9 17.1-2.9 25.4S14.8 416 24 416H424c9.2 0 17.6-5.3 21.6-13.6s2.9-18.2-2.9-25.4l-14.9-18.6C399.5 322.9 384 278.8 384 233.4V200c0-75.8-55.5-138.6-128-150.1V32c0-17.7-14.3-32-32-32zm0 96h8c57.4 0 104 46.6 104 104v33.4c0 47.9 13.9 94.6 39.7 134.6H72.3C98.1 328 112 281.3 112 233.4V200c0-57.4 46.6-104 104-104h8zm64 352H224 160c0 17 6.7 33.3 18.7 45.3s28.3 18.7 45.3 18.7s33.3-6.7 45.3-18.7s18.7-28.3 18.7-45.3z" />
-          </svg>
-          Notifications
-          <span id="notificationBadge" class="notification-badge">0</span>
-        </a>
+          <a href="add-property.html" id="addPropertyNav" class="nav-item" style="display: none;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="8" x2="12" y2="16" />
+              <line x1="8" y1="12" x2="16" y2="12" />
+            </svg>
+            <span class="nav-item-text">Add Property</span>
+          </a>
 
-        <a href="add-property.html" id="addPropertyLink" class="nav-button" style="display: none;">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-          </svg>
-          Add Property
-        </a>
+          <a href="vacancies.html" class="nav-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+              <path d="M9 22V12h6v10" />
+            </svg>
+            <span class="nav-item-text">Vacancies</span>
+          </a>
+        </div>
 
-        <a href="analytics.html" id="analyticsBtn" class="nav-button">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-          </svg>
-          Analytics
-        </a>
+        <div class="nav-section">
+          <div class="nav-section-title">Premium Features</div>
 
-        <a href="whitelistform.html" id="brandingBtn" class="nav-button">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
-          </svg>
-          Branding
-        </a>
+          <a href="notifications.html" id="notificationNav" class="nav-item notification-item premium-only">
+            <svg class="bell-icon" viewBox="0 0 448 512" fill="currentColor">
+              <path
+                d="M224 0c-17.7 0-32 14.3-32 32V49.9C119.5 61.4 64 124.2 64 200v33.4c0 45.4-15.5 89.5-43.8 124.9L5.3 377c-5.8 7.2-6.9 17.1-2.9 25.4S14.8 416 24 416H424c9.2 0 17.6-5.3 21.6-13.6s2.9-18.2-2.9-25.4l-14.9-18.6C399.5 322.9 384 278.8 384 233.4V200c0-75.8-55.5-138.6-128-150.1V32c0-17.7-14.3-32-32-32zm0 96h8c57.4 0 104 46.6 104 104v33.4c0 47.9 13.9 94.6 39.7 134.6H72.3C98.1 328 112 281.3 112 233.4V200c0-57.4 46.6-104 104-104h8zm64 352H224 160c0 17 6.7 33.3 18.7 45.3s28.3 18.7 45.3 18.7s33.3-6.7 45.3-18.7s18.7-28.3 18.7-45.3z" />
+            </svg>
+            <span class="nav-item-text">Notifications</span>
+            <span id="sidebarBadge" class="nav-badge">0</span>
+          </a>
 
-        <a href="real_estate_subscription.html" class="nav-button">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-          </svg>
-          Upgrade
-        </a>
+          <a href="analytics.html" id="analyticsNav" class="nav-item premium-only">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="12" y1="20" x2="12" y2="10" />
+              <line x1="18" y1="20" x2="18" y2="4" />
+              <line x1="6" y1="20" x2="6" y2="16" />
+            </svg>
+            <span class="nav-item-text">Analytics</span>
+            <span class="premium-badge">Pro</span>
+          </a>
 
-        <a href="vacancies.html" class="nav-button">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-          </svg>
-          Vacancies
-        </a>
+          <a href="whitelistform.html" id="brandingNav" class="nav-item premium-only">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 2L2 7l10 5 10-5-10-5z" />
+              <path d="M2 17l10 5 10-5" />
+              <path d="M2 12l10 5 10-5" />
+            </svg>
+            <span class="nav-item-text">Branding</span>
+            <span class="premium-badge">Pro</span>
+          </a>
+        </div>
 
-        <a href="https://cust.fillout.com/eu" class="nav-button">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-          </svg>
-          support
-        </a>
+        <div class="nav-section">
+          <div class="nav-section-title">Account</div>
 
-        <a href="login.html" class="nav-button">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-          </svg>
-          Logout
-        </a>
+          <a href="real_estate_subscription.html" class="nav-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+            </svg>
+            <span class="nav-item-text">Upgrade Plan</span>
+          </a>
+
+          <a href="https://cust.fillout.com/eu" class="nav-item" target="_blank">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10" />
+              <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+              <line x1="12" y1="17" x2="12.01" y2="17" />
+            </svg>
+            <span class="nav-item-text">Support</span>
+          </a>
+
+          <a href="login.html" class="nav-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+              <polyline points="16 17 21 12 16 7" />
+              <line x1="21" y1="12" x2="9" y2="12" />
+            </svg>
+            <span class="nav-item-text">Logout</span>
+          </a>
+        </div>
       </nav>
-    </div>
-  </header>
+    </aside>
 
-  <!-- Main Content -->
-  <main class="main-container">
-    <!-- Welcome Section -->
-    <div class="welcome-section">
-      <h2 class="welcome-title">Welcome Back!</h2>
-      <p class="welcome-subtitle">Manage your properties and track your success</p>
-      <div class="plan-warning">
-        <strong>Note:</strong> Free users are limited to 2 property listings. Upgrade to premium for unlimited access.
+    <!-- Main Content -->
+    <main class="main-content" id="mainContent">
+      <!-- Top Header -->
+      <header class="top-header">
+        <button class="mobile-menu-btn" onclick="toggleSidebar()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="3" y1="12" x2="21" y2="12" />
+            <line x1="3" y1="6" x2="21" y2="6" />
+            <line x1="3" y1="18" x2="21" y2="18" />
+          </svg>
+        </button>
+
+        <h1 class="header-title">Dashboard</h1>
+
+        <div class="header-actions">
+          <div class="user-profile-btn">
+            <div class="user-avatar" id="userAvatar">A</div>
+            <span class="user-name" id="userName">Agent</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- Content Container -->
+      <div class="content-container">
+        <!-- Welcome Banner -->
+        <div class="welcome-banner">
+          <div class="welcome-content">
+            <h2 class="welcome-title">Welcome Back, <span id="welcomeName">Agent</span>! 👋</h2>
+            <p class="welcome-subtitle">Manage your properties and grow your real estate business</p>
+            <div class="plan-notice">
+              <strong>💡 Tip:</strong> Free users can list up to 2 properties. Upgrade for unlimited access!
+            </div>
+          </div>
+        </div>
+
+        <!-- Dashboard Grid -->
+        <div class="dashboard-grid">
+          <!-- Profile Section -->
+          <section class="section-card">
+            <div class="section-header">
+              <div class="section-icon"></div>
+              <div>
+                <h3 class="section-title">Agent Profile</h3>
+                <p class="section-subtitle">Your account information</p>
+              </div>
+            </div>
+
+            <div class="profile-fields">
+              <div class="profile-field">
+                <div class="field-label">Full Name</div>
+                <div class="field-value" id="profileName">Loading...</div>
+              </div>
+
+              <div class="profile-field">
+                <div class="field-label">Email Address</div>
+                <div class="field-value" id="profileEmail">Loading...</div>
+              </div>
+
+              <div class="profile-field">
+                <div class="field-label">Role</div>
+                <div class="field-value" id="profileRole">Loading...</div>
+              </div>
+
+              <div class="profile-field plan-field">
+                <div class="field-label">Subscription Plan</div>
+                <div class="field-value" id="profilePlan">Loading...</div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Properties Section -->
+          <section class="section-card">
+            <div class="section-header">
+              <div class="section-icon"></div>
+              <div>
+                <h3 class="section-title">Property Listings</h3>
+                <p class="section-subtitle">Manage your active properties</p>
+              </div>
+            </div>
+
+            <div class="loader" id="propertyLoader">
+              <div class="loader-circle"></div>
+              <div class="loader-circle"></div>
+              <div class="loader-circle"></div>
+            </div>
+
+            <div id="propertyList" class="property-grid"></div>
+          </section>
+        </div>
       </div>
-    </div>
-
-    <div class="dashboard-grid">
-      <!-- Profile Section -->
-      <section class="section">
-        <div class="section-header">
-          <div class="section-icon"></div>
-          <div>
-            <h3 class="section-title">Agent Profile</h3>
-            <p class="section-subtitle">Your account details</p>
-          </div>
-        </div>
-
-        <div class="profile-fields">
-          <div class="profile-field">
-            <div class="field-label">Name</div>
-            <div class="field-value" id="profileName">Loading...</div>
-          </div>
-
-          <div class="profile-field">
-            <div class="field-label">Email</div>
-            <div class="field-value" id="profileEmail">Loading...</div>
-          </div>
-
-          <div class="profile-field">
-            <div class="field-label">Role</div>
-            <div class="field-value" id="profileRole">Loading...</div>
-          </div>
-
-          <div class="profile-field plan-field">
-            <div class="field-label">Plan</div>
-            <div class="field-value" id="profilePlan">Loading...</div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Properties Section -->
-      <section class="section">
-        <div class="section-header">
-          <div class="section-icon"></div>
-          <div>
-            <h3 class="section-title">Property Listings</h3>
-            <p class="section-subtitle">Your active properties</p>
-          </div>
-        </div>
-
-        <div class="loader" id="propertyLoader">
-          <div class="loader-circle"></div>
-          <div class="loader-circle"></div>
-          <div class="loader-circle"></div>
-        </div>
-
-        <div id="propertyList" class="property-grid"></div>
-      </section>
-    </div>
-  </main>
+    </main>
+  </div>
 
   <script>
-    // Mobile menu toggle
-
-    // Add this to your page load function
+    // Initialize
     document.body.classList.add("loading");
 
-    // When your JavaScript is ready
     window.addEventListener("load", function () {
       document.body.classList.remove("loading");
       document.body.classList.add("loaded");
     });
 
+    // Sidebar toggle
+    function toggleSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      const overlay = document.getElementById('sidebarOverlay');
+      const mainContent = document.getElementById('mainContent');
 
-    function toggleMenu() {
-      document.getElementById('navLinks').classList.toggle('active');
+      sidebar.classList.toggle('open');
+      overlay.classList.toggle('active');
+
+      if (window.innerWidth > 768) {
+        sidebar.classList.toggle('closed');
+        mainContent.classList.toggle('expanded');
+      }
     }
+
+    // Close sidebar when clicking overlay
+    document.getElementById('sidebarOverlay').addEventListener('click', toggleSidebar);
 
     // Firebase config
     const firebaseConfig = {
@@ -900,14 +1109,12 @@
 
     let currentUserData = null;
 
-    // Auth state 
+    // Auth state
     auth.onAuthStateChanged(user => {
       if (user) {
-        // Check if user has clicked notifications before (even in previous session)
         const lastViewed = localStorage.getItem('lastNotificationView_' + user.uid);
         if (lastViewed) {
           hasClickedNotifications = true;
-          //console.log('📝 User has viewed notifications before');
         }
 
         loadUserProfile(user.uid);
@@ -925,37 +1132,51 @@
           const data = doc.data();
           currentUserData = data;
 
-          document.getElementById("profileName").textContent = data.name || "Unnamed";
-          document.getElementById("profileEmail").textContent = data.email || "Unknown";
-          document.getElementById("profileRole").textContent = data.role || "Agent";
-          document.getElementById("profilePlan").textContent = (data.plan || "free").toUpperCase();
+          const name = data.name || "Agent";
+          const email = data.email || "Unknown";
+          const role = data.role || "Agent";
+          const plan = (data.plan || "free").toUpperCase();
+
+          // Update profile section
+          document.getElementById("profileName").textContent = name;
+          document.getElementById("profileEmail").textContent = email;
+          document.getElementById("profileRole").textContent = role;
+          document.getElementById("profilePlan").textContent = plan;
+
+          // Update header
+          document.getElementById("welcomeName").textContent = name.split(' ')[0];
+          document.getElementById("userName").textContent = name.split(' ')[0];
+          document.getElementById("userAvatar").textContent = name.charAt(0).toUpperCase();
 
           checkAddPropertyPermission(data);
         }
       });
     }
 
-    // Check if user can add properties
+    // Check permissions
     function checkAddPropertyPermission(data) {
-      const addLink = document.getElementById("addPropertyLink");
-      const notlink = document.getElementById("notificationBtn");
-      const analyticslink = document.getElementById("analyticsBtn");
+      const addPropertyNav = document.getElementById("addPropertyNav");
+      const notificationNav = document.getElementById("notificationNav");
+      const analyticsNav = document.getElementById("analyticsNav");
+      const brandingNav = document.getElementById("brandingNav");
 
       const plan = data.plan || "free";
       const listingsCount = data.listingsCount || 0;
 
-      // Show add property link unless user is on free plan with 2+ listings
+      // Show add property if not at limit
       if (!(plan === "free" && listingsCount >= 2)) {
-        addLink.style.display = "flex";
-      };
+        addPropertyNav.style.display = "flex";
+      }
 
-
-      // Premium-only features
+      // Show premium features
       const isPremium = plan === "premium";
-      analyticslink.classList.toggle("premium", isPremium);
-      notlink.classList.toggle("premium", isPremium);
-      brandinglink.classList.toggle("premium", isPremium);
+      if (isPremium) {
+        notificationNav.classList.add("show");
+        analyticsNav.classList.add("show");
+        brandingNav.classList.add("show");
+      }
     }
+
     // Load properties
     function loadListings(uid) {
       const list = document.getElementById('propertyList');
@@ -970,11 +1191,14 @@
           if (snapshot.empty) {
             list.innerHTML = `
               <div class="empty-state">
-                <p class="empty-title">No properties listed yet</p>
-                <p class="empty-subtitle">Start by adding your first property!</p>
+                <div class="empty-icon">🏘️</div>
+                <p class="empty-title">No Properties Listed Yet</p>
+                <p class="empty-subtitle">Start building your portfolio by adding your first property!</p>
                 <a href="add-property.html" class="add-property-btn">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <line x1="12" y1="8" x2="12" y2="16"/>
+                    <line x1="8" y1="12" x2="16" y2="12"/>
                   </svg>
                   Add Your First Property
                 </a>
@@ -992,7 +1216,8 @@
           console.error('Error loading listings:', error);
           list.innerHTML = `
             <div class="empty-state">
-              <p class="empty-title">Error loading properties</p>
+              <div class="empty-icon">⚠️</div>
+              <p class="empty-title">Error Loading Properties</p>
               <p class="empty-subtitle">Please refresh the page to try again</p>
             </div>
           `;
@@ -1006,21 +1231,22 @@
       card.className = 'property-card';
 
       card.innerHTML = `
-        <div class="property-title">${p.title || "Untitled"}</div>
+        <div class="property-title">${p.title || "Untitled Property"}</div>
         <div class="property-price-location">
           <span class="property-price">₦${(p.price || 0).toLocaleString()}</span>
           <span class="property-separator">•</span>
-          <span class="property-location">${p.location || "Unknown"}</span>
+          <span class="property-location">${p.location || "Unknown Location"}</span>
         </div>
-        <p class="property-description">${p.description || "No description."}</p>
+        <p class="property-description">${p.description || "No description available."}</p>
         <div class="property-footer">
           <div class="footer-info">
             <div class="property-id">ID: ${doc.id.substring(0, 8)}...</div>
-            <div class="property-clicks">Clicks: <span id="clicks-${doc.id}">...</span></div>
+            <div class="property-clicks">👁️ Views: <span id="clicks-${doc.id}">...</span></div>
           </div>
           <button class="delete-btn" data-id="${doc.id}">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="3 6 5 6 21 6"/>
+              <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
             </svg>
             Delete
           </button>
@@ -1048,7 +1274,7 @@
 
           loadListings(uid);
         } catch (error) {
-          alert('Failed to delete property.');
+          alert('Failed to delete property. Please try again.');
           console.error('Delete error:', error);
         }
       });
@@ -1068,40 +1294,31 @@
         });
     }
 
-    // ===== FIXED NOTIFICATION SYSTEM - USES BIDS COLLECTION =====
+    // Notification system
     let notificationListenerUnsubscribe = null;
-    let hasClickedNotifications = false; // Track if user has clicked
+    let hasClickedNotifications = false;
 
     function listenForUnreadNotifications(uid) {
-      const badge = document.getElementById("notificationBadge");
-      const btn = document.getElementById("notificationBtn");
+      const badge = document.getElementById("sidebarBadge");
+      const navItem = document.getElementById("notificationNav");
 
-      // console.log('🔔 Setting up notification listener for UID:', uid);
-
-      // Check localStorage to see if user has already viewed notifications
       const lastViewedTime = localStorage.getItem('lastNotificationView_' + uid);
 
-      // Real-time listener for unread bids (notifications)
       notificationListenerUnsubscribe = db.collection("bids")
         .where("listingOwnerUid", "==", uid)
         .where("status", "==", "unread")
         .onSnapshot((snapshot) => {
           const count = snapshot.size;
-          //console.log('🔔 Unread bids (notifications):', count);
 
-          // Only show animations if user hasn't clicked the button this session
           if (!hasClickedNotifications) {
-            updateNotificationUI(count, badge, btn);
+            updateNotificationUI(count, badge, navItem);
           } else {
-            // User has clicked - keep animations off even if there are unread
             badge.classList.remove('show');
-            btn.classList.remove('has-unread');
+            navItem.classList.remove('has-unread');
           }
         }, error => {
-          console.error('❌ Bid listener error:', error);
-          //   console.log('💡 Trying fallback without compound query...');
+          console.error('Notification listener error:', error);
 
-          // Fallback: Listen to all bids for this user and filter client-side
           notificationListenerUnsubscribe = db.collection("bids")
             .where("listingOwnerUid", "==", uid)
             .onSnapshot((snapshot) => {
@@ -1110,42 +1327,27 @@
                 return data.status === 'unread';
               }).length;
 
-              // console.log('🔔 Fallback method - Unread count:', unreadCount);
-
               if (!hasClickedNotifications) {
-                updateNotificationUI(unreadCount, badge, btn);
+                updateNotificationUI(unreadCount, badge, navItem);
               } else {
                 badge.classList.remove('show');
-                btn.classList.remove('has-unread');
+                navItem.classList.remove('has-unread');
               }
             });
         });
     }
 
-    function updateNotificationUI(count, badge, btn) {
+    function updateNotificationUI(count, badge, navItem) {
       if (count > 0) {
-        // Show badge with count
         badge.textContent = count > 99 ? '99+' : count;
         badge.classList.add('show');
-
-        // Activate visual effects
-        btn.classList.add('has-unread');
-
-        // Update page title
+        navItem.classList.add('has-unread');
         document.title = `(${count}) Dashboard - Hauser NG`;
-
-        // Play subtle notification sound
         playNotificationSound();
-
       } else {
-        // Hide badge
         badge.classList.remove('show');
-
-        // Remove visual effects
-        btn.classList.remove('has-unread');
-
-        // Reset page title
-        document.title = 'Agent Dashboard - Hauser NG';
+        navItem.classList.remove('has-unread');
+        document.title = 'Dashboard - Hauser NG';
       }
     }
 
@@ -1155,12 +1357,12 @@
         audio.volume = 0.2;
         audio.play().catch(() => { });
       } catch (e) {
-        // Silently fail if audio not supported
+        // Silently fail
       }
     }
 
-    // Navigate to notifications page and permanently stop animations
-    document.getElementById('notificationBtn').addEventListener('click', async (e) => {
+    // Handle notification click
+    document.getElementById('notificationNav').addEventListener('click', async (e) => {
       e.preventDefault();
 
       const uid = auth.currentUser?.uid;
@@ -1169,22 +1371,17 @@
         return;
       }
 
-      // Set flag to prevent animations from coming back
       hasClickedNotifications = true;
-
-      // Save to localStorage so it persists across page reloads
       localStorage.setItem('lastNotificationView_' + uid, Date.now().toString());
 
-      // Instant visual feedback - remove effects immediately
-      const badge = document.getElementById("notificationBadge");
-      const btn = document.getElementById("notificationBtn");
+      const badge = document.getElementById("sidebarBadge");
+      const navItem = document.getElementById("notificationNav");
 
       badge.classList.remove('show');
-      btn.classList.remove('has-unread');
-      document.title = 'Agent Dashboard - Hauser NG';
+      navItem.classList.remove('has-unread');
+      document.title = 'Dashboard - Hauser NG';
 
       try {
-        // Mark all unread bids as read in background
         const snapshot = await db.collection("bids")
           .where("listingOwnerUid", "==", uid)
           .where("status", "==", "unread")
@@ -1199,14 +1396,20 @@
             });
           });
           await batch.commit();
-          //console.log('✅ Marked', snapshot.size, 'bids as read');
         }
       } catch (error) {
-        console.error('Error marking bids as read:', error);
+        console.error('Error marking notifications as read:', error);
       }
 
-      // Navigate to notifications page
       window.location.href = 'notifications.html';
+    });
+
+    // Handle responsive behavior
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 768) {
+        document.getElementById('sidebarOverlay').classList.remove('active');
+        document.getElementById('sidebar').classList.remove('open');
+      }
     });
   </script>
 </body>
