@@ -101,13 +101,13 @@
       }
     }
 
-    /* Header - Enhanced Responsive */
+    /* Header - Compact Design with Dropdown */
     .header {
       background: rgba(255, 255, 255, 0.95);
       backdrop-filter: blur(20px) saturate(180%);
       border-bottom: 1px solid var(--border);
       box-shadow: var(--shadow-md), 0 1px 0 rgba(0, 0, 0, 0.02) inset;
-      padding: 0.8rem 0;
+      padding: 0.5rem 0;
       position: sticky;
       top: 0;
       z-index: 1000;
@@ -136,93 +136,114 @@
     }
 
     .logo-img {
-      height: 45px;
-      width: 45px;
-      border-radius: var(--radius);
-      box-shadow: 0 4px 20px rgba(249, 115, 22, .3);
-      background: var(--accent);
-      flex-shrink: 0;
+      height: 50px;
+      width: auto;
+      object-fit: contain;
     }
 
-    .logo-text {
-      font-size: 1.5rem;
-      font-weight: bold;
-      background: linear-gradient(to right, var(--text-primary), var(--accent-light));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      white-space: nowrap;
-    }
-
-    /* Mobile Menu Toggle */
+    /* Dropdown Menu Toggle Button */
     .menu-toggle {
-      display: none;
+      display: flex;
       flex-direction: column;
+      justify-content: center;
+      align-items: center;
       gap: 0.3rem;
       cursor: pointer;
-      padding: 0.5rem;
-      background: transparent;
+      padding: 0.6rem;
+      background: var(--accent);
       border: none;
+      border-radius: var(--radius);
+      transition: var(--transition);
+      position: relative;
+      width: 45px;
+      height: 45px;
+    }
+
+    .menu-toggle:hover {
+      background: var(--accent-dark);
+      transform: scale(1.05);
     }
 
     .menu-toggle span {
-      width: 25px;
-      height: 3px;
-      background: var(--accent);
+      width: 22px;
+      height: 2.5px;
+      background: white;
       border-radius: 2px;
       transition: var(--transition);
     }
 
+    .menu-toggle.active span:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 5px);
+    }
+
+    .menu-toggle.active span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .menu-toggle.active span:nth-child(3) {
+      transform: rotate(-45deg) translate(5px, -5px);
+    }
+
+    /* Dropdown Navigation Menu */
     .nav-menu {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      flex-wrap: wrap;
+      position: absolute;
+      top: 100%;
+      right: 0;
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(20px) saturate(180%);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-lg);
+      min-width: 220px;
+      overflow: hidden;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-10px);
+      transition: var(--transition);
+      z-index: 999;
+      margin-top: 0.5rem;
+      margin-right: 1rem;
+    }
+
+    .nav-menu.active {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
     }
 
     .nav-link {
       color: var(--text-secondary);
       text-decoration: none;
       font-weight: 500;
-      padding: 0.5rem 0.75rem;
-      border-radius: var(--radius);
+      padding: 0.9rem 1.25rem;
       transition: var(--transition);
       display: flex;
       align-items: center;
-      gap: 0.4rem;
-      white-space: nowrap;
-      font-size: 0.9rem;
+      gap: 0.6rem;
+      font-size: 0.95rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-link:last-child {
+      border-bottom: none;
     }
 
     .nav-link:hover {
       color: var(--accent);
+      background: rgba(249, 115, 22, 0.08);
+      padding-left: 1.5rem;
+    }
+
+    .nav-link.active {
+      color: var(--accent);
       background: rgba(249, 115, 22, 0.1);
+      font-weight: 600;
     }
 
     .nav-link i {
-      font-size: 1rem;
-    }
-
-    .login-btn {
-      background: rgba(249, 115, 22, .2);
-      color: var(--accent);
-      border: 1px solid var(--accent);
-      border-radius: var(--radius);
-      padding: 0.5rem 1rem;
-      font-weight: 500;
-      cursor: pointer;
-      transition: var(--transition);
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      text-decoration: none;
-      font-size: 0.9rem;
-      white-space: nowrap;
-    }
-
-    .login-btn:hover {
-      background: rgba(249, 115, 22, .3);
-      transform: translateY(-2px);
+      font-size: 1.1rem;
+      width: 20px;
+      text-align: center;
     }
 
     /* Main Layout */
@@ -258,22 +279,22 @@
 
     .content-grid {
       display: grid;
-      grid-template-columns: 300px 1fr;
+      grid-template-columns: 320px 1fr;
       gap: 1.5rem;
       align-items: start;
     }
 
-    /* Filter Sidebar - Enhanced Responsive */
+    /* Filter Sidebar - Enhanced */
     .filter-sidebar {
       background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(249, 249, 249, 0.9) 100%);
       backdrop-filter: blur(20px) saturate(180%);
       border: 1px solid var(--border);
       border-radius: var(--radius-xl);
-      padding: 1.25rem;
+      padding: 1.5rem;
       box-shadow: var(--shadow-md), 0 1px 0 rgba(0, 0, 0, 0.02) inset;
       height: fit-content;
       position: sticky;
-      top: 100px;
+      top: 90px;
       transition: var(--transition);
     }
 
@@ -283,19 +304,21 @@
     }
 
     .filter-header {
-      margin-bottom: 1.25rem;
+      margin-bottom: 1.5rem;
       display: flex;
       align-items: center;
       gap: 0.75rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid var(--border);
     }
 
     .filter-header i {
       color: var(--accent);
-      font-size: 1.25rem;
+      font-size: 1.4rem;
     }
 
     .filter-title {
-      font-size: 1.25rem;
+      font-size: 1.35rem;
       font-weight: bold;
     }
 
@@ -305,17 +328,17 @@
 
     .filter-label {
       display: block;
-      margin-bottom: 0.5rem;
-      font-weight: 500;
+      margin-bottom: 0.6rem;
+      font-weight: 600;
       color: var(--text-primary);
-      font-size: 0.9rem;
+      font-size: 0.92rem;
     }
 
     .filter-input {
       width: 100%;
-      padding: 0.75rem 1rem;
-      background: rgba(255, 255, 255, 0.8);
-      border: 1px solid var(--border);
+      padding: 0.85rem 1rem;
+      background: rgba(255, 255, 255, 0.9);
+      border: 1.5px solid var(--border);
       border-radius: var(--radius);
       color: var(--text-primary);
       font-size: 0.95rem;
@@ -335,7 +358,7 @@
 
     .search-btn {
       width: 100%;
-      padding: 0.85rem;
+      padding: 0.95rem;
       background: var(--accent);
       color: #fff;
       border: none;
@@ -347,13 +370,38 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 0.5rem;
+      gap: 0.6rem;
+      margin-top: 1.5rem;
     }
 
     .search-btn:hover {
       background: var(--accent-dark);
       transform: translateY(-2px);
       box-shadow: 0 4px 15px rgba(249, 115, 22, .3);
+    }
+
+    .clear-filters-btn {
+      width: 100%;
+      padding: 0.75rem;
+      background: transparent;
+      color: var(--text-secondary);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      font-weight: 500;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-top: 0.75rem;
+    }
+
+    .clear-filters-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(249, 115, 22, 0.05);
     }
 
     /* Property Grid - Fully Responsive */
@@ -527,7 +575,7 @@
       font-size: 0.85rem;
     }
 
-    /* Modal - Enhanced Responsive */
+    /* Modal */
     .modal-overlay {
       position: fixed;
       inset: 0;
@@ -885,21 +933,11 @@
       }
 
       .filter-sidebar {
-        top: 85px;
+        top: 75px;
       }
 
       .property-grid {
         grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-      }
-
-      .nav-menu {
-        gap: 0.5rem;
-      }
-
-      .nav-link,
-      .login-btn {
-        font-size: 0.85rem;
-        padding: 0.45rem 0.7rem;
       }
     }
 
@@ -922,39 +960,6 @@
 
     /* Tablet - Small / Mobile - Large (768px and below) */
     @media (max-width: 768px) {
-      .header-container {
-        flex-wrap: wrap;
-      }
-
-      .menu-toggle {
-        display: flex;
-        order: 3;
-      }
-
-      .nav-menu {
-        width: 100%;
-        order: 4;
-        flex-direction: column;
-        align-items: stretch;
-        max-height: 0;
-        overflow: hidden;
-        transition: max-height 0.3s ease;
-      }
-
-      .nav-menu.active {
-        max-height: 500px;
-        margin-top: 1rem;
-        padding-top: 1rem;
-        border-top: 1px solid var(--border);
-      }
-
-      .nav-link,
-      .login-btn {
-        width: 100%;
-        justify-content: center;
-        padding: 0.75rem 1rem;
-      }
-
       .container {
         margin: 1.5rem auto;
         padding: 0 0.75rem;
@@ -975,11 +980,11 @@
       }
 
       .filter-sidebar {
-        padding: 1rem;
+        padding: 1.25rem;
       }
 
       .filter-header {
-        margin-bottom: 1rem;
+        margin-bottom: 1.25rem;
       }
 
       .filter-group {
@@ -998,17 +1003,12 @@
 
     /* Mobile - Medium (576px and below) */
     @media (max-width: 576px) {
-      .logo-text {
-        font-size: 1.25rem;
-      }
-
       .logo-img {
-        height: 40px;
-        width: 40px;
+        height: 45px;
       }
 
       .header {
-        padding: 0.6rem 0;
+        padding: 0.4rem 0;
       }
 
       .container {
@@ -1038,6 +1038,7 @@
 
       .filter-sidebar {
         border-radius: var(--radius);
+        padding: 1rem;
       }
 
       .modal {
@@ -1065,13 +1066,8 @@
         padding: 0 0.75rem;
       }
 
-      .logo-text {
-        font-size: 1.1rem;
-      }
-
       .logo-img {
-        height: 35px;
-        width: 35px;
+        height: 40px;
       }
 
       .page-title {
@@ -1133,57 +1129,19 @@
         padding: 0.6rem 0.85rem;
       }
     }
-
-    /* Utils */
-    .mt-1 {
-      margin-top: 0.25rem;
-    }
-
-    .mt-2 {
-      margin-top: 0.5rem;
-    }
-
-    .mt-3 {
-      margin-top: 0.75rem;
-    }
-
-    .mt-4 {
-      margin-top: 1rem;
-    }
-
-    .mb-1 {
-      margin-bottom: 0.25rem;
-    }
-
-    .mb-2 {
-      margin-bottom: 0.5rem;
-    }
-
-    .mb-3 {
-      margin-bottom: 0.75rem;
-    }
-
-    .mb-4 {
-      margin-bottom: 1rem;
-    }
-
-    .logoup {
-      height: 100px;
-      width: auto;
-    }
   </style>
 </head>
 
 <body>
 
-  <!-- Header -->
+  <!-- Header with Dropdown Navigation -->
   <header class="header">
     <div class="header-container">
       <div class="logo-section">
-        <img src="/img/logo.png" alt="Hauser NG Logo" class="logoup">
+        <img src="/img/logo.png" alt="Hauser NG Logo" class="logo-img">
       </div>
 
-      <button class="menu-toggle" onclick="toggleMenu()">
+      <button class="menu-toggle" onclick="toggleMenu()" aria-label="Toggle Navigation Menu">
         <span></span>
         <span></span>
         <span></span>
@@ -1193,8 +1151,8 @@
         <a href="index.html" class="nav-link"><i class="fas fa-home"></i> Home</a>
         <a href="about-us.html" class="nav-link"><i class="fas fa-info-circle"></i> About</a>
         <a href="vacancies.html" class="nav-link active"><i class="fas fa-search"></i> Find a Home</a>
-        <a href="login.html" class="login-btn"><i class="fas fa-sign-in-alt"></i> Login</a>
-        <a href="signup.html" class="login-btn"><i class="fas fa-user-plus"></i> Sign Up</a>
+        <a href="login.html" class="nav-link"><i class="fas fa-sign-in-alt"></i> Login</a>
+        <a href="signup.html" class="nav-link"><i class="fas fa-user-plus"></i> Sign Up</a>
       </nav>
     </div>
   </header>
@@ -1206,8 +1164,6 @@
       <p class="page-subtitle">Discover verified properties and premium listings across Nigeria</p>
     </div>
 
-
-
     <div class="content-grid">
       <!-- Filter Sidebar -->
       <aside class="filter-sidebar">
@@ -1218,7 +1174,7 @@
 
         <form class="search-form" onsubmit="return false;">
           <div class="filter-group">
-            <label class="filter-label">Search by Title or Keyword</label>
+            <label class="filter-label">Search by Name</label>
             <input type="text" id="searchInput" class="filter-input" placeholder="e.g. Duplex, Apartment...">
           </div>
 
@@ -1228,9 +1184,7 @@
           </div>
 
           <div class="filter-group">
-            <label class="filter-label">Filter by Location</label>
-
-            <!-- State Dropdown -->
+            <label class="filter-label">Filter by State</label>
             <select id="stateInput" class="filter-input">
               <option value="" selected>All States</option>
               <option value="abia">Abia</option>
@@ -1271,15 +1225,21 @@
               <option value="yobe">Yobe</option>
               <option value="zamfara">Zamfara</option>
             </select>
+          </div>
 
-            <!-- LGA Dropdown -->
-            <select id="locationInput" class="filter-input" disabled style="margin-top: 0.5rem;">
+          <div class="filter-group">
+            <label class="filter-label">Filter by LGA</label>
+            <select id="locationInput" class="filter-input" disabled>
               <option value="" selected>All LGAs</option>
             </select>
           </div>
 
           <button class="search-btn" type="button">
             <i class="fas fa-search"></i> Search Properties
+          </button>
+
+          <button class="clear-filters-btn" type="button">
+            <i class="fas fa-times-circle"></i> Clear Filters
           </button>
         </form>
       </aside>
@@ -1338,11 +1298,24 @@
   <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-auth-compat.js"></script>
 
   <script>
-    // Mobile menu toggle
+    // Mobile menu toggle with animation
     function toggleMenu() {
       const navMenu = document.getElementById('navMenu');
+      const menuToggle = document.querySelector('.menu-toggle');
       navMenu.classList.toggle('active');
+      menuToggle.classList.toggle('active');
     }
+
+    // Close menu when clicking outside
+    document.addEventListener('click', function (event) {
+      const navMenu = document.getElementById('navMenu');
+      const menuToggle = document.querySelector('.menu-toggle');
+
+      if (!navMenu.contains(event.target) && !menuToggle.contains(event.target)) {
+        navMenu.classList.remove('active');
+        menuToggle.classList.remove('active');
+      }
+    });
 
     // Firebase config
     const firebaseConfig = {
@@ -1362,6 +1335,7 @@
     const locationInput = document.getElementById('locationInput');
     const stateInput = document.getElementById('stateInput');
     const searchBtn = document.querySelector('.search-btn');
+    const clearFiltersBtn = document.querySelector('.clear-filters-btn');
 
     let allProperties = [];
 
@@ -1470,14 +1444,15 @@
             >
               Bid / Negotiate
             </button>
-              <button
+            <button
               class="bid-btn2"
               data-listing-id="${p.id}"
               data-owner-uid="${p.uid}"
               data-title="${p.title}"
             >
-          <a class="fuck" href="https://cust.fillout.com/t/bJuJAU1vYGus">
-              Flag/Report this Post</a>
+              <a class="fuck" href="https://cust.fillout.com/t/bJuJAU1vYGus">
+                Flag/Report this Post
+              </a>
             </button>
             <div class="detail-item">
               <span class="detail-label">Property ID:</span>
@@ -1561,6 +1536,7 @@
       }
     }
 
+    // Enhanced filter function with comprehensive matching
     function applyFilters() {
       const query = searchInput.value.trim().toLowerCase();
       const maxPrice = parseFloat(priceInput.value);
@@ -1571,16 +1547,23 @@
         const title = (p.title || '').toLowerCase();
         const location = (p.location || '').toLowerCase();
         const state = (p.state || '').toLowerCase();
+        const description = (p.description || '').toLowerCase();
         const price = Number(p.price) || 0;
 
+        // Search by name (title) - matches title, description, and keywords
         const matchesSearch = !query ||
           title.includes(query) ||
+          description.includes(query) ||
           location.includes(query) ||
           state.includes(query);
 
+        // Filter by max price
         const matchesPrice = isNaN(maxPrice) || price <= maxPrice;
+
+        // Filter by LGA
         const matchesLGA = !selectedLGA || location.includes(selectedLGA);
 
+        // Filter by state (only if no LGA is selected)
         const stateOnly = selectedState && !selectedLGA;
         const stateToken = selectedState.replace(/-/g, ' ');
         const matchesStateOnly = !stateOnly ||
@@ -1595,6 +1578,17 @@
       renderProperties(filtered);
     }
 
+    // Clear all filters
+    function clearFilters() {
+      searchInput.value = '';
+      priceInput.value = '';
+      stateInput.value = '';
+      locationInput.value = '';
+      locationInput.disabled = true;
+      applyFilters();
+    }
+
+    // Load properties from Firebase
     db.collection('properties')
       .orderBy('createdAt', 'asc')
       .onSnapshot(snapshot => {
@@ -1606,6 +1600,7 @@
           return data;
         });
 
+        // Sort properties: premium first, then by priority, then by date
         allProperties.sort((a, b) => {
           if (a.plan === 'premium' && b.plan !== 'premium') return -1;
           if (a.plan !== 'premium' && b.plan === 'premium') return 1;
@@ -1618,11 +1613,16 @@
         applyFilters();
       });
 
+    // Event listeners for real-time filtering
     searchInput.addEventListener('input', applyFilters);
     priceInput.addEventListener('input', applyFilters);
     locationInput.addEventListener('change', applyFilters);
-    stateInput.addEventListener('change', () => { populateLGAs(); applyFilters(); });
+    stateInput.addEventListener('change', () => {
+      populateLGAs();
+      applyFilters();
+    });
     searchBtn.addEventListener('click', applyFilters);
+    clearFiltersBtn.addEventListener('click', clearFilters);
 
     populateLGAs();
 

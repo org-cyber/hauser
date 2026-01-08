@@ -708,15 +708,13 @@
     /* Hide analytics button by default */
     /* Hide all premium buttons by default */
     #analyticsBtn,
-    #notificationBtn,
-    #brandingBtn {
+    #notificationBtn {
       display: none;
     }
 
     /* Show premium buttons only when needed */
     #analyticsBtn.premium,
-    #notificationBtn.premium,
-    #brandingBtn.premium {
+    #notificationBtn.premium {
       display: flex;
     }
   </style>
@@ -942,7 +940,7 @@
       const addLink = document.getElementById("addPropertyLink");
       const notlink = document.getElementById("notificationBtn");
       const analyticslink = document.getElementById("analyticsBtn");
-      const brandinglink = document.getElementById("brandingBtn");
+
       const plan = data.plan || "free";
       const listingsCount = data.listingsCount || 0;
 
