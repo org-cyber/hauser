@@ -1171,6 +1171,66 @@
         padding: 0.6rem 0.85rem;
       }
     }
+
+
+    /* Geo-pulse loader animation */
+    .geo-pulse {
+      width: 48px;
+      height: 48px;
+      display: block;
+      margin: 20px auto;
+      box-sizing: border-box;
+      position: relative;
+    }
+
+    .geo-pulse::after {
+      content: '';
+      width: 48px;
+      height: 48px;
+      left: 0;
+      bottom: 0;
+      position: absolute;
+      border-radius: 50% 50% 0;
+      border: 15px solid red;
+      transform: rotate(45deg) translate(0, 0);
+      box-sizing: border-box;
+      animation: animMarker 0.4s ease-in-out infinite alternate;
+    }
+
+    .geo-pulse::before {
+      content: '';
+      box-sizing: border-box;
+      position: absolute;
+      left: 0;
+      right: 0;
+      margin: auto;
+      top: 150%;
+      width: 24px;
+      height: 4px;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.2);
+      animation: animShadow 0.4s ease-in-out infinite alternate;
+    }
+
+    @keyframes animMarker {
+      0% {
+        transform: rotate(45deg) translate(5px, 5px);
+      }
+
+      100% {
+        transform: rotate(45deg) translate(-5px, -5px);
+      }
+    }
+
+    @keyframes animShadow {
+      0% {
+        transform: scale(0.5);
+      }
+
+      100% {
+        transform: scale(1);
+      }
+    }
   </style>
 </head>
 
@@ -1205,7 +1265,7 @@
       <h2 class="page-title">Premium Vacancies</h2>
       <p class="page-subtitle">Discover verified properties and premium listings across Nigeria</p>
       <button id="nearMeBtn" class="near-me-btn">
-        📍 Find Homes Near Me
+        Find Homes Near Me
       </button>
     </div>
 
@@ -1332,6 +1392,29 @@
 
         <button type="submit" class="submit-btn">Submit Offer</button>
       </form>
+    </div>
+  </div>
+
+  <!-- Geo Scanning Overlay -->
+  <div id="geoScanOverlay" style="
+  position: fixed;
+  inset: 0;
+  background: rgba(248,249,250,0.95);
+  backdrop-filter: blur(10px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 3000;
+">
+    <div style="text-align:center;">
+      <div class="geo-pulse"></div>
+      <p style="
+      margin-top:1rem;
+      font-weight:600;
+      color:var(--text-secondary);
+    ">
+        Scanning nearby homes…
+      </p>
     </div>
   </div>
 
@@ -1526,7 +1609,7 @@
               prevEl: `.${swiperId} .swiper-button-prev`
             },
           });
-        }, 0);
+        }, 10);
       });
     }
 
@@ -1643,7 +1726,7 @@
 
       // 🔧 FIX: Reset Near Me button
       const nearMeBtn = document.getElementById('nearMeBtn');
-      nearMeBtn.textContent = '📍 Find Homes Near Me';
+      nearMeBtn.textContent = ' Find Homes Near Me';
       nearMeBtn.disabled = false;
 
       applyFilters();
@@ -1708,6 +1791,7 @@
 
     // 🔧 FIX: Completely rewritten Near Me functionality
     const nearMeBtn = document.getElementById("nearMeBtn");
+    const geoLoader = document.getElementById("geoLoader");
 
     nearMeBtn.addEventListener("click", () => {
       // 🔧 FIX: Check if geolocation is supported
@@ -1723,7 +1807,7 @@
       }
 
       nearMeBtn.disabled = true;
-      nearMeBtn.textContent = "📍 Finding nearby homes...";
+      nearMeBtn.textContent = " Finding nearby homes...";
 
       navigator.geolocation.getCurrentPosition(
         (position) => {
@@ -1742,7 +1826,7 @@
           if (propertiesWithCoords.length === 0) {
             alert("❌ No properties with location data found");
             nearMeBtn.disabled = false;
-            nearMeBtn.textContent = "📍 Find Homes Near Me";
+            nearMeBtn.textContent = " Find Homes Near Me";
             return;
           }
 
@@ -1762,15 +1846,23 @@
           // 🔧 FIX: Optional - limit to properties within 100km
           // const nearby = sorted.filter(p => p.distance <= 100);
 
-          isNearMeMode = true; // 🔧 FIX: Set Near Me mode
-          renderProperties(sorted); // or renderProperties(nearby) if using filter
+          const geoOverlay = document.getElementById("geoScanOverlay");
+          geoOverlay.style.display = "flex";
 
-          nearMeBtn.textContent = `📍 Showing ${sorted.length} homes near you`;
-          nearMeBtn.disabled = false; // 🔧 FIX: Re-enable button
+          setTimeout(() => {
+            geoOverlay.style.display = "none";
+
+            isNearMeMode = true;
+            renderProperties(sorted);
+
+            nearMeBtn.textContent = ` Showing ${sorted.length} homes near you`;
+            nearMeBtn.disabled = false;
+          }, 8000);
+
         },
         (error) => {
           console.error("Geolocation error:", error);
-          let errorMessage = "❌ Could not get your location. ";
+          let errorMessage = " Could not get your location. ";
 
           switch (error.code) {
             case error.PERMISSION_DENIED:
@@ -1788,7 +1880,7 @@
 
           alert(errorMessage);
           nearMeBtn.disabled = false;
-          nearMeBtn.textContent = "📍 Find Homes Near Me";
+          nearMeBtn.textContent = " Find Homes Near Me";
         },
         {
           enableHighAccuracy: true,
