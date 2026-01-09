@@ -277,6 +277,34 @@
       padding: 0 1rem;
     }
 
+    /* 🔧 FIX: Styled Near Me button */
+    .near-me-btn {
+      margin-top: 1rem;
+      padding: 0.85rem 1.5rem;
+      background: var(--accent);
+      color: white;
+      border: none;
+      border-radius: var(--radius);
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .near-me-btn:hover:not(:disabled) {
+      background: var(--accent-dark);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .near-me-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
     .content-grid {
       display: grid;
       grid-template-columns: 320px 1fr;
@@ -513,6 +541,20 @@
     .property-location i {
       color: var(--accent);
       flex-shrink: 0;
+    }
+
+    /* 🔧 FIX: Added distance badge styling */
+    .distance-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      background: rgba(249, 115, 22, 0.1);
+      color: var(--accent);
+      padding: 0.25rem 0.6rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-top: 0.5rem;
     }
 
     .property-description {
@@ -1162,6 +1204,9 @@
     <div class="page-header">
       <h2 class="page-title">Premium Vacancies</h2>
       <p class="page-subtitle">Discover verified properties and premium listings across Nigeria</p>
+      <button id="nearMeBtn" class="near-me-btn">
+        📍 Find Homes Near Me
+      </button>
     </div>
 
     <div class="content-grid">
@@ -1338,6 +1383,7 @@
     const clearFiltersBtn = document.querySelector('.clear-filters-btn');
 
     let allProperties = [];
+    let isNearMeMode = false; // 🔧 FIX: Track if we're in "Near Me" mode
 
     function toggleDetails(elementId, propertyId, ownerId) {
       const el = document.getElementById(elementId);
@@ -1354,6 +1400,7 @@
       }).catch(error => console.error('Error tracking click:', error));
     }
 
+    // 🔧 FIX: Enhanced render function with distance display
     function renderProperties(list) {
       // Hide loader
       const loader = document.getElementById('propertyLoader');
@@ -1396,6 +1443,11 @@
         const swiperId = `swiper-${index}`;
         const toggleId = `readmore-${index}`;
 
+        // 🔧 FIX: Add distance badge if in Near Me mode
+        const distanceBadge = (isNearMeMode && p.distance !== undefined)
+          ? `<div class="distance-badge">📍 ${p.distance.toFixed(1)} km away</div>`
+          : '';
+
         const propertyCard = document.createElement('div');
         propertyCard.className = 'property-card';
         propertyCard.innerHTML = `
@@ -1423,6 +1475,7 @@
             <i class="fas fa-map-marker-alt"></i>
             <span>${p.location || 'Location not specified'}</span>
           </div>
+          ${distanceBadge}
           <p class="property-description">${p.description || 'No description available.'}</p>
           <a href="javascript:void(0);" class="read-more" onclick="toggleDetails('${toggleId}', '${p.id}', '${p.uid}')">
             <i class="fas fa-chevron-down"></i> More Details
@@ -1538,6 +1591,7 @@
 
     // Enhanced filter function with comprehensive matching
     function applyFilters() {
+      isNearMeMode = false; // 🔧 FIX: Reset Near Me mode when filtering
       const query = searchInput.value.trim().toLowerCase();
       const maxPrice = parseFloat(priceInput.value);
       const selectedLGA = locationInput.value.trim().toLowerCase();
@@ -1580,11 +1634,18 @@
 
     // Clear all filters
     function clearFilters() {
+      isNearMeMode = false; // 🔧 FIX: Reset Near Me mode
       searchInput.value = '';
       priceInput.value = '';
       stateInput.value = '';
       locationInput.value = '';
       locationInput.disabled = true;
+
+      // 🔧 FIX: Reset Near Me button
+      const nearMeBtn = document.getElementById('nearMeBtn');
+      nearMeBtn.textContent = '📍 Find Homes Near Me';
+      nearMeBtn.disabled = false;
+
       applyFilters();
     }
 
@@ -1610,7 +1671,10 @@
           return bTime - aTime;
         });
 
-        applyFilters();
+        // 🔧 FIX: Only render if not in Near Me mode
+        if (!isNearMeMode) {
+          applyFilters();
+        }
       });
 
     // Event listeners for real-time filtering
@@ -1625,6 +1689,114 @@
     clearFiltersBtn.addEventListener('click', clearFilters);
 
     populateLGAs();
+
+    // 🔧 FIX: Haversine formula for accurate distance calculation
+    function getDistance(lat1, lon1, lat2, lon2) {
+      const R = 6371; // Earth radius in KM
+      const dLat = (lat2 - lat1) * Math.PI / 180;
+      const dLon = (lon2 - lon1) * Math.PI / 180;
+
+      const a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(lat1 * Math.PI / 180) *
+        Math.cos(lat2 * Math.PI / 180) *
+        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      return R * c;
+    }
+
+    // 🔧 FIX: Completely rewritten Near Me functionality
+    const nearMeBtn = document.getElementById("nearMeBtn");
+
+    nearMeBtn.addEventListener("click", () => {
+      // 🔧 FIX: Check if geolocation is supported
+      if (!navigator.geolocation) {
+        alert("❌ Geolocation is not supported by your browser");
+        return;
+      }
+
+      // 🔧 FIX: Check if properties have loaded
+      if (!allProperties || allProperties.length === 0) {
+        alert("⏳ Please wait for properties to load first");
+        return;
+      }
+
+      nearMeBtn.disabled = true;
+      nearMeBtn.textContent = "📍 Finding nearby homes...";
+
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const userLat = position.coords.latitude;
+          const userLng = position.coords.longitude;
+
+          // 🔧 FIX: Filter only properties with valid coordinates
+          const propertiesWithCoords = allProperties.filter(p => {
+            return p.latitude &&
+              p.longitude &&
+              !isNaN(p.latitude) &&
+              !isNaN(p.longitude);
+          });
+
+          // 🔧 FIX: Check if any properties have coordinates
+          if (propertiesWithCoords.length === 0) {
+            alert("❌ No properties with location data found");
+            nearMeBtn.disabled = false;
+            nearMeBtn.textContent = "📍 Find Homes Near Me";
+            return;
+          }
+
+          // 🔧 FIX: Calculate distances and sort
+          const sorted = propertiesWithCoords
+            .map(p => ({
+              ...p,
+              distance: getDistance(
+                userLat,
+                userLng,
+                p.latitude,
+                p.longitude
+              )
+            }))
+            .sort((a, b) => a.distance - b.distance);
+
+          // 🔧 FIX: Optional - limit to properties within 100km
+          // const nearby = sorted.filter(p => p.distance <= 100);
+
+          isNearMeMode = true; // 🔧 FIX: Set Near Me mode
+          renderProperties(sorted); // or renderProperties(nearby) if using filter
+
+          nearMeBtn.textContent = `📍 Showing ${sorted.length} homes near you`;
+          nearMeBtn.disabled = false; // 🔧 FIX: Re-enable button
+        },
+        (error) => {
+          console.error("Geolocation error:", error);
+          let errorMessage = "❌ Could not get your location. ";
+
+          switch (error.code) {
+            case error.PERMISSION_DENIED:
+              errorMessage += "Please allow location access.";
+              break;
+            case error.POSITION_UNAVAILABLE:
+              errorMessage += "Location information unavailable.";
+              break;
+            case error.TIMEOUT:
+              errorMessage += "Request timed out.";
+              break;
+            default:
+              errorMessage += "An unknown error occurred.";
+          }
+
+          alert(errorMessage);
+          nearMeBtn.disabled = false;
+          nearMeBtn.textContent = "📍 Find Homes Near Me";
+        },
+        {
+          enableHighAccuracy: true,
+          timeout: 10000,
+          maximumAge: 0
+        }
+      );
+    });
 
     // Bid modal functionality
     let activeListing = null;
