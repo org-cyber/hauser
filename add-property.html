@@ -327,10 +327,15 @@
       color: white;
     }
 
-    .btn-primary:hover {
+    .btn-primary:hover:not(:disabled) {
       background-color: var(--accent-dark);
       transform: translateY(-2px);
       box-shadow: var(--shadow-md), 0 0 20px var(--accent-glow);
+    }
+
+    .btn-primary:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
     }
 
     .btn-block {
@@ -681,9 +686,6 @@
       serverTimestamp,
       doc,
       getDoc,
-      query,
-      where,
-      getDocs,
       runTransaction,
       increment
     } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
@@ -799,20 +801,20 @@
 
       // Minimal guard
       if (!title || !location || !state || !createdBy || !phoneNumber || !priceRaw || Number.isNaN(price) || price <= 0) {
-        statusEl.textContent = " Please fill all required fields with valid values.";
+        statusEl.textContent = "⚠ Please fill all required fields with valid values.";
         statusEl.className = "status-message status-error";
         return;
       }
 
       if (!files.length) {
-        statusEl.textContent = " Please select at least one image or video.";
+        statusEl.textContent = "⚠ Please select at least one image or video.";
         statusEl.className = "status-message status-error";
         return;
       }
 
       const user = await getCurrentUserOnce(auth);
       if (!user) {
-        statusEl.textContent = " You must be logged in to submit a listing.";
+        statusEl.textContent = "⚠ You must be logged in to submit a listing.";
         statusEl.className = "status-message status-error";
         return;
       }
@@ -839,7 +841,7 @@
         if (!isPremium) {
           const currentCount = Number((userSnap && userSnap.exists() && userSnap.data().listingsCount) || 0);
           if (currentCount >= 2) {
-            statusEl.textContent = " Free accounts are limited to 2 listings. Upgrade to premium to add more.";
+            statusEl.textContent = "⚠ Free accounts are limited to 2 listings. Upgrade to premium to add more.";
             statusEl.className = "status-message status-error";
             setLoading(false);
             return;
@@ -859,7 +861,7 @@
             throw new Error(`${file.name} is larger than 200MB.`);
           }
 
-          statusEl.textContent = `Uploading ${i + 1}/${totalFiles}: ${file.name}`;
+          statusEl.textContent = `📤 Uploading ${i + 1}/${totalFiles}: ${file.name}`;
           statusEl.className = "status-message status-info";
 
           const res = await uploadToCloudinary(file, (loaded, total) => {
@@ -878,7 +880,41 @@
           });
         }
 
+        // 🔧 FIX 1: Combine location fields for accurate geocoding
+        statusEl.textContent = "📍 Getting location coordinates...";
+        statusEl.className = "status-message status-info";
+
+        const fullLocation = `${location}, ${state}, Nigeria`;
+
+        const geoRes = await fetch("/.netlify/functions/geocode", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ location: fullLocation })
+        });
+
+        // 🔧 FIX 2: Proper error handling with setLoading(false)
+        if (!geoRes.ok) {
+          statusEl.textContent = "⚠ Could not geocode location. Please be more specific.";
+          statusEl.className = "status-message status-error";
+          setLoading(false);
+          return;
+        }
+
+        const geoData = await geoRes.json();
+        const { latitude, longitude } = geoData;
+
+        // 🔧 FIX 3: Validate coordinates
+        if (!latitude || !longitude || isNaN(latitude) || isNaN(longitude)) {
+          statusEl.textContent = "⚠ Invalid coordinates received. Please try a different location.";
+          statusEl.className = "status-message status-error";
+          setLoading(false);
+          return;
+        }
+
         // ---------- TRANSACTION: create property + increment listingsCount ----------
+        statusEl.textContent = "💾 Saving property...";
+        statusEl.className = "status-message status-info";
+
         await runTransaction(db, async (tx) => {
           const userRefTx = doc(db, "users", user.uid);
           const userSnapTx = await tx.get(userRefTx);
@@ -892,14 +928,16 @@
             throw new Error("LIMIT_REACHED");
           }
 
-          // create property doc inside transaction
+          // 🔧 FIX 4: Removed duplicate locationText field, kept structure clean
           const propertyRef = doc(collection(db, "properties"));
           tx.set(propertyRef, {
             title,
             description,
             price,
             state,
-            location,
+            location,  // Original user input
+            latitude,
+            longitude,
             createdBy,
             phoneNumber,
             media,
@@ -921,25 +959,23 @@
 
         // success UI
         progressEl.style.width = "100%";
-        statusEl.textContent = " Property listed successfully!";
+        statusEl.textContent = "✅ Property listed successfully!";
         statusEl.className = "status-message status-success";
         form.reset();
         fileLabel.textContent = "Select files or drag & drop here";
-        window.location.href = "dashboard.html";
 
         setTimeout(() => {
-          progressEl.style.width = "0%";
-          statusEl.textContent = "";
-        }, 2000);
+          window.location.href = "dashboard.html";
+        }, 1000);
 
       } catch (err) {
         console.error(err);
         // friendly handling for transaction limit error
         if (err && err.message === "LIMIT_REACHED") {
-          statusEl.textContent = " Free accounts are limited to 2 listings. Upgrade to premium to add more.";
+          statusEl.textContent = "⚠ Free accounts are limited to 2 listings. Upgrade to premium to add more.";
           statusEl.className = "status-message status-error";
         } else {
-          statusEl.textContent = " " + (err?.message || "Something went wrong while uploading.");
+          statusEl.textContent = "❌ " + (err?.message || "Something went wrong while uploading.");
           statusEl.className = "status-message status-error";
         }
         progressEl.style.width = "0%";
