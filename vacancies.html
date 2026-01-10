@@ -277,32 +277,93 @@
       padding: 0 1rem;
     }
 
-    /* 🔧 FIX: Styled Near Me button */
-    .near-me-btn {
-      margin-top: 1rem;
-      padding: 0.85rem 1.5rem;
+    /* 🔧 NEW: Circular Radar Button - Fixed at Bottom Right */
+    .radar-button {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      width: 80px;
+      height: 80px;
       background: var(--accent);
-      color: white;
-      border: none;
-      border-radius: var(--radius);
-      font-weight: 600;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: var(--transition);
-      display: inline-flex;
+      border-radius: 50%;
+      display: flex;
       align-items: center;
-      gap: 0.5rem;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: var(--shadow-lg), 0 0 30px var(--accent-glow);
+      transition: var(--transition);
+      z-index: 1500;
+      border: 3px solid rgba(255, 255, 255, 0.9);
+      overflow: hidden;
     }
 
-    .near-me-btn:hover:not(:disabled) {
-      background: var(--accent-dark);
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-md);
+    .radar-button:hover {
+      transform: scale(1.1);
+      box-shadow: var(--shadow-lg), 0 0 40px var(--accent-glow);
     }
 
-    .near-me-btn:disabled {
+    .radar-button:active {
+      transform: scale(0.95);
+    }
+
+    .radar-button.disabled {
       opacity: 0.6;
       cursor: not-allowed;
+      pointer-events: none;
+    }
+
+    .radar-button img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+
+    /* Tooltip for radar button */
+    .radar-button::before {
+      content: attr(data-tooltip);
+      position: absolute;
+      right: 100%;
+      margin-right: 1rem;
+      background: rgba(0, 0, 0, 0.85);
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: var(--radius);
+      font-size: 0.875rem;
+      font-weight: 500;
+      white-space: nowrap;
+      opacity: 0;
+      visibility: hidden;
+      transition: var(--transition);
+      pointer-events: none;
+    }
+
+    .radar-button:hover::before {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* Mobile adjustments for radar button */
+    @media (max-width: 768px) {
+      .radar-button {
+        width: 70px;
+        height: 70px;
+        bottom: 1.5rem;
+        right: 1.5rem;
+      }
+
+      .radar-button::before {
+        display: none;
+      }
+    }
+
+    @media (max-width: 400px) {
+      .radar-button {
+        width: 60px;
+        height: 60px;
+        bottom: 1rem;
+        right: 1rem;
+      }
     }
 
     .content-grid {
@@ -1259,14 +1320,16 @@
     </div>
   </header>
 
+  <!-- 🔧 NEW: Circular Radar Button - Fixed at Bottom Right -->
+  <button id="nearMeBtn" class="radar-button" data-tooltip="Find Homes Near Me">
+    <img src="img/radar.gif" alt="Find Nearby Homes">
+  </button>
+
   <!-- Main -->
   <main class="container">
     <div class="page-header">
       <h2 class="page-title">Premium Vacancies</h2>
       <p class="page-subtitle">Discover verified properties and premium listings across Nigeria</p>
-      <button id="nearMeBtn" class="near-me-btn">
-        Find Homes Near Me
-      </button>
     </div>
 
     <div class="content-grid">
@@ -1724,10 +1787,10 @@
       locationInput.value = '';
       locationInput.disabled = true;
 
-      // 🔧 FIX: Reset Near Me button
+      // 🔧 FIX: Reset radar button
       const nearMeBtn = document.getElementById('nearMeBtn');
-      nearMeBtn.textContent = ' Find Homes Near Me';
-      nearMeBtn.disabled = false;
+      nearMeBtn.classList.remove('disabled');
+      nearMeBtn.setAttribute('data-tooltip', 'Find Homes Near Me');
 
       applyFilters();
     }
@@ -1789,32 +1852,31 @@
       return R * c;
     }
 
-    // 🔧 FIX: Completely rewritten Near Me functionality
+    // 🔧 NEW: Radar button functionality
     const nearMeBtn = document.getElementById("nearMeBtn");
-    const geoLoader = document.getElementById("geoLoader");
 
     nearMeBtn.addEventListener("click", () => {
-      // 🔧 FIX: Check if geolocation is supported
+      // Check if geolocation is supported
       if (!navigator.geolocation) {
         alert("❌ Geolocation is not supported by your browser");
         return;
       }
 
-      // 🔧 FIX: Check if properties have loaded
+      // Check if properties have loaded
       if (!allProperties || allProperties.length === 0) {
         alert("⏳ Please wait for properties to load first");
         return;
       }
 
-      nearMeBtn.disabled = true;
-      nearMeBtn.textContent = " Finding nearby homes...";
+      nearMeBtn.classList.add('disabled');
+      nearMeBtn.setAttribute('data-tooltip', 'Finding nearby homes...');
 
       navigator.geolocation.getCurrentPosition(
         (position) => {
           const userLat = position.coords.latitude;
           const userLng = position.coords.longitude;
 
-          // 🔧 FIX: Filter only properties with valid coordinates
+          // Filter only properties with valid coordinates
           const propertiesWithCoords = allProperties.filter(p => {
             return p.latitude &&
               p.longitude &&
@@ -1822,15 +1884,15 @@
               !isNaN(p.longitude);
           });
 
-          // 🔧 FIX: Check if any properties have coordinates
+          // Check if any properties have coordinates
           if (propertiesWithCoords.length === 0) {
-            alert("❌ No properties with location data found");
-            nearMeBtn.disabled = false;
-            nearMeBtn.textContent = " Find Homes Near Me";
+            alert(" No properties found");
+            nearMeBtn.classList.remove('disabled');
+            nearMeBtn.setAttribute('data-tooltip', 'Find Homes Near Me');
             return;
           }
 
-          // 🔧 FIX: Calculate distances and sort
+          // Calculate distances and sort
           const sorted = propertiesWithCoords
             .map(p => ({
               ...p,
@@ -1843,9 +1905,6 @@
             }))
             .sort((a, b) => a.distance - b.distance);
 
-          // 🔧 FIX: Optional - limit to properties within 100km
-          // const nearby = sorted.filter(p => p.distance <= 100);
-
           const geoOverlay = document.getElementById("geoScanOverlay");
           geoOverlay.style.display = "flex";
 
@@ -1855,8 +1914,8 @@
             isNearMeMode = true;
             renderProperties(sorted);
 
-            nearMeBtn.textContent = ` Showing ${sorted.length} homes near you`;
-            nearMeBtn.disabled = false;
+            nearMeBtn.classList.remove('disabled');
+            nearMeBtn.setAttribute('data-tooltip', `Showing ${sorted.length} homes near you`);
           }, 8000);
 
         },
@@ -1879,8 +1938,8 @@
           }
 
           alert(errorMessage);
-          nearMeBtn.disabled = false;
-          nearMeBtn.textContent = " Find Homes Near Me";
+          nearMeBtn.classList.remove('disabled');
+          nearMeBtn.setAttribute('data-tooltip', 'Find Homes Near Me');
         },
         {
           enableHighAccuracy: true,
